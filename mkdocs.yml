@@ -1,7 +1,7 @@
-site_name: Pangenome Graphs
+site_name: Long-read Assembly 
 site_author: Genomics Aotearoa
 site_dir: public
-site_url: "https://genomicsaotearoa.github.io/Pangenome-Graphs-Workshop/"
+site_url: "https://genomicsaotearoa.github.io/long-read-assembly/"
 
 #Repository information
 
