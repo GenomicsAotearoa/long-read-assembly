@@ -276,36 +276,40 @@ Use your text editor of choice to make a slurm script (`run_merqury.sl`) to run 
 
 To find out the QV, we want the file named `output.qv`. Take a look at it and try to interpret the QV value you find (third column). If we recall the Phred scale system, this would mean that this QV value is great! Which is not surprising, considering we used HiFi data. **It's worth noting, though, that we are using HiFi *k*-mers to evaluate sequences derived from those same HiFi reads.** This does a good job of showing whether the assembly worked with that data well, but what if the HiFi data itself is missing parts of the genome, such as due to bias (*e.g.*, GA dropout)? That's why it's important to use orthogonal datasets made using different sequencing technology, when possible. For instance, we can use an Illumina-based meryl database to evaluate a HiFi assembly. For non-human vertebrates, this often results in the QV dropping from 50-60 to 35-45, depending on the genome in question. 
 
-```
-#!/bin/bash -e
+!!! terminal "code"
 
-#SBATCH --job-name      merqury2
-#SBATCH --cpus-per-task 8
-#SBATCH --time          02:00:00
-#SBATCH --mem           24G
-#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
-
-## load modules
-module purge
-module load Merqury
-export MERQURY=/opt/nesi/CS400_centos7_bdw/Merqury/1.3-Miniconda3/merqury
-
-## create trio merqury dir and use it
-mkdir merqury_trio
-cd merqury_trio
-
-## run merqury
-merqury.sh \
-    ../read-db.meryl \
-    ../paternal.k30.hapmer.meryl \
-    ../maternal.k30.hapmer.meryl \
-    ../assembly.haplotype1.fasta \
-    ../assembly.haplotype2.fasta \
-    output
-
-cd -
-```
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      merqury2
+    #SBATCH --cpus-per-task 8
+    #SBATCH --time          02:00:00
+    #SBATCH --mem           24G
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    
+    ## load modules
+    module purge
+    module load Merqury
+    export MERQURY=/opt/nesi/CS400_centos7_bdw/Merqury/1.3-Miniconda3/merqury
+    
+    ## create trio merqury dir and use it
+    mkdir merqury_trio
+    cd merqury_trio
+    
+    ## run merqury
+    merqury.sh \
+        ../read-db.meryl \
+        ../paternal.k30.hapmer.meryl \
+        ../maternal.k30.hapmer.meryl \
+        ../assembly.haplotype1.fasta \
+        ../assembly.haplotype2.fasta \
+        output
+    
+    cd -/lra
+    ```
 
 **Switch and Hamming errors using yak**
 
@@ -315,31 +319,35 @@ Two more types of errors we use to assess assemblies are switch errors and Hammi
 
 As the image illustrates, switch errors occur when an assembly *switches* between haplotypes. These errors are more prevalent in pseudohaplotype (*e.g.*, primary/alternate) assemblies that did not use any phasing data, as the assembler has no way of properly linking haplotype blocks, which can result in mixed hapmer content contigs that are a chimera of parental sequences. 
 
-```
-#!/bin/bash -e
+!!! terminal "code"
 
-#SBATCH --job-name      yaktrioeval
-#SBATCH --cpus-per-task 32
-#SBATCH --time          01:00:00
-#SBATCH --mem           256G
-#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
-
-## load modules
-module purge
-module load yak
-
-## run yak
-yak trioeval -t 32 \
-    ../yak/pat.HG003.yak ../yak/mat.HG004.yak   \
-    ../assemblies/hifiasm/full/hic/HG002.hap1.fa.gz           \
-    > hifiasm.hic.hap1.trioeval
-
-yak trioeval -t 32 \
-    ../yak/pat.HG003.yak ../yak/mat.HG004.yak   \
-    ../assemblies/hifiasm/full/trio/HG002.mat.fa.gz           \
-    > hifiasm.trio.mat.trioeval
-```
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      yaktrioeval
+    #SBATCH --cpus-per-task 32
+    #SBATCH --time          01:00:00
+    #SBATCH --mem           256G
+    #SBATCH --partition     milan 
+    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    
+    ## load modules
+    module purge
+    module load yak
+    
+    ## run yak
+    yak trioeval -t 32 \
+        ../yak/pat.HG003.yak ../yak/mat.HG004.yak \
+        ../assemblies/hifiasm/full/hic/HG002.hap1.fa.gz \
+        > hifiasm.hic.hap1.trioeval
+    
+    yak trioeval -t 32 \
+        ../yak/pat.HG003.yak ../yak/mat.HG004.yak \
+        ../assemblies/hifiasm/full/trio/HG002.mat.fa.gz \
+        > hifiasm.trio.mat.trioeval
+    ```
 
 ## Completeness (asmgene)
 Another way to assess an assembly is via **completeness**, particularly with regard to expected gene content. If you have a reference genome that's been annotated with coding sequences, then you can use the tool *asmgene* to align multi-copy genes to your assembly and see if they remain multi-copy, or if the assembler has created a misassembly. asmgene works by aligning annotated transcripts to the reference genome, and record hits if the transcript is mapped at or over 99% identity over 99% or greater of the transcript length. If the transcript only has one hit, then it is single-copy (SC), otherwise it's multi-copy (MC). The same is then done for your assembly, and the fraction of missing multi-copy (%MMC) gene content is computed. 
