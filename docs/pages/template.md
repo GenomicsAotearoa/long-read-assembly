@@ -25,12 +25,9 @@ Command
 
     * Why did we run with X parameter?
     * What does the Y parameter do?
-
-**Notes** (optional)<br>
-(Example notes)
-* Did we take any shortcuts?
-* Are there other tools that could be used?
-* How long is a typical runtime?
+    * Did we take any shortcuts?
+    * Are there other tools that could be used?
+    * How long is a typical runtime?
 
 !!! into "Understanding"
 
