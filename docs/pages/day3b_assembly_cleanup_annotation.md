@@ -665,28 +665,29 @@ And paste in the following
     
     samtools index verkko_trio_diploid.mm2.5mC.bam
     ```
-**And run the script**
+    **And run the script**
 
-```
-sbatch ont_mm2.sl
-```
+    !!! terminal 
+    ```bash
+    sbatch ont_mm2.sl
+    ```
 This should only take 3 hours or so, but we have some pre-baked results for you already. We will use these results in the next section.
 
 
-<details>
-    <summary>
-        <strong>Why did we align to the diploid version of our assembly?</strong>
-    </summary>    
+??? clipboard-question "Why did we align to the diploid version of our assembly ?" 
+    
     The traditional thing to do is to align your data to a haploid or pseudo-haploid assembly like CHM13 or GRCh38. We are diploid individuals, though. And for some use cases we want to align long reads to a diploid assembly in order to have the reads segregate by haplotype. When we are aligning a samples reads to its own assembly this is especially important.
-</details>
 
 ### Visualize The Alignments In IGV
 
 **Before switching over to your virtual desktop link the prerun alignments to your working directory**
-```
-ln -s /nesi/nobackup/nesi02659/LRA/resources/ont_ul/aligned/verkko_trio_diploid.mm2.5mC.bam
-ln -s /nesi/nobackup/nesi02659/LRA/resources/ont_ul/aligned/verkko_trio_diploid.mm2.5mC.bam.bai
-```
+
+!!! terminal "code"
+
+    ```bash
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/ont_ul/aligned/verkko_trio_diploid.mm2.5mC.bam
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/ont_ul/aligned/verkko_trio_diploid.mm2.5mC.bam.bai
+    ```
 
 **Now view the alignments in IGV**
 1. Open an IGV window as you did above. Don't forget to `module load IGV/2.16.1` (we need v 2.14 or greater)
