@@ -32,31 +32,31 @@ All of the Long-read assembly material  will be hosted on either `/nesi/nobackup
 !!! folder-open " This is already done for you 😊 - Creating a symlink from `/home/$USER` to project(persistent) -"
     * Log into the NeSI Jupyter service as per **S.1.1 : NeSI Mahuika Jupyter login** in [NeSI Setup Supplementary material](http://127.0.0.1:8000/metagenomics_summer_school/supplementary/supplementary_1/) and open a terminal session
     * Let's call the symlink (shortcut) `lra`
-    * Following command will create the `lra` symlink from your `/home` directory to individual working directory in `/nesi/nobackup/nesi02659/MGSS_U/`
+    * Following command will create the `lra` symlink from your `/home` directory to individual working directory in `/nesi/project/nesi02659/lra/users/`
     ```bash
-    ln -s /nesi/nobackup/nesi02659/MGSS_U/$USER ~/mgss
+    ln -s /nesi/project/nesi02659/lra/users/$USER ~/lra
     ```
 
     * Now, you can access your working directory with     
     ```
-    cd ~/mgss
+    cd ~/lra
     ```
     * Run `pwd` to check the current working directory
     * `pwd` commands on symlinks will print the "relative path" (location from where we are, rather than from the root of the file system) with respect to "absolute path" (entire path from the root directory)
     * Run the command `realpath /path/you/want/to/know`  to show the absolute path of the symlink. i..e
     ```bash
-    realpath ~/mgss
+    realpath ~/lra
     ```
     OR if you are already at the symlinked path
     ```bash
-    cd ~/mgss
+    cd ~/lra
     ```
     ```bash
     realpath .
     ```
     * **Summary**
 
-    <center>![image](../theme_images/terminalsymlink_filex.png)</center>
+    <center>![image](../theme_figures/terminalsymlink_filex.png)</center>
 
 ## Jupyter File explorer
 
@@ -64,4 +64,4 @@ All of the Long-read assembly material  will be hosted on either `/nesi/nobackup
 
     Jupyter terminal and file explorer (on left) operate independently of each other. Therefore, changing the directory via terminal to your individual directory will not change the default working directory in explorer. Changing it to your individual directories can be done will couple of click 
 
-    <center>![image](../theme_images/jupyter_fileexplorer.png)</center>
+    <center>![image](../theme_figures/jupyter_fileexplorer.png)</center>
