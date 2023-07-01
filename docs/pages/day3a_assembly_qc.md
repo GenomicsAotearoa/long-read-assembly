@@ -41,16 +41,19 @@ auN tries to capture the nature of this curve, instead of a value from an arbitr
 
 Let's get some basic statistics for an assembly using a tool called **gfastats**, which will output metrics such as N50, auN, total size, etc. We can try it out on a verkko trio assembly of HG002 that's already been downloaded onto NeSI.
 
-```
-## let's symlink the file in a way that's easier to refer to
-mkdir -p day3_assembly_qc/gfastats
-cd day3_assembly_qc/gfastats
-ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.*.fasta .
-ls -la          # you should see a bunch of "files" that are actually symlinks pointing to their actual content
-## ready to roll!
-module load gfastats
-srun -c 8 gfastats assembly.haplotype1.fasta
-```
+!!! terminal "code"
+
+    ```bash
+    ## let's symlink the file in a way that's easier to refer to
+    cd ~/lra
+    mkdir -p day3_assembly_qc/gfastats
+    cd day3_assembly_qc/gfastats
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.*.fasta .
+    ls -la          # you should see a bunch of "files" that are actually symlinks pointing to their actual content
+    ## ready to roll!
+    module load gfastats
+    srun -c 8 gfastats assembly.haplotype1.fasta
+    ```
 
 <details>
     <summary>
@@ -68,12 +71,10 @@ Remember that the file we initially got was an assembly *graph* -- what if we wa
 srun -c 8 gfastats --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa
 ```
 
-<details>
-    <summary>
-        <strong>DROPDOWN NOTE: What's the `--discover-paths` flag for?</strong>
-    </summary>    
+??? note "What's the `--discover-paths` flag for ?"
+        
     gfastats tries to clearly distinguish contigs from segments, so it will not pick up on contigs in a GFA without paths defined. To get the contig stats as well as graph stats from these GFAs, you'll need to add the `--discover-paths` flag. 
-</details>
+
 
 Check out the graph-specific statistics at the end of the output. 
 
@@ -81,14 +82,18 @@ Check out the graph-specific statistics at the end of the output.
 
 Now that we know how to get the statistics for one assembly, let's get them for two so we can actually compare them. We already compared a verkko hifi-only and hifi+ONT graph visually, so let's do it with assembly stats this time. We're going to use a one-liner to put the assembly stats side-by-side, because it can be kind of cumbersome to scroll up and down between two separate command line runs and their outputs.
 
-```
-paste <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/1-buildGraph/hifi-resolved.gfa) <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa | cut -f 2)
-```
-1. `paste` is a command that pastes two files side by side
-2. the `<(COMMAND)` syntax is called process substitution, and it passes the output of the command(s) inside the parentheses to another command (here it is passing the `gfastats` output to `paste`), and can be useful when using a pipe (|) might not be possible
-3. the `-t` flag in gfastats specifies that the output should be tab-delimited, which makes it more computer-parseable
-4. the `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
+!!! terminal "code"
 
+    ```bash
+    paste <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/1-buildGraph/hifi-resolved.gfa) <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa | cut -f 2)
+    ```
+!!! info ""
+
+    1. `paste` is a command that pastes two files side by side
+    2. the `<(COMMAND)` syntax is called process substitution, and it passes the output of the command(s) inside the parentheses to another command (here it is passing the `gfastats` output to `paste`), and can be useful when using a pipe (|) might not be possible
+    3. the `-t` flag in gfastats specifies that the output should be tab-delimited, which makes it more computer-parseable
+    4. the `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
+    
 Your output should look something like this:
 ```
 # contigs       68252   2312
