@@ -708,17 +708,9 @@ Navigate to  `mat-0000038:51,448,000 - 51,510,000`. This is the biggest contig t
 You will notice that most of the view has very high levels of methylation, but there are some regions where the methylation drops to near zero. These are called the centromere dip regions.
 
 
-<details>
-    <summary>
-        <strong>Why did we choose to show you an example in chrX?</strong>
-    </summary>    
+??? clipboard-question "Why did we choose to show you an example in chrX ?"
     In male samples chrX is haploid, so outside of the psuedoautosomal, or PAR, regions we don't have to worry about whether or not our reads map to the correct haplotype.
-</details>
 
-
-<details>
-    <summary>
-        <strong>What would have happened if we had just aligned this data to CHM13?</strong>
-    </summary>    
+??? clipboard-question "What would have happened if we had just aligned this data to CHM13 ?"
+    
     Centromeres are highly repetitive and alpha satellite arrays can vary from individual to individual in size by more than a factor of two. So aligning centromeric reads from one individual to another individual's assembly is an inherently dodgy proposition.
-</details>
