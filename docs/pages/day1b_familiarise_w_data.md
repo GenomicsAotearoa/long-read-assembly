@@ -61,8 +61,8 @@ Once the run is complete, navigate in your file browser to the NanoComp-report.h
     This depends on the dataset but it is very common to see 30% of reads being over 100kb. The 100kb number gets passed around a lot because reads that are much longer than HiFi are when UL distinguishes itself
 
 
-# Cleaning Data For Assembly
-## PacBio Adapter Trimming
+## Cleaning Data For Assembly
+### PacBio Adapter Trimming
 PacBio's CCS software attempts to identify adapters and remove them. This process is getting better all the time, but some datasets (especially older ones) can have adapters remaining. If this is the case, adapters can find their way into the assemblies. 
 
 Run CutAdapt to check for adapter sequences in the downsampled data that we are currently using. (The results will print to stdout on your terminal screen.)
@@ -98,7 +98,7 @@ Notice that we are writing output to `/dev/null`. We are working on a subset of 
     If there are enough adapters present, you can get entire contigs comprised of adapters. This is not the worst, actually, because they are easy to identify and remove wholesale. It is trickier (and this happens more often) when adapter sequences end up embedded in the final assemblies. If/when you upload assemblies to repositories like Genbank they check for these adapters and force you to mask them out with N's. This is confusing to users because it is common to use N's to signify gaps in scaffolded assemblies. So users don't know if they are looking at a scaffolded assembly or masked out sequence.
 
 
-## ONT Read Length Filtering
+### ONT Read Length Filtering
 Hifiasm is often run with ONT data filtered to be over 50kb in length, so let's filter that data now to see how much of the data remains. 
 
 !!! terminal "code"
@@ -120,13 +120,13 @@ Now we can quickly check how many reads are retained.
 
 ??? question "Why do you think an assembler might want to include only reads over 50kb ?"
 
-# Phasing Data: Trio DBs and Hi-C
+## Phasing Data: Trio DBs and Hi-C
 Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
 
-## Trio Data
+### Trio Data
 At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with kmer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about kmer DBs.
 
-### Meryl
+#### Meryl
 [Meryl](https://github.com/marbl/meryl) is a kmer counter that dates back to Celera. It creates kmer DBs, but it is also a toolset that you can use for finding kmers and manipulating kmer count sets. Meryl is to kmers what BedTools is to genomic regions.
 
 Today we want to use Meryl in the context of creating databases from PCR-free Illumina readsets. These can be used both during the assembly process and during the post-assembly QC. 
