@@ -11,7 +11,7 @@ When you upload your assembly to Genbank, the sequence is automatically screen f
 
 **Make a directory**
 ```
-cd ~
+cd ~/lra
 mkdir -p day3_qc/fcs/
 cd day3_qc/fcs/
 ```
