@@ -206,8 +206,8 @@ And then paste in the following
 #SBATCH --cpus-per-task 8
 #SBATCH --time          00:15:00
 #SBATCH --mem           24G
-#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+#SBATCH --output        slurmlogs/%x.%j.log
+#SBATCH --error         slurmlogs/%x.%j.err
 
 ## load modules
 module purge

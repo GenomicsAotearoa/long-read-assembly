@@ -145,8 +145,8 @@ And paste in the following
      #SBATCH --time          03:00:00
      #SBATCH --mem           460G
      #SBATCH --partition     milan
-     #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-     #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+     #SBATCH --output        slurmlogs/%x.%j.log
+     #SBATCH --error         slurmlogs/%x.%j.err
      
      ## load modules
      module purge
@@ -637,8 +637,8 @@ And paste in the following
     #SBATCH --time          05:00:00
     #SBATCH --mem           128G
     #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --error         slurmlogs/%x.%j.err
     
     ## load modules
     module purge

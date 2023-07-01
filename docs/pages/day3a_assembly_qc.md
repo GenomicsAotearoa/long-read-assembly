@@ -247,8 +247,8 @@ Use your text editor of choice to make a slurm script (`run_merqury.sl`) to run 
     #SBATCH --time          00:15:00
     #SBATCH --mem           24G
     #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --error         slurmlogs/%x.%j.err
     
     ## load modules
     module purge
@@ -287,8 +287,8 @@ To find out the QV, we want the file named `output.qv`. Take a look at it and tr
     #SBATCH --time          02:00:00
     #SBATCH --mem           24G
     #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --error         slurmlogs/%x.%j.err
     
     ## load modules
     module purge
@@ -330,8 +330,8 @@ As the image illustrates, switch errors occur when an assembly *switches* betwee
     #SBATCH --time          01:00:00
     #SBATCH --mem           256G
     #SBATCH --partition     milan 
-    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --error         slurmlogs/%x.%j.err
     
     ## load modules
     module purge
@@ -386,8 +386,8 @@ Now that we have our files, we're ready to go. Make a script with the following 
     #SBATCH --time          05:00:00
     #SBATCH --mem           256G
     #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --error         slurmlogs/%x.%j.err
     
     ## load modules
     module purge
