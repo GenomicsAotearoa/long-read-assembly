@@ -313,43 +313,46 @@ We see a lot of kmers missing and the histogram (frequency column) has a ton of 
 **Here is what the slurm script would look like:**
 
 (Don't run this, it is slow! We have made these for you already.
-```
-#!/bin/bash -e
 
-#SBATCH --account       nesi02659
-#SBATCH --job-name      meryl_run
-#SBATCH --cpus-per-task 32
-#SBATCH --time          12:00:00
-#SBATCH --mem           96G
-#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+!!! terminal "code"
 
-
-module purge
-module load Merqury/1.3-Miniconda3
-
-## Create mat/pat/child DBs
-meryl count compress k=30 \
-    threads=32 memory=96 \
-    maternal.*fastq.gz \
-    output maternal_compress.k30.meryl
-
-meryl count compress k=30 \
-    threads=32 memory=96 \
-    paternal.*fastq.gz \
-    output paternal_compress.k30.meryl
-
-meryl count compress k=30 \
-    threads=32 memory=96    \
-    child.*fastq.gz output    \
-    child_compress.k30.meryl
-
-## Create the hapmer DBs
-$MERQURY/trio/hapmers.sh \
-  maternal_compress.k30.meryl \
-  paternal_compress.k30.meryl \
-     child_compress.k30.meryl
-```
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      meryl_run
+    #SBATCH --cpus-per-task 32
+    #SBATCH --time          12:00:00
+    #SBATCH --mem           96G
+    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    
+    
+    module purge
+    module load Merqury/1.3-Miniconda3
+    
+    ## Create mat/pat/child DBs
+    meryl count compress k=30 \
+        threads=32 memory=96 \
+        maternal.*fastq.gz \
+        output maternal_compress.k30.meryl
+    
+    meryl count compress k=30 \
+        threads=32 memory=96 \
+        paternal.*fastq.gz \
+        output paternal_compress.k30.meryl
+    
+    meryl count compress k=30 \
+        threads=32 memory=96    \
+        child.*fastq.gz output    \
+        child_compress.k30.meryl
+    
+    ## Create the hapmer DBs
+    $MERQURY/trio/hapmers.sh \
+      maternal_compress.k30.meryl \
+      paternal_compress.k30.meryl \
+         child_compress.k30.meryl
+    ```
 
 #### Closing notes
 
@@ -358,34 +361,31 @@ It should be noted that Meryl DBs used for assembly with Verkko and for base-lev
 * Verkko: use `k=30` and the `compress` command.
 * Merqury: use `k=21` and do not include the `compress` command
 
-<details>
-    <summary>
-        <strong>Why does Verkko use compressed Meryl DBs while Merqury does not?</strong>
-    </summary>
+??? question "Why does Verkko use compressed Meryl DBs while Merqury does not?"
+
     The biggest error type from long read sequencing comes from homopolymer repeats. So assembly graphs are typically constructed from homopolymer compressed data. After the assembly graph is created the homopolymers are added back in. Verkko compresses the HiFi reads for you, but you need to give it homopolymer compressed Meryl DBs so they play nicely together. Merqury on the other hand is used to assess the quality of the resultant assembly, so you want to keep those homopolymers in order to find errors in them.
-</details>
 
-<details>
-    <summary>
-        <strong>Why does Merqury use k=21?</strong>
-    </summary>
+
+??? question "Why does Merqury use k=21 ?"
+
     Larger K sizes give more conservative results, but this comes at a cost since you get lower effective coverage. For non-human species, if you know your genome size you can [estimate an optimal K using Meryl itself](https://github.com/marbl/merqury/wiki/1.-Prepare-meryl-dbs#1-get-the-right-k-size). If you are wondering, Verkko uses k=30 in order to be "conservative". And at the time of writing this document, different species typically stick with k=30. Though this hasn't been tested, so it may change in the future.
-</details>
 
-<details>
-    <summary>
-        <strong>Do Meryl DBs have to be created from Illumina data? Could HiFi data be used an an input to Meryl?</strong>
-    </summary>
+
+??? question "Do Meryl DBs have to be created from Illumina data? Could HiFi data be used an an input to Meryl ?"
+    
     They don't! You can create a Meryl DB from 10X data or HiFi data, for instance. The one caveat is that you want your input data to have a low error rate. So UL ONT data wouldn't work.
-</details>
+
 
 **Other things you could do with Meryl**
 
 Here is an example of something you could do with Meryl:
-* You can create a kmer DB from an assembly
-* You could then print all kmers that are only present once (using `meryl print equal-to 1`) 
-* Then write those out to a bed file with `meryl-lookup`. 
-Now you have "painted" all of the locations in the assembly with unique kmers. That can be a handy thing to have lying around.
+
+!!! quote ""
+
+    * You can create a kmer DB from an assembly
+    * You could then print all kmers that are only present once (using `meryl print equal-to 1`) 
+    * Then write those out to a bed file with `meryl-lookup`. 
+    Now you have "painted" all of the locations in the assembly with unique kmers. That can be a handy thing to have lying around.
 
 ## Hi-C
 Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
