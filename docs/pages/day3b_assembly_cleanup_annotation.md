@@ -314,26 +314,29 @@ of HG002.
 
 **Create directory**
 
-```shell
-mkdir liftoff-annotation
-cd liftoff-annotation
-```
+!!! terminal "code"
+
+    ```shell
+    cd ~/lra
+    mkdir liftoff-annotation
+    cd liftoff-annotation
+    ```
 
 **Gather the necessary files**
 
-```shell
-ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/CHM13-T2T.renamed.gff.gz chm13-annotations.gff.gz
-ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/CHM13-T2T.renamed.gff.liftoff.sqlite3 chm13-annotations.gff.liftoff.sqlite3
-ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa chm13.fa
-ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa.fai chm13.fa.fai
-ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta asm.hap1.fa
-ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta.fai asm.hap1.fa.fai
-```
+!!! terminal "code"
 
-<details>
-    <summary>
-        <strong>What&rsquo;s with the <code>*.sqlite3</code> file?</strong>
-    </summary>
+    ```shell
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/CHM13-T2T.renamed.gff.gz chm13-annotations.gff.gz
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/CHM13-T2T.renamed.gff.liftoff.sqlite3 chm13-annotations.gff.liftoff.sqlite3
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa chm13.fa
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa.fai chm13.fa.fai
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta asm.hap1.fa
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta.fai asm.hap1.fa.fai
+    ```
+
+??? info "What's with the `*.sqlite3` file?"
+    
     Liftoff stores features from the GFF file in a SQLite database. The first
     part of any liftoff run processes the GFF file and creates the database,
     which by default is written to the same file location and name with a
@@ -349,25 +352,29 @@ ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembl
     time, but we could instead use the other option and supply the GFF file.
     If you haven&rsquo;t yet viewed a GFF file, now would be a good time to
     check one out: <pre><code>less -S chm13-annotations.gff.gz</code></pre>
-</details>
+
 
 **Run Liftoff**
 
 First create a shell script `liftoff.sh` with the following content:
-```shell
-#! /usr/bin/env bash
 
-set -euo pipefail
+!!! terminal "code"
 
-module load Liftoff/1.6.3.2-gimkl-2022a-Python-3.11.3
-
-liftoff \
-    -p 8 \
-    -db chm13-annotations.gff.liftoff.sqlite3 \
-    -o asm.hap1.annotations.gff \
-    asm.hap1.fa \
-    chm13.fa
-```
+    ```bash
+    #!/bin/bash
+    
+    set -euo pipefail
+    
+    module purge
+    module load Liftoff/1.6.3.2-gimkl-2022a-Python-3.11.3
+    
+    liftoff \
+        -p 8 \
+        -db chm13-annotations.gff.liftoff.sqlite3 \
+        -o asm.hap1.annotations.gff \
+        asm.hap1.fa \
+        chm13.fa
+    ```
 
 <details>
     <summary>
