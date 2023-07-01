@@ -618,46 +618,53 @@ We are going to use the diploid version of our Verkko trio assembly. (This just 
 **Create a minimap2 slurm script**
 
 Open your favourite text editor
-```
-nano ont_mm2.sl
-```
+
+!!! terminal "code"
+
+    ```bash
+    nano ont_mm2.sl
+    ```
 And paste in the following
-```
-#!/bin/bash -e
 
-#SBATCH --account       nesi02659
-#SBATCH --job-name      minimap2-ont
-#SBATCH --cpus-per-task 48
-#SBATCH --time          05:00:00
-#SBATCH --mem           128G
-#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+!!! terminal "code"
 
-## load modules
-module purge
-module load minimap2/2.24-GCC-11.3.0
-module load SAMtools/1.16.1-GCC-11.3.0
-
-## Create minimap2 index of our diploid assembly
-minimap2 \
-    -k 17 \
-    -I 8G \
-    -d verkko_trio_diploid.fa.mmi \
-    verkko_trio_diploid.fa
-
-## minimap parameters appropriate for nanopore
-in_args="-y -x map-ont --MD --eqx --cs -Y -L -p0.1 -a -k 17 -K 10g"
-
-#do the mapping with methylation tags by dumping the Mm/Ml tags to a fastq header
-samtools fastq \
-    -TMm,Ml /nesi/nobackup/nesi02659/LRA/resources/ont_ul/03_08_22_R941_HG002_2_Guppy_6.1.2_5mc_cg_prom_sup.bam \
-    | minimap2 -t 24 ${in_args} verkko_trio_diploid.fa.mmi - \
-    | samtools view -@ 24 -bh - \
-    | samtools sort -@ 24 - > \
-    verkko_trio_diploid.mm2.5mC.bam
-
-samtools index verkko_trio_diploid.mm2.5mC.bam
-```
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      minimap2-ont
+    #SBATCH --cpus-per-task 48
+    #SBATCH --time          05:00:00
+    #SBATCH --mem           128G
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    
+    ## load modules
+    module purge
+    module load minimap2/2.24-GCC-11.3.0
+    module load SAMtools/1.16.1-GCC-11.3.0
+    
+    ## Create minimap2 index of our diploid assembly
+    minimap2 \
+        -k 17 \
+        -I 8G \
+        -d verkko_trio_diploid.fa.mmi \
+        verkko_trio_diploid.fa
+    
+    ## minimap parameters appropriate for nanopore
+    in_args="-y -x map-ont --MD --eqx --cs -Y -L -p0.1 -a -k 17 -K 10g"
+    
+    #do the mapping with methylation tags by dumping the Mm/Ml tags to a fastq header
+    samtools fastq \
+        -TMm,Ml /nesi/nobackup/nesi02659/LRA/resources/ont_ul/03_08_22_R941_HG002_2_Guppy_6.1.2_5mc_cg_prom_sup.bam \
+        | minimap2 -t 24 ${in_args} verkko_trio_diploid.fa.mmi - \
+        | samtools view -@ 24 -bh - \
+        | samtools sort -@ 24 - > \
+        verkko_trio_diploid.mm2.5mC.bam
+    
+    samtools index verkko_trio_diploid.mm2.5mC.bam
+    ```
 **And run the script**
 
 ```
