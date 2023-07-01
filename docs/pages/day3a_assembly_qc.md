@@ -55,7 +55,7 @@ Let's get some basic statistics for an assembly using a tool called **gfastats**
     module load gfastats
     gfastats assembly.haplotype1.fasta
     ```
-    
+
     - Shouldn't take about 10 seconds 
 
     ??? success "Output"
@@ -101,11 +101,59 @@ Let's get some basic statistics for an assembly using a tool called **gfastats**
 
 Remember that the file we initially got was an assembly *graph* -- what if we wanted to know some graph-specitic stats about our assembly, such as number of nodes or disconnected components? We can also assess that using gfastats. 
 
-```
-srun -c 8 gfastats --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa
-```
+!!! terminal "code"
 
-??? note "What's the `--discover-paths` flag for ?"
+    ```bash
+    gfastats --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa
+    ```
+    ??? success "Output"
+
+         ```bash
+         +++Assembly summary+++: 
+         # scaffolds: 2312
+         Total scaffold length: 4179275425
+         Average scaffold length: 1807645.08
+         Scaffold N50: 10829035
+         Scaffold auN: 11407399.64
+         Scaffold L50: 134
+         Largest scaffold: 38686347
+         Smallest scaffold: 1987
+         # contigs: 2312
+         Total contig length: 4179275425
+         Average contig length: 1807645.08
+         Contig N50: 10829035
+         Contig auN: 11407399.64
+         Contig L50: 134
+         Largest contig: 38686347
+         Smallest contig: 1987
+         # gaps in scaffolds: 0
+         Total gap length in scaffolds: 0
+         Average gap length in scaffolds: 0.00
+         Gap N50 in scaffolds: 0
+         Gap auN in scaffolds: 0.00
+         Gap L50 in scaffolds: 0
+         Largest gap in scaffolds: 0
+         Smallest gap in scaffolds: 0
+         Base composition (A:C:G:T): 1180405407:909914907:908088683:1180866428
+         GC content %: 43.50
+         # soft-masked bases: 0
+         # segments: 2312
+         Total segment length: 4179275425
+         Average segment length: 1807645.08
+         # gaps: 0
+         # paths: 2312
+         # edges: 5790
+         Average degree: 2.50
+         # connected components: 47
+         Largest connected component length: 530557693
+         # dead ends: 562
+         # disconnected components: 184
+         Total length disconnected components: 60717682
+         # separated components: 231
+         # bubbles: 8
+         # circular segments: 11
+         ```
+??? clipboard-question "What's the `--discover-paths` flag for ?"
         
     gfastats tries to clearly distinguish contigs from segments, so it will not pick up on contigs in a GFA without paths defined. To get the contig stats as well as graph stats from these GFAs, you'll need to add the `--discover-paths` flag. 
 
@@ -121,13 +169,13 @@ Now that we know how to get the statistics for one assembly, let's get them for 
     ```bash
     paste <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/1-buildGraph/hifi-resolved.gfa) <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa | cut -f 2)
     ```
-!!! info ""
-
-    1. `paste` is a command that pastes two files side by side
-    2. the `<(COMMAND)` syntax is called process substitution, and it passes the output of the command(s) inside the parentheses to another command (here it is passing the `gfastats` output to `paste`), and can be useful when using a pipe (|) might not be possible
-    3. the `-t` flag in gfastats specifies that the output should be tab-delimited, which makes it more computer-parseable
-    4. the `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
+    !!! info ""
     
+        1. `paste` is a command that pastes two files side by side
+        2. the `<(COMMAND)` syntax is called process substitution, and it passes the output of the command(s) inside the parentheses to another command (here it is passing the `gfastats` output to `paste`), and can be useful when using a pipe (|) might not be possible
+        3. the `-t` flag in gfastats specifies that the output should be tab-delimited, which makes it more computer-parseable
+        4. the `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
+        
 Your output should look something like this:
 
 ??? success "Output"
