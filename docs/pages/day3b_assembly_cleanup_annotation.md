@@ -502,18 +502,21 @@ The first thing we would like to do is to find out how our assembled genome comp
     ```
 
 **Run MashMap**
-```bash
-module purge
-module load MashMap/3.0.4-Miniconda3
-mashmap \
-  -r chm13v2.0.fa \
-  -q assembly.haplotype1.fasta \
-  -f one-to-one \
-  --pi 95 \
-  -s 100000 \
-  -t 4 \
-  -o asm-to-chm13.mashmap.out
-```
+
+!!! terminal "code"
+
+    ```bash
+    module purge
+    module load MashMap/3.0.4-Miniconda3
+    mashmap \
+      -r chm13v2.0.fa \
+      -q assembly.haplotype1.fasta \
+      -f one-to-one \
+      --pi 95 \
+      -s 100000 \
+      -t 4 \
+      -o asm-to-chm13.mashmap.out
+    ```
 
 <details>
     <summary>
