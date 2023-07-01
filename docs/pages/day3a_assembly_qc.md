@@ -235,40 +235,44 @@ The above is the hifiasm unitig graph for the assembly done with good (~56X) HiF
 
 
 Use your text editor of choice to make a slurm script (`run_merqury.sl`) to run the actual merqury program with the following contents:
-```
-#!/bin/bash -e
 
-#SBATCH --job-name      merqury1
-#SBATCH --cpus-per-task 8
-#SBATCH --time          00:15:00
-#SBATCH --mem           24G
-#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+!!! terminal "code"
 
-## load modules
-module purge
-module load Merqury
-export MERQURY=/opt/nesi/CS400_centos7_bdw/Merqury/1.3-Miniconda3/merqury
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      merqury1
+    #SBATCH --cpus-per-task 8
+    #SBATCH --time          00:15:00
+    #SBATCH --mem           24G
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    
+    ## load modules
+    module purge
+    module load Merqury
+    export MERQURY=/opt/nesi/CS400_centos7_bdw/Merqury/1.3-Miniconda3/merqury
+    
+    ## create solo merqury dir and use it
+    mkdir merqury_solo
+    cd merqury_solo
+    
+    ## run merqury
+    merqury.sh \
+        ../read-db.meryl \
+        ../assembly.fasta \
+        output
+    
+    cd -/lra
+    ```
 
-## create solo merqury dir and use it
-mkdir merqury_solo
-cd merqury_solo
 
-## run merqury
-merqury.sh \
-    ../read-db.meryl \
-    ../assembly.fasta \
-    output
+??? note "What's that export command doing there ?"
 
-cd -
-```
-
-<details>
-    <summary>
-        <strong>DROPDOWN NOTE: What's that export command doing there?</strong>
-    </summary>    
     Merqury as a package ships with a lot of scripts, especially for plotting. The `merqury.sh` command that we're using is calling those scripts, but we need to tell it where we installed Merqury. 
-</details>
+
 
 To find out the QV, we want the file named `output.qv`. Take a look at it and try to interpret the QV value you find (third column). If we recall the Phred scale system, this would mean that this QV value is great! Which is not surprising, considering we used HiFi data. **It's worth noting, though, that we are using HiFi *k*-mers to evaluate sequences derived from those same HiFi reads.** This does a good job of showing whether the assembly worked with that data well, but what if the HiFi data itself is missing parts of the genome, such as due to bias (*e.g.*, GA dropout)? That's why it's important to use orthogonal datasets made using different sequencing technology, when possible. For instance, we can use an Illumina-based meryl database to evaluate a HiFi assembly. For non-human vertebrates, this often results in the QV dropping from 50-60 to 35-45, depending on the genome in question. 
 
