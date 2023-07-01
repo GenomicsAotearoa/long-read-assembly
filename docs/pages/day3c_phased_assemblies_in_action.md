@@ -205,8 +205,8 @@ ln -s ../day3b_annotation/mashmap/asm-to-chm13.mashmap.out hg2hap2-x-chm13.ssv
     #SBATCH --time          00:20:00
     #SBATCH --mem           8G
     #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    #SBATCH --output        slurmlogs/%x.%j.out
+    #SBATCH --error         slurmlogs/%x.%j.err
     
     
     module purge
@@ -392,31 +392,34 @@ files for our contigs of interest.
 
 On sequences of this size, ModDotPlot is relatively quick. It has a reasonable
 memory footprint for sequences <10 Mbp, but memory usage can exceed 20 GB for
-large sequences (>100 Mbp). Let&rsquo;s create a script to submit with
-`sbatch`. Paste the following into `moddotplot.sh`:
-```
-#!/bin/bash -e 
+large sequences (>100 Mbp). Let'ss create a script to submit with
+`sbatch`. Paste the following into `moddotplot.sh`
 
-#SBATCH --account       nesi02659
-#SBATCH --job-name      moddotplot
-#SBATCH --cpus-per-task 4
-#SBATCH --time          00:05:00
-#SBATCH --mem           8G
-#SBATCH --partition     milan
-#SBATCH --output        slurmlogs/%x.%j.log
-#SBATCH --error         slurmlogs/%x.%j.err
+!!! terminal "code"
 
-module purge
-module load ModDotPlot/2023-06-gimkl-2022a-Python-3.11.3
-
-for CTG in pat-000072{4,5,7}
-do
-    moddotplot \
-        -k 21 -id 85 \
-        -i hg002.hap2.${CTG}.fa \
-        -o mdp_hg002-${CTG}
-done
-```
+    ```bash
+    #!/bin/bash -e 
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      moddotplot
+    #SBATCH --cpus-per-task 4
+    #SBATCH --time          00:05:00
+    #SBATCH --mem           8G
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/%x.%j.out
+    #SBATCH --error         slurmlogs/%x.%j.err
+    
+    module purge
+    module load ModDotPlot/2023-06-gimkl-2022a-Python-3.11.3
+    
+    for CTG in pat-000072{4,5,7}
+    do
+        moddotplot \
+            -k 21 -id 85 \
+            -i hg002.hap2.${CTG}.fa \
+            -o mdp_hg002-${CTG}
+    done
+    ```
 
 <details>
     <summary>
