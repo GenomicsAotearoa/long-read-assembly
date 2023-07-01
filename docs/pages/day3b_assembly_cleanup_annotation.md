@@ -464,36 +464,47 @@ We are ready to map long reads and assembly contigs to genomes. For this we need
 
 ### Mashmap: Super Fast (Approximate) Mapping
 
-The first thing we would like to do is to find out how our assembled genome compares to the T2T genome CHM13. If we can map our assembly quickly onto CHM13, we can answer questions like:
+The first thing we would like to do is to find out how our assembled genome compares to the T2T genome CHM13. 
 
-!!! rectangle-list ""
+!!! rectangle-list "If we can map our assembly quickly onto CHM13, we can answer questions like:"
 
     * Which contigs correspond to chr1?
     * How many of my contigs are T2T assembled?
     * Are we seeing any large duplications or missing regions?
 
-[MashMap](https://genomeinformatics.github.io/mashmap/) is a super fast mapper that is commonly used for these kinds of questions. MashMap doesn't seed and extend, it takes sequences and plays tricks with kmers. Loosely speaking if you take a sequence and get all of its kmers of a certain size and then sort those kmers, you can do a lot with just the "smallest" kmer (this is called a minimizer). MashMap uses a set of those smallest kmers to say: this sequence here and my query sequence share a lot of smallest kmers. The output of MashMap is an approximation of read position and identity. Let's actually use it now to align our asembly to CHM13 and we will use the results to map our contigs onto chromosomes and to try and find some T2T chromosomes in our assemblies.
+!!! quote ""
 
+    [MashMap](https://genomeinformatics.github.io/mashmap/) is a super fast mapper that is commonly used for these kinds of questions. MashMap doesn't seed and extend, it takes sequences and plays tricks with kmers. Loosely speaking if you take a sequence and get all of its kmers of a certain size and then sort those kmers, you can do a lot with just the "smallest" kmer (this is called a minimizer). MashMap uses a set of those smallest kmers to say: this sequence here and my query sequence share a lot of smallest kmers. The output of MashMap is an approximation of read position and identity. Let's actually use it now to align our asembly to CHM13 and we will use the results to map our contigs onto chromosomes and to try and find some T2T chromosomes in our assemblies.
+    
 **Create A Directory**
-```
-cd ~
-mkdir -p day3b_annotation/mashmap
-cd day3b_annotation/mashmap
-```
+
+!!! terminal "code"
+
+    ```bash
+    cd ~/lra
+    mkdir -p day3b_annotation/mashmap
+    cd day3b_annotation/mashmap
+    ```
 
 **Link the files we need**
 
-We are going to use CHM13 v2.0 (which includes a Y chromosome)
-```
-ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa
-```
-as well as haplotype 1 from our Verkko trio assembly
-```
-ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta
-```
+!!! terminal "code"
+
+    We are going to use CHM13 v2.0 (which includes a Y chromosome)
+
+    ```bash
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa
+    ```
+    as well as haplotype 1 from our Verkko trio assembly
+
+    ```bash
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta
+    ```
 
 **Run MashMap**
-```
+```bash
+module purge
+module load MashMap/3.0.4-Miniconda3
 mashmap \
   -r chm13v2.0.fa \
   -q assembly.haplotype1.fasta \
