@@ -117,13 +117,9 @@ To get a fasta we just pull the S lines from a GFA and print them to a file:
     2. Then print the second column of those lines (which is the sequence ID) 
     3. Also print another line with the actual sequence
     
-<details>
-    <summary>
-        <strong>Why does Hifiasm output GFAs and not Fastas?</strong>
-    </summary>    
+??? question "Why does Hifiasm output GFAs and not Fastas ?"
+  
     Hifiasm (and many other assemblers) use gfas while they are actually assembling. The gfa represents/stores the assembly graph. Hifiasm probably doesn't output fastas just because everything in the fasta is contained in the gfa, so why store it twice?
-</details>
-
 
 
 ### View Hifiasm Test Assembly GFA in Bandage
@@ -158,35 +154,45 @@ pbmm2 align -j 128 $referencepath $hifi_demux > $alignedbam
 
 ## Run Verkko With Test Data
 **Create A Directory**
-```
-cd ~
-mkdir -p day2_assembly/verkko_test
-cd day2_assembly/verkko_test
-```
+
+!!! terminal "code"
+
+    ```bash
+    cd ~/lra
+    mkdir -p day2_assembly/verkko_test
+    cd day2_assembly/verkko_test
+    ```
 
 **Now download Verkko's test data**<br>
-```
-curl -L https://obj.umiacs.umd.edu/sergek/shared/ecoli_hifi_subset24x.fastq.gz -o hifi.fastq.gz
-curl -L https://obj.umiacs.umd.edu/sergek/shared/ecoli_ont_subset50x.fastq.gz -o ont.fastq.gz
-```
+
+!!! terminal "code"
+
+    ```bash
+    curl -L https://obj.umiacs.umd.edu/sergek/shared/ecoli_hifi_subset24x.fastq.gz -o hifi.fastq.gz
+    curl -L https://obj.umiacs.umd.edu/sergek/shared/ecoli_ont_subset50x.fastq.gz -o ont.fastq.gz
+    ```
 You can see that this dataset is for ecoli and there is both HiFi and ONT data included.
 
 We could follow what we did with Hifiasm and just run Verkko in our notebook environment like so:
-```
-module purge
-module load verkko/1.3.1-Miniconda3
 
-verkko \
-    -d asm \
-    --hifi ./hifi.fastq.gz \
-    --nano ./ont.fastq.gz
-```
+!!! terminal "code"
+
+    ```bash
+    module purge
+    module load verkko/1.3.1-Miniconda3
+    
+    verkko \
+        -d asm \
+        --hifi ./hifi.fastq.gz \
+        --nano ./ont.fastq.gz
+    ```
 but depending on how you created your notebook environment this command may crash it. That's ok, it gives us an opportunity to test running Verkko w/ Slurm.
 
 **Create Slurm script for test Verkko run**
 
 Start your favourite text editor
-```
+
+```bash
 nano verkko_test.sl
 ```
 
