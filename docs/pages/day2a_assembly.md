@@ -9,10 +9,10 @@ Here is a rundown of what we are doing today:
 
 At the end of the day you will hopefully have a feel for how to actually run each assembler, what data to give them, and when to choose one over the other.
 
-# Exploring With Test Data
+## Exploring With Test Data
 Running assemblers is very computationally intensive and the output files can be big. Let's not jump straight into assembling human genomes. Instead we can use the test data that both assemblers provide as a way to both ensure that we know how to run the tool (which is easy) and we can start to get a feel for the process and outputs in real life. 
 
-## Run Hifiasm With Test Data
+### Run Hifiasm With Test Data
 
 **Create A Directory**
 
@@ -268,9 +268,9 @@ Open the `assembly/1-buildGraph/hifi-resolved.gfa` file in Bandage. You will see
 Open the `assembly/5-untip/unitig-normal-connected-tip.gfa` file in Bandage. Now our three nodes have been resolved into one. 
 
 
-# Comparison of Runtime Parameters
+## Comparison of Runtime Parameters
 
-## Hifiasm
+### Hifiasm
 
 Hifiasm is compiled into a single binary file, and, when executed, it manages all tasks and parallelism under one parent process. You can run it the same on a VM in the cloud or in an HPC. 
 
@@ -282,7 +282,7 @@ For a human sample with around 40X HiFi and 30X UL and either HiC or trio phasin
 So Hifiasm takes about 1500 cpu hours to assemble this sample. On a cluster you can just execute the run command. If you are on a cloud and would like to take advantage of pre-emptible instances, you can break the run command into three parts (each take around 8 hours).
 
 
-## Verkko
+### Verkko
 
 Verkko is written as a shell wrapper around a Snakemake pipeline. This has the advantages of easily restarting after failures and increased potential for parallelism in an HPC environment with multiple nodes available, but it is hard to profile all the individual tasks. If the cluster is not too busy a human assembly can finish in around a day. Most of the compute is done in the overlap and graph aligner jobs. So we can break the runtimes into steps that revolve around the big jobs. That looks something like this:
 
