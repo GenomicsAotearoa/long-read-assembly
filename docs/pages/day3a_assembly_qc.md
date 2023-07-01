@@ -95,61 +95,64 @@ Now that we know how to get the statistics for one assembly, let's get them for 
     4. the `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
     
 Your output should look something like this:
-```
-# contigs       68252   2312
-Total contig length     3858601893      4179275425
-Average contig length   56534.63        1807645.08
-Contig N50      223090  10829035
-Contig auN      638121.24       11407399.64
-Contig L50      4232    134
-Largest contig  23667669        38686347
-Smallest contig 1608    1987
-# gaps in scaffolds     0       0
-Total gap length in scaffolds   0       0
-Average gap length in scaffolds 0.00    0.00
-Gap N50 in scaffolds    0       0
-Gap auN in scaffolds    0.00    0.00
-Gap L50 in scaffolds    0       0
-Largest gap in scaffolds        0       0
-Smallest gap in scaffolds       0       0
-Base composition (A:C:G:T)      1089358958:840831652:838233402:1090177881       1180405407:909914907:908088683:1180866428
-GC content %    43.51   43.50
-# soft-masked bases     0       0
-# segments      68252   2312
-Total segment length    3858601893      4179275425
-Average segment length  56534.63        1807645.08
-# gaps  0       0
-# paths 68252   2312
-# edges 181274  5790
-Average degree  2.66    2.50
-# connected components  45      47
-Largest connected component length      496518810       530557693
-# dead ends     684     562
-# disconnected components       18      184
-Total length disconnected components    7267912 60717682
-# separated components  63      231
-# bubbles       4312    8
-# circular segments     31      11
-```
 
-... where the first column is the stats from the HiFi-only assembly graph, and the second column is the stats from the HiFi+ONT assembly graph. Notice how the HiFi-only graphhas way more nodes than the HiFi+ONT one, like we'd seen in Bandage. Stats-wise, this results in the HiFi-only graph having a N50 value of 223 Kbp while the HiFi+ONT one is 10.8 Mbp, a whole order of magnitude larger. For the HiFi-only graph, though, there's a bigger difference between its N50 value and its auN value: 223 Kbp vs. 638 Kbp, while the HiFi+ONT stats have a smaller difference of 10.8 Mbp vs. 11.4 Mbp. This might be due to the HiFi-only graph having on average shorter segments and more of the shorter ones, since it doesn't have the ONT data to resolve the segments into larger ones. 
+??? success "Output"
 
+    ```bash
+    # contigs       68252   2312
+    Total contig length     3858601893      4179275425
+    Average contig length   56534.63        1807645.08
+    Contig N50      223090  10829035
+    Contig auN      638121.24       11407399.64
+    Contig L50      4232    134
+    Largest contig  23667669        38686347
+    Smallest contig 1608    1987
+    # gaps in scaffolds     0       0
+    Total gap length in scaffolds   0       0
+    Average gap length in scaffolds 0.00    0.00
+    Gap N50 in scaffolds    0       0
+    Gap auN in scaffolds    0.00    0.00
+    Gap L50 in scaffolds    0       0
+    Largest gap in scaffolds        0       0
+    Smallest gap in scaffolds       0       0
+    Base composition (A:C:G:T)      1089358958:840831652:838233402:1090177881       1180405407:909914907:908088683:1180866428
+    GC content %    43.51   43.50
+    # soft-masked bases     0       0
+    # segments      68252   2312
+    Total segment length    3858601893      4179275425
+    Average segment length  56534.63        1807645.08
+    # gaps  0       0
+    # paths 68252   2312
+    # edges 181274  5790
+    Average degree  2.66    2.50
+    # connected components  45      47
+    Largest connected component length      496518810       530557693
+    # dead ends     684     562
+    # disconnected components       18      184
+    Total length disconnected components    7267912 60717682
+    # separated components  63      231
+    # bubbles       4312    8
+    # circular segments     31      11
+    ```
+
+!!! info "Output explained"
+
+    ... where the first column is the stats from the HiFi-only assembly graph, and the second column is the stats from the HiFi+ONT assembly graph. Notice how the HiFi-only graphhas way more nodes than the HiFi+ONT one, like we'd seen in Bandage. Stats-wise, this results in the HiFi-only graph having a N50 value of 223 Kbp while the HiFi+ONT one is 10.8 Mbp, a whole order of magnitude larger. For the HiFi-only graph, though, there's a bigger difference between its N50 value and its auN value: 223 Kbp vs. 638 Kbp, while the HiFi+ONT stats have a smaller difference of 10.8 Mbp vs. 11.4 Mbp. This might be due to the HiFi-only graph having on average shorter segments and more of the shorter ones, since it doesn't have the ONT data to resolve the segments into larger ones. 
+    
 ## Correctness (QV using Merqury)
 
 Correctness refers to the base pair accuracy, and can be measured by comparing one's assembly to a gold standard reference genome. This approach is limited by 1) an assumption about the quality of the reference itself and the closeness between it and the assembly being compared, and 2) the need for a reference genome at all, which many species do not have (yet). To avoid this, we can use **Merqury**: a reference-free suite of tools for assessing assembly quality (particularly w.r.t. error rate) using *k*-mers and the read set that generated that assembly. If an assembly is made up from the same sequences that were in the sequencing reads, then we would not expect any sequences (*k*-mers) in the assembly that aren't present in the read set -- but we do find those sometimes, and those are what Merqury flags as error *k*-mers. **It uses the following formula to calculate QV value, which typically results in QVs of 50-60**: 
 
 ![QV formula](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/merqury_qvformula.png)
 
-<details>
-    <summary>
-        <strong>DROPDOWN NOTE: OK, but what does 'QV' mean, anyway?</strong>
-    </summary>    
+??? note "OK, but what does 'QV' mean, anyway ?"
+    
     The QV that Merqury is interpreted similarly to the commonly used Phred quality scale, which might be familiar to those who have done short-read sequencing or are otherwise acquainted with FASTQ files. Phred quality scores are logarithmically related to error-probability, such that:
     - Phred score of 30 represents a 1 in 1,000 error probability (*i.e.*, 99.9% accuracy)
     - Phred score of 40 represents a 1 in 10,000 error probability (*i.e.*, 99.99% accuracy)
     - Phred score of 50 represents a 1 in 100,000 error probability (*i.e.*, 99.999% accuracy)
     - Phred score of 60 represents a 1 in 1,000,000 error probability (*i.e.*, 99.9999% accuracy)
-</details>
+
 
 Merqury operates using *k*-mer databases like the ones we generated using meryl, so that's what we'll do now. 
 
