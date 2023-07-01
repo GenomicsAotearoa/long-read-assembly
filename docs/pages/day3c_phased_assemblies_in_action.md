@@ -63,7 +63,7 @@ software can&rsquo;t distinguish between repeat copies.
     - <a href="https://github.com/chhylp123/hifiasm">hifiasm</a>(<a href="https://doi.org/10.1038/s41587-022-01261-x">Cheng <em>et al.</em> 2022</a>)
 
 
-We&rsquo;re going to run ModDotPlot on part of the Y chromosome from our
+We're going to run ModDotPlot on part of the Y chromosome from our
 earlier assembly. First we&rsquo;ll need to identify the appropriate chunk,
 which can be done a few different ways depending on the sequence you&rsquo;re
 looking for. ChrY somtimes appears tied on only one end to chrX in the Bandage
@@ -81,18 +81,23 @@ can map against the human CHM13-T2T reference.
 
 **Make a directory to work in**
 
-```
-mkdir day3c-moddotplot
-cd day3c-moddotplot
-```
+!!! terminal "code"
+
+    ```bash
+    cd ~/lra
+    mkdir day3c-moddotplot
+    cd day3c-moddotplot
+    ```
 
 **Get the files**
 
-```
-ln -s /nesi/nobackup/nesi02659/LRA/resources/resources/chm13/chm13v2.0.fa chm13.fa
-ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype2.fasta hg002.hap2.fa
-ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype2.fasta.fai hg002.hap2.fa.fai
-```
+!!! terminal "code"
+
+    ```bash
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/resources/chm13/chm13v2.0.fa chm13.fa
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype2.fasta hg002.hap2.fa
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype2.fasta.fai hg002.hap2.fa.fai
+    ```
 
 Note that we&rsquo; cheating a bit. We could map against the entire diploid
 assembly, but we&rsquo;ve already determined that chrY is in haplotype2, so
@@ -108,15 +113,19 @@ take ~25 minutes with 4 CPUs and should use <4 GB RAM. This command is the same
 as the one you ran earlier, except that this time it is on haplotype2 and the
 percent identity threshold is lower, which should help us recruit alignments in
 the satellites on chrY.
-```
-module load MashMap/3.0.4-Miniconda3
-mashmap -f "one-to-one" \
-    -k 16 --pi 90 \
-    -s 100000 -t 4 \
-    -r chm13.fa \
-    -q hg002.hap2.fa \
-    -o hg2hap2-x-chm13.ssv
-```
+
+!!! terminal "code"
+
+    ```bash
+    module purge
+    module load MashMap/3.0.4-Miniconda3
+    mashmap -f "one-to-one" \
+        -k 16 --pi 90 \
+        -s 100000 -t 4 \
+        -r chm13.fa \
+        -q hg002.hap2.fa \
+        -o hg2hap2-x-chm13.ssv
+    ```
 
 <details>
     <summary>
@@ -161,12 +170,10 @@ ln -s ../day3b_annotation/mashmap/asm-to-chm13.mashmap.out hg2hap2-x-chm13.ssv
 ```
 -->
 
-<details>
-    <summary>
-        <strong>What if I want to run it faster?</strong>
-    </summary>
-    Submit it as a job with <code>sbatch</code>. First copy the command into a
-    script named <code>mashmap.sh</code> and change the number of threads to 16:
+??? question "What if I want to run it faster ?"
+    
+    Submit it as a job with `sbatch`. First copy the command into a
+    script named `mashmap.sh` and change the number of threads to 16:
 
 <pre><code>#! /usr/bin/env bash
 
