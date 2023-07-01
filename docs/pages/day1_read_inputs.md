@@ -285,20 +285,26 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
 This should be pretty fast because we are just using a small amount of data to get a feel for the program. The output of Meryl is a folder that contains 64 index files and 64 data files. If you try and look at the data files you'll see that they aren't human readable. In order to look at the actual kmers, you have to use meryl to print them.
 
 **Look at the kmers**
-```
-meryl print \
-    greater-than 1 \
-    paternal_20M_compress.k30.meryl \
-    | head
-```
+
+!!! terminal "code"
+
+    ```bash
+    meryl print \
+        greater-than 1 \
+        paternal_20M_compress.k30.meryl \
+        | head
+    ```
 The first column is the kmer and the second column is the count of that kmer in the dataset.
 
 **Take a look at some statistics for the DB**
-```
-meryl statistics \
-    paternal_20M_compress.k30.meryl \
-    | head -n 20
-```
+
+!!! terminal "code"
+
+    ```bash
+    meryl statistics \
+        paternal_20M_compress.k30.meryl \
+        | head -n 20
+    ```
 
 We see a lot of kmers missing and the histogram (frequency column) has a ton of counts at 1. This makes sense for a heavily downsampled dataset. Great. We just got a feel for how to use Meryl in general on subset data. Now let's actually take a look at how to create Meryl DBs for Verkko assemblies.
 
