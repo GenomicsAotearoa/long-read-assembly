@@ -65,14 +65,14 @@ Now check the [hifiasm log interpretation](https://hifiasm.readthedocs.io/en/lat
 ??? question "What does the histogram represent, and how many peaks do you expect ?"
         
     The histogram represents the kmer count in the hifi reads. For humans we expect to see a large peak somewhere around our expected sequencing coverage: this represents homozygous kmers. The smaller peak represents heterozygous kmers.
-\
+
 
 Now `ls` the directory to see what outputs are present. What do you see? No fasta files, but there are a lot of files that  end in `gfa`. If you haven't seen these before, then we get to introduce you to another file format! 
 
 ### Introduction To GFA Files
 GFA stands for [Graphical Fragment Alignment](http://gfa-spec.github.io/GFA-spec/GFA1.html) and Hifiasm outputs assemblies in GFA files. GFAs aren't like bed or sam files which have one entry per line (or fasta/q that have 2/4 lines per entry). But this is bioinformatics, so you can rest assured that it is just a text file with a new file extension. It's easiest to just look at an example of a GFA file from the spec:
 
-```
+```bash
 H    VN:Z:1.0
 S   11  ACCTT
 S   12  TCAAGG
@@ -82,33 +82,41 @@ L   12  -   13  +   5M
 L   11  +   13  +   3M
 P   14  11+,12-,13+ 4M,5M
 ```
-**Here we see the following line types**
-* H (Header): File header. You get the idea.
-    * The example here the header is just saying that the file follows GFA 1.0 spec. 
-    * Notice that this line follows a TAG:TYPE:VALUE convention. Type in this case is Z which corresponds to printable string. 
-* S (Segment): A sequence of DNA
-    * This is what we care about for the moment!
-* L (Link): Overlap between two segments
-    * We can read the first Link line as saying that the end of Segment 11 (+) connects to the beginning of Segment 12 (-) and the overlap is 4 matching bases. In this case it would look like this:
-```    
+!!! info "Here we see the following line types"
+
+    * H (Header): File header. You get the idea.
+        * The example here the header is just saying that the file follows GFA 1.0 spec. 
+        * Notice that this line follows a TAG:TYPE:VALUE convention. Type in this case is Z which corresponds to printable string. 
+    * S (Segment): A sequence of DNA
+        * This is what we care about for the moment!
+    * L (Link): Overlap between two segments
+        * We can read the first Link line as saying that the end of Segment 11 (+) connects to the beginning of Segment 12 (-) and the overlap is 4 matching bases. In this case it would look like this:
+        
+```bash
     ACCTT    (Segment 11)
      ||||
      GGAACT  (Segment 12 -- reversed)
 ```
-* P (Path): Ordered list of segments (connected by links)
+!!! note ""
+
+    * P (Path): Ordered list of segments (connected by links)
 
 **So how do we get a fasta from a GFA?**<br>
 To get a fasta we just pull the S lines from a GFA and print them to a file:
-```
-awk '/^S/{print ">"$2;print $3}' \
-    test.bp.p_ctg.gfa \
-    > test.p_ctg.fa 
-```
-You can read this awk command as: 
-1. Give me all input lines that start with `S` 
-2. Then print the second column of those lines (which is the sequence ID) 
-3. Also print another line with the actual sequence
 
+!!! terminal "code"
+    ```bash
+    awk '/^S/{print ">"$2;print $3}' \
+        test.bp.p_ctg.gfa \
+        > test.p_ctg.fa 
+    ```
+
+!!! info "You can read this awk command as:"
+
+    1. Give me all input lines that start with `S` 
+    2. Then print the second column of those lines (which is the sequence ID) 
+    3. Also print another line with the actual sequence
+    
 <details>
     <summary>
         <strong>Why does Hifiasm output GFAs and not Fastas?</strong>
