@@ -819,15 +819,15 @@
   }
   .md-typeset .admonition.user-secret,
   .md-typeset details.user-secret {
-    border-color: rgb(243, 234, 103);
+    border-color: rgb(30, 202, 14);
   }
   .md-typeset .user-secret > .admonition-title,
   .md-typeset .user-secret > summary {
-    background-color: rgba(233, 208, 95, 0.459);
+    background-color: rgba(20, 122, 46, 0.459);
   }
   .md-typeset .user-secret > .admonition-title::before,
   .md-typeset .user-secret > summary::before {
-    background-color: rgb(168, 86, 9);
+    background-color: rgb(204, 87, 19);
     -webkit-mask-image: var(--md-admonition-icon--user-secret);
             mask-image: var(--md-admonition-icon--user-secret);
   }
