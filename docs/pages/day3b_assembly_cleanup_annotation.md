@@ -207,17 +207,15 @@ Here we will get a taste for annotation with one popular tool: Liftoff, which
 makes use of another genome assembly with annotations you wish to "copy" onto
 your assembly.
 
-<details>
-    <summary>
-        <strong>What is the easiest way to annotate my genome of interest?</strong>
-    </summary>
+??? question "What is the easiest way to annotate my genome of interest ?"
+    
     The easiest way to get a genome annotated is to have someone else do it. If
     sharing data with NCBI is possible and your assembly is the best option to
     represent your species of interest, they may be willing to annotate your
     genome for you using
     <a href="https://www.ncbi.nlm.nih.gov/genome/annotation_euk/process/">their pipeline</a>.
     Otherwise, finding a collaborator with expertise is a good option.
-</details>
+
 
 <details>
     <summary>
