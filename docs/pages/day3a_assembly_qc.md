@@ -259,7 +259,7 @@ Let's try this out on the *E. coli* verkko assembly. First we need a meryl datab
     ```
 
 
-??? note "Wrap ???"
+??? clipboard-question "`--wrap` ???"
    
     Previously, we used the `sbatch` command to submit a slurm script to the cluster and the slurm job handler. The `sbatch` command can actually take a lot of parameters like the ones we included in the beginning of our script, and one of those parameters is `--wrap` which kind of wraps whatever command you give it in a slurm wrapper so that the cluster can schedule it as if it was a slurm script. 
 
