@@ -420,31 +420,33 @@ large sequences (>100 Mbp). Let'ss create a script to submit with
             -o mdp_hg002-${CTG}
     done
     ```
+    Then submit with `sbatch`:
 
-<details>
-    <summary>
-        <strong>What do these parameters do?</strong>
-    </summary>
-    You can run <code>moddotplot -h</code> to find out (and enjoy some excellent
-    ASCII art). Here are the options we used:
-<pre><code>Required input:
-  -i INPUT [INPUT ...], --input INPUT [INPUT ...]
-                        Path to input fasta file(s)
+    ```bash
+    sbatch moddotplot.sh
+    ```
 
-Mod.Plot distance matrix commands:
-  -k KMER, --kmer KMER  k-mer length. Must be < 32 (default: 21)
+    ??? clipboard-question "What do these parameters do ?"
+    
+        You can `moddotplot -h` to find out (and enjoy some excellent ASCII art). Here are the options we used:
+    
+        ```bash
+        Required input:
+          -i INPUT [INPUT ...], --input INPUT [INPUT ...]
+                                Path to input fasta file(s)
+        
+        Mod.Plot distance matrix commands:
+          -k KMER, --kmer KMER  k-mer length. Must be < 32 (default: 21)
+        
+          -id IDENTITY, --identity IDENTITY
+                                Identity cutoff threshold. (default: 80)
+        
+          -o OUTPUT, --output OUTPUT
+                                Name for bed file and plots. Will be set to input fasta file name if not provided. (default: None)
+        ```
 
-  -id IDENTITY, --identity IDENTITY
-                        Identity cutoff threshold. (default: 80)
 
-  -o OUTPUT, --output OUTPUT
-                        Name for bed file and plots. Will be set to input fasta file name if not provided. (default: None)</code></pre>
-</details>
 
-Then submit with `sbatch`:
-```
-sbatch -J moddotplot -N1 -n1 -c1 --mem=8G -t 0-00:15 -A nesi02659 -o %x.%j.log moddotplot.sh
-```
 
 **Inspect the output files**
 
