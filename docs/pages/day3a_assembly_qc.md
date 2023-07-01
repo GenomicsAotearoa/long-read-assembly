@@ -225,7 +225,9 @@ Now that we know how to get the statistics for one assembly, let's get them for 
 
 Correctness refers to the base pair accuracy, and can be measured by comparing one's assembly to a gold standard reference genome. This approach is limited by 1) an assumption about the quality of the reference itself and the closeness between it and the assembly being compared, and 2) the need for a reference genome at all, which many species do not have (yet). To avoid this, we can use **Merqury**: a reference-free suite of tools for assessing assembly quality (particularly w.r.t. error rate) using *k*-mers and the read set that generated that assembly. If an assembly is made up from the same sequences that were in the sequencing reads, then we would not expect any sequences (*k*-mers) in the assembly that aren't present in the read set -- but we do find those sometimes, and those are what Merqury flags as error *k*-mers. **It uses the following formula to calculate QV value, which typically results in QVs of 50-60**: 
 
+<center>
 ![QV formula](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/merqury_qvformula.png)
+</center>
 
 ??? note "OK, but what does 'QV' mean, anyway ?"
     
@@ -253,7 +255,7 @@ Let's try this out on the *E. coli* verkko assembly. First we need a meryl datab
     ln -s ../../day2_assembly/hifi.fastq.gz .
     module purge
     module load Merqury
-    sbatch -c 8 --job-name=meryl --time=00:15:00 --mem=24G --wrap="meryl count k=30 memory=24 threads=8 hifi.fastq.gz output read-db.meryl"
+    sbatch --account nesi02659 --job-name=meryl --time=00:15:00 --cpus-per-task 8--mem=24G -p milan --wrap="meryl count k=30 memory=24 threads=8 hifi.fastq.gz output read-db.meryl"
     ```
 
 
