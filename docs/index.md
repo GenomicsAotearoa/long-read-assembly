@@ -7,6 +7,8 @@
 </center>
 
 
+!!! "Attribution notice"
+
 
 !!! quote-right "References"
 
