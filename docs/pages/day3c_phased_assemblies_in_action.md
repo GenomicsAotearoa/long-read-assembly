@@ -1,4 +1,4 @@
-# Phased Assemblies in Action
+# 7. Phased Assemblies in Action
 
 What can you do with a phased assembly that you cannot do with a squashed
 assembly? Why does having a highly-continuous and highly-accurate assembly

@@ -1,4 +1,4 @@
-# Day 3a: Assembly Quality Control (QC)
+# 5. Day 3a: Assembly Quality Control (QC)
 Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": contiguity, correctness, and completeness.
 
 !!! question "Food for thought"
