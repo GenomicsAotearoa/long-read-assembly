@@ -84,16 +84,16 @@ Run CutAdapt to check for adapter sequences in the downsampled data that we are 
      ```
 Notice that we are writing output to `/dev/null`. We are working on a subset of these reads so the runtime is reasonable. There is no need to hold onto the reads that we are filtering on, just a subset of the data.
 
-??? question "What do you think the two sequences that we are filtering out are? (hint: you can Google them)"
+??? clipboard-question "What do you think the two sequences that we are filtering out are? (hint: you can Google them)"
 
     The first sequence is the primer and the second sequence is the hairpin adapter. You can see the hairpin by looking at the 5' and 3' ends and checking that they are reverse complements.
 
 
-??? question "Why can we get away with throwing away entire reads that contain adapter sequences?"
+??? clipboard-question "Why can we get away with throwing away entire reads that contain adapter sequences?"
 
     As you can see from the summary statistics from CutAdapt, not many reads in this dataset have adapters/primers. There is some concern about bias -- where we remove certain sequences from the genome assembly process. We've taken the filtered reads and aligned them to the genome and they didn't look like they were piling up in any one area.
 
-??? question "What would happen if we left adapter sequences in the reads?"
+??? clipboard-question "What would happen if we left adapter sequences in the reads?"
 
     If there are enough adapters present, you can get entire contigs comprised of adapters. This is not the worst, actually, because they are easy to identify and remove wholesale. It is trickier (and this happens more often) when adapter sequences end up embedded in the final assemblies. If/when you upload assemblies to repositories like Genbank they check for these adapters and force you to mask them out with N's. This is confusing to users because it is common to use N's to signify gaps in scaffolded assemblies. So users don't know if they are looking at a scaffolded assembly or masked out sequence.
 
@@ -222,7 +222,7 @@ We see a lot of kmers missing and the histogram (frequency column) has a ton of 
     #SBATCH --time          12:00:00
     #SBATCH --mem           96G
     #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --output        slurmlogs/%x.%j.out
     #SBATCH --error         slurmlogs/%x.%j.err
     
     
