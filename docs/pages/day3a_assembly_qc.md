@@ -24,7 +24,7 @@ The N50 can be interpreted as such: given an N50 value, 50% of the sequence in t
 
 Another statistic that is often reported with N50 is the *L50*, which is the rank of the contig that gives the N50 value. For instance, in the above image, the L50 would be 3, because it would be the third largest contig that gives the N50 value. L50 is useful for contextualizing the N50, because it gives an idea of how many contigs make up that half of your assembly. 
 
-??? note "N50 or NG50 ?"
+??? clipboard-question "N50 or NG50 ?"
         
     Another measurement you might see is NG50. This is the N50 value, just calculated using a given genome size instead of the sum of the contigs.
 
@@ -269,7 +269,7 @@ Use your text editor of choice to make a slurm script (`run_merqury.sl`) to run 
     ```
 
 
-??? note "What's that export command doing there ?"
+??? clipboard-question "What's that export command doing there ?"
 
     Merqury as a package ships with a lot of scripts, especially for plotting. The `merqury.sh` command that we're using is calling those scripts, but we need to tell it where we installed Merqury. 
 
