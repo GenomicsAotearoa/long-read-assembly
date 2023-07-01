@@ -518,12 +518,13 @@ The first thing we would like to do is to find out how our assembled genome comp
       -o asm-to-chm13.mashmap.out
     ```
 
-<details>
-    <summary>
-        <strong>Take a look at the parameters for MashMap. What are -f, --pi, and -s?</strong>
-    </summary>    
-    --pi is the percent identity. The default value is 85 which means that mappings with 85% or more identity should be reported. -s is the segment length. MasMap will not report segments under this value. -f is the filter mode. After MashMap identifies mappings, it can go through and filter to ensure only the best mapping is reported (if we pass "map") or in our case that all good mappings are reported (if we pass "one-to-one").
-</details>
+!!! filter "Take a look at the parameters for MashMap. What are `-f`, `--pi`, and `-s` ?"  
+
+    `--pi` is the percent identity. The default value is 85 which means that mappings with 85% or more identity should be reported. 
+    
+    `-s` is the segment length. MasMap will not report segments under this value. 
+    
+    `-f` is the filter mode. After MashMap identifies mappings, it can go through and filter to ensure only the best mapping is reported (if we pass "map") or in our case that all good mappings are reported (if we pass "one-to-one").
 
 
 <details>
