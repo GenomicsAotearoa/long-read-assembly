@@ -7,8 +7,10 @@
 </center>
 
 
-!!! "Attribution notice"
+!!! copyright "Attribution notice"
 
+    - Material used to prepare for the workshop was extracted from https://github.com/human-pangenomics/hprc-tutorials/tree/GA-workshop
+ 
 
 !!! book-atlas "References"
 
