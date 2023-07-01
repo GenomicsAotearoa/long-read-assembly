@@ -431,39 +431,46 @@ You can also explore the files in Liftoff's intermediate directory:
 Before we visualize the annotations in IGV, it is best if we sort and index the
 output GFF file:
 
-```bash
-module load IGV/2.16.1
-igvtools sort asm.hap1.annotations.gff asm.hap1.annotations.sorted.gff
-igvtools index asm.hap1.annotations.sorted.gff
-```
+!!! terminal "code"
+
+    ```bash
+    module load IGV/2.16.1
+    igvtools sort asm.hap1.annotations.gff asm.hap1.annotations.sorted.gff
+    igvtools index asm.hap1.annotations.sorted.gff
+    ```
 These operations are small enough that you should not need to submit a job for
 them.
 
-To open IGV and view the annotations, do the following:
-1. Open IGV
-    1. Open a Virtual Desktop session from your Jupyter Lab Launcher
-    2. Open the Terminal Emulator application
-    3. Load the IGV module and launch IGV
-       ```shell
-       module load IGV/2.9.4
-       igv.sh
-       ```
-2. Load the CHM13-T2T genome (instead of the default hg19): Genome > Load Genome from File... > `chm13.fa`
-3. Load the GFF file: File > Load from File... > `asm.hap1.annotations.sorted.gff`
-4. Explore
+!!! jupyter "To open IGV and view the annotations, do the following:"
 
-**What do you observe? Do you have any questions?**
+    1. Open IGV
+        1. Open a Virtual Desktop session from your Jupyter Lab Launcher
+        2. Open the Terminal Emulator application
+        3. Load the IGV module and launch IGV
+           ```bash
+           module load IGV/2.16.1
+           igv.sh
+           ```
+    2. Load the CHM13-T2T genome (instead of the default hg19): Genome > Load Genome from File... > `chm13.fa`
+    3. Load the GFF file: File > Load from File... > `asm.hap1.annotations.sorted.gff`
+    4. Explore
+
+!!! question "What do you observe? Do you have any questions?"
 
 <!-- END OF ANNOTATION SECTION -->
 
-# Long Read/Contig Mapping
+## Long Read/Contig Mapping
 We are ready to map long reads and assembly contigs to genomes. For this we need a set of tools that are differenct from what you might be used to using for Illumina data. You might be asking "what's the matter with bwa-mem for long reads?" It is [slow](https://lh3.github.io/2018/04/02/minimap2-and-the-future-of-bwa#:~:text=For%20long%20reads%2C%20minimap2%20is,a%20typical%20long%2Dread%20mapper.) and probably inaccurate for this application. So let's jump in to long read mappers and see what we can do with them.
 
-## Mashmap: Super Fast (Approximate) Mapping
+### Mashmap: Super Fast (Approximate) Mapping
+
 The first thing we would like to do is to find out how our assembled genome compares to the T2T genome CHM13. If we can map our assembly quickly onto CHM13, we can answer questions like:
-* Which contigs correspond to chr1?
-* How many of my contigs are T2T assembled?
-* Are we seeing any large duplications or missing regions?
+
+!!! rectangle-list ""
+
+    * Which contigs correspond to chr1?
+    * How many of my contigs are T2T assembled?
+    * Are we seeing any large duplications or missing regions?
 
 [MashMap](https://genomeinformatics.github.io/mashmap/) is a super fast mapper that is commonly used for these kinds of questions. MashMap doesn't seed and extend, it takes sequences and plays tricks with kmers. Loosely speaking if you take a sequence and get all of its kmers of a certain size and then sort those kmers, you can do a lot with just the "smallest" kmer (this is called a minimizer). MashMap uses a set of those smallest kmers to say: this sequence here and my query sequence share a lot of smallest kmers. The output of MashMap is an approximation of read position and identity. Let's actually use it now to align our asembly to CHM13 and we will use the results to map our contigs onto chromosomes and to try and find some T2T chromosomes in our assemblies.
 
