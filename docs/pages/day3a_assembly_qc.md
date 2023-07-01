@@ -410,4 +410,6 @@ Now that we have our files, we're ready to go. Make a script with the following 
     k8 /opt/nesi/CS400_centos7_bdw/minimap2/2.24-GCC-11.3.0/bin/paftools.js asmgene -a ref.cdna.paf asm.hap2.cdna.paf > verkko.haplotype2.asmgene.tsv
     ```
 
-Another popular tool for checking genome completeness using gene content is the software Benchmarking Universal Single-Copy Orthologs (BUSCO). This approach uses a set of evolutionarily conserved genes that are expected to be present at single copy for a given taxa, so one could check their genome to see if, for instance, it has all the genes predicted to be necessary for *Aves* or *Vertebrata*. This approach is useful if your *de novo* genome assembly is for a species that does not have a reference genome yet. And it's even faster now with the recently developed tool *minibusco*!
+!!! tip "Tip"
+
+    Another popular tool for checking genome completeness using gene content is the software Benchmarking Universal Single-Copy Orthologs (BUSCO). This approach uses a set of evolutionarily conserved genes that are expected to be present at single copy for a given taxa, so one could check their genome to see if, for instance, it has all the genes predicted to be necessary for *Aves* or *Vertebrata*. This approach is useful if your *de novo* genome assembly is for a species that does not have a reference genome yet. And it's even faster now with the recently developed tool *minibusco*!
