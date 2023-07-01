@@ -388,7 +388,7 @@ First create a shell script `liftoff.sh` with the following content:
     location of the GFF file with the output annotations for the target. The two
     positional parameters at the end are respectively the target assembly (our
     HG002 assembly) and the reference assembly (T2T-CHM13). Run the following
-    
+
     command to see all the options described in more detail:
 
     `liftoff -h`
@@ -408,15 +408,20 @@ First create a shell script `liftoff.sh` with the following content:
     ~36 GB, but it failed when I gave it only 36 GB previously.
 -->
 Then submit it as a job with `sbatch`:
-```
-sbatch -J liftoff -N1 -n1 -c8 --mem=48G -t 0-02:00 -A nesi02659 -o %x.%j.log liftoff.sh
-```
+
+!!! terminal "code"
+
+    ```bash
+    sbatch -J liftoff -N1 -n1 -c8 --mem=48G -t 0-02:00 -A nesi02659 -o %x.%j.log liftoff.sh
+    ```
 
 **Look at the output GFF3 file**
 
-```shell
-less -S asm.hap1.annotations.gff
-```
+!!! terminal "code"
+
+    ```shell
+    less -S asm.hap1.annotations.gff
+    ```
 
 You can also explore the files in Liftoff's intermediate directory:
 `intermediate_files`.
@@ -425,8 +430,9 @@ You can also explore the files in Liftoff's intermediate directory:
 
 Before we visualize the annotations in IGV, it is best if we sort and index the
 output GFF file:
-```
-module load IGV/2.9.4
+
+```bash
+module load IGV/2.16.1
 igvtools sort asm.hap1.annotations.gff asm.hap1.annotations.sorted.gff
 igvtools index asm.hap1.annotations.sorted.gff
 ```
