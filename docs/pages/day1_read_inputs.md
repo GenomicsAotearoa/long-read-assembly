@@ -204,19 +204,25 @@ Notice that we are writing output to `/dev/null`. We are working on a subset of 
 ## ONT Read Length Filtering
 Hifiasm is often run with ONT data filtered to be over 50kb in length, so let's filter that data now to see how much of the data remains. 
 
-```
-seqkit seq \
-    -m 50000 \
-    LRA_ONTUL_1k_reads.fq.gz \
-    | pigz > LRA_ONTUL_1k_reads.50kb.fq.gz &
-```
-Now we can quickly check how many reads are retained.
-```
-zcat LRA_ONTUL_1k_reads.50kb.fq.gz | wc -l
-```
+!!! terminal "code"
 
-??? question "Why do you think an assembler might want to include only reads over 50kb?"
-]
+    ```bash
+    module load SeqKit/2.4.0
+    seqkit seq \
+        -m 50000 \
+        LRA_ONTUL_1k_reads.fq.gz \
+        | pigz > LRA_ONTUL_1k_reads.50kb.fq.gz &
+    ```
+Now we can quickly check how many reads are retained.
+
+!!! terminal "code"
+
+    ```bash
+    zcat LRA_ONTUL_1k_reads.50kb.fq.gz | wc -l
+    ```
+
+??? question "Why do you think an assembler might want to include only reads over 50kb ?"
+
 # Phasing Data: Trio DBs and Hi-C
 Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
 
@@ -241,31 +247,40 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
 #### Let's start by just familiarizing ourselves with Meryl's functionality...
 
 **Create a directory**
-```
-cd ~/lra
-mkdir day1_data/meryl
-cd day1_data/meryl
-```
+
+!!! terminal "code"
+
+    ```bash
+    cd ~/lra
+    mkdir day1_data/meryl
+    cd day1_data/meryl
+    ```
 
 **Now create a small file to work with**
-```
-zcat /nesi/nobackup/nesi02659/LRA/resources/ilmn/pat/HG003_HiSeq30x_subsampled_R1.fastq.gz \
-    | head -n 20000000 \
-    | pigz > HG003_HiSeq30x_20M_reads_R1.fastq.gz &
-```    
+
+!!! terminal "code"
+
+    ```bash
+    zcat /nesi/nobackup/nesi02659/LRA/resources/ilmn/pat/HG003_HiSeq30x_subsampled_R1.fastq.gz \
+        | head -n 20000000 \
+        | pigz > HG003_HiSeq30x_20M_reads_R1.fastq.gz &
+    ```    
 
 **Create a kmer DB from an Illumina read set**
-```
-module load Merqury/1.3-Miniconda3
 
-meryl count \
-    compress \
-    k=30 \
-    threads=4 \
-    memory=8 \
-    HG003_HiSeq30x_20M_reads_R1.fastq.gz \
-    output paternal_20M_compress.k30.meryl
-```
+!!! terminal "code"
+
+    ```bash
+    module load Merqury/1.3-Miniconda3
+    
+    meryl count \
+        compress \
+        k=30 \
+        threads=4 \
+        memory=8 \
+        HG003_HiSeq30x_20M_reads_R1.fastq.gz \
+        output paternal_20M_compress.k30.meryl
+    ```
 
 This should be pretty fast because we are just using a small amount of data to get a feel for the program. The output of Meryl is a folder that contains 64 index files and 64 data files. If you try and look at the data files you'll see that they aren't human readable. In order to look at the actual kmers, you have to use meryl to print them.
 
