@@ -288,24 +288,24 @@ your assembly.
 
 ### Annotation with Liftoff
 
-According to the
-[Liftoff GitHub Repository](https://github.com/agshumate/Liftoff):
-> Liftoff is a tool that accurately maps annotations in GFF or GTF between
-> assemblies of the same, or closely-related species. Unlike current coordinate
-> lift-over tools which require a pre-generated "chain" file as input, Liftoff
-> is a standalone tool that takes two genome assemblies and a reference
-> annotation as input and outputs an annotation of the target genome. Liftoff
-> uses Minimap2 (Li, 2018; doi:
-> [10.1093/bioinformatics/bty191](https://doi.org/10.1093/bioinformatics/bty191))
-> to align the gene sequences from a reference genome to the target genome.
-> Rather than aligning whole genomes, aligning only the gene sequences allows
-> genes to be lifted over even if there are many structural differences between
-> the two genomes. For each gene, Liftoff finds the alignments of the exons
-> that maximize sequence identity while preserving the transcript and gene
-> structure. If two genes incorrectly map to overlapping loci, Liftoff
-> determines which gene is most-likely mis-mapped, and attempts to re-map it.
-> Liftoff can also find additional gene copies present in the target assembly
-> that are not annotated in the reference.
+!!! quote "According to the [Liftoff GitHub Repository](https://github.com/agshumate/Liftoff):"
+
+    Liftoff is a tool that accurately maps annotations in GFF or GTF between
+    assemblies of the same, or closely-related species. Unlike current coordinate
+    lift-over tools which require a pre-generated "chain" file as input, Liftoff
+    is a standalone tool that takes two genome assemblies and a reference
+    annotation as input and outputs an annotation of the target genome. Liftoff
+    uses Minimap2 (Li, 2018; doi:
+    [10.1093/bioinformatics/bty191](https://doi.org/10.1093/bioinformatics/bty191))
+    to align the gene sequences from a reference genome to the target genome.
+    Rather than aligning whole genomes, aligning only the gene sequences allows
+    genes to be lifted over even if there are many structural differences between
+    the two genomes. For each gene, Liftoff finds the alignments of the exons
+    that maximize sequence identity while preserving the transcript and gene
+    structure. If two genes incorrectly map to overlapping loci, Liftoff
+    determines which gene is most-likely mis-mapped, and attempts to re-map it.
+    Liftoff can also find additional gene copies present in the target assembly
+    that are not annotated in the reference.
 
 We will use Liftoff (doi:
 [10.1093/bioinformatics/btaa1016](https://doi.org/10.1093/bioinformatics/btaa1016))
