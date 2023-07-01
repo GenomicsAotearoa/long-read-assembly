@@ -51,16 +51,50 @@ Let's get some basic statistics for an assembly using a tool called **gfastats**
     ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.*.fasta .
     ls -la          # you should see a bunch of "files" that are actually symlinks pointing to their actual content
     ## ready to roll!
+    module purge
     module load gfastats
-    srun -c 8 gfastats assembly.haplotype1.fasta
+    gfastats assembly.haplotype1.fasta
     ```
+    
+    - Shouldn't take about 10 seconds 
 
-<details>
-    <summary>
-        <strong>DROPDOWN NOTE: srun?</strong>
-    </summary>    
-    Previously, we submitted a script to the slurm cluster using the sbatch command and a `.sl` script file. You can also submit to the cluster using the `srun` command, which runs the given command as if it were a slurm script submission using the parameters fed to it, which in this case is `-c 8` as we are asking for 8 cores to help gfastats run faster. 
-</details>
+    ??? success "Output"
+
+        ```bash
+        +++Assembly summary+++: 
+        # scaffolds: 81
+        Total scaffold length: 3025610697
+        Average scaffold length: 37353218.48
+        Scaffold N50: 112270693
+        Scaffold auN: 120344050.34
+        Scaffold L50: 10
+        Largest scaffold: 242261106
+        Smallest scaffold: 7980
+        # contigs: 95
+        Total contig length: 3024505387
+        Average contig length: 31836898.81
+        Contig N50: 101137168
+        Contig auN: 98109753.40
+        Contig L50: 12
+        Largest contig: 201096255
+        Smallest contig: 7980
+        # gaps in scaffolds: 14
+        Total gap length in scaffolds: 1105310
+        Average gap length in scaffolds: 78950.71
+        Gap N50 in scaffolds: 222184
+        Gap auN in scaffolds: 267123.76
+        Gap L50 in scaffolds: 2
+        Largest gap in scaffolds: 425849
+        Smallest gap in scaffolds: 1000
+        Base composition (A:C:G:T): 893171444:618413603:615928136:896992204
+        GC content %: 40.81
+        # soft-masked bases: 0
+        # segments: 95
+        Total segment length: 3024505387
+        Average segment length: 31836898.81
+        # gaps: 14
+        # paths: 81
+        ```
 
 
 **Run gfastats on a GFA**
