@@ -221,8 +221,9 @@ We see a lot of kmers missing and the histogram (frequency column) has a ton of 
     #SBATCH --cpus-per-task 32
     #SBATCH --time          12:00:00
     #SBATCH --mem           96G
-    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --error         slurmlogs/%x.%j.err
     
     
     module purge
