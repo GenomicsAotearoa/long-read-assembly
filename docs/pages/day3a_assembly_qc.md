@@ -1,11 +1,12 @@
 # 5. Day 3a: Assembly Quality Control (QC)
+
 Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": contiguity, correctness, and completeness.
 
 !!! question "Food for thought"
-```
-- What do you think a 'good' de novo assembly looks like?
-- What are some qualities of an assembly that you might be interested in measuring?
-```
+
+    - What do you think a 'good' de novo assembly looks like?
+    - What are some qualities of an assembly that you might be interested in measuring?
+
 
 ## Contiguity (assembly statistics using gfastats)
 Recall that the sequences in our assembly are referred to as *contigs*, 
@@ -23,12 +24,10 @@ The N50 can be interpreted as such: given an N50 value, 50% of the sequence in t
 
 Another statistic that is often reported with N50 is the *L50*, which is the rank of the contig that gives the N50 value. For instance, in the above image, the L50 would be 3, because it would be the third largest contig that gives the N50 value. L50 is useful for contextualizing the N50, because it gives an idea of how many contigs make up that half of your assembly. 
 
-<details>
-    <summary>
-        <strong>DROPDOWN NOTE: N50 or NG50?</strong>
-    </summary>    
+??? note "N50 or NG50 ?"
+        
     Another measurement you might see is NG50. This is the N50 value, just calculated using a given genome size instead of the sum of the contigs.
-</details>
+
 
 Given how the N50 value can be so affected by addition or removal of small contigs, another metric has come into use: <a href="https://lh3.github.io/2020/04/08/a-new-metric-on-assembly-contiguity">the area under the (N50) curve</a>, or the auN value. Though N50 is measured at the 50% mark, we could make similar values for any value of x, for instance N30 would be the value where 30% of the sequence in that assembly is of that length or longer. These metrics are thus called Nx statistics, and one could plot them against contig length to get an *Nx curve*, which gives a more nuanced view of the actual contig size distribution of your assembly. 
 
