@@ -127,7 +127,7 @@ the satellites on chrY.
         -o hg2hap2-x-chm13.ssv
     ```
     ??? clipboard-question "What do these parameters do ?"
-    
+
         You can run `mashmap -h` to find out. Here are the options we used:
 
         ```bash
@@ -230,50 +230,53 @@ ln -s ../day3b_annotation/mashmap/asm-to-chm13.mashmap.out hg2hap2-x-chm13.ssv
 
 **View the output file**
 
-```
-less -S hg2hap2-x-chm13.ssv
-```
+!!! terminal "code"
+
+    ```bash
+    less -S hg2hap2-x-chm13.ssv
+    ```
 
 There is more information present than we need, and we can simplify things by
 looking at long alignments only.
 
 **Subset the alignments**
 
-```
-awk 'BEGIN{FS=" "; OFS=FS}{if($6 == "chrY" && ($4-$3) >= 1000000){print $0}}' \
-    < hg2hap2-x-chm13.ssv \
-    > hg2hap2-x-chm13.gt1m-chrY.ssv
-```
+!!! terminal "code"
 
-<details>
-    <summary>
-        <strong>What is the <code>awk</code> command doing?</strong>
-    </summary>
-    This <code>awk</code> command is keeping only alignments (remember, one
+    ```bash
+    awk 'BEGIN{FS=" "; OFS=FS}{if($6 == "chrY" && ($4-$3) >= 1000000){print $0}}' \
+        < hg2hap2-x-chm13.ssv \
+        > hg2hap2-x-chm13.gt1m-chrY.ssv
+    ```
+
+??? clipboard-question "What is the `awk` command doing ?"
+    
+    This `awk` command is keeping only alignments (remember, one
     alignment is on each line of the file) that map to chrY; the sixth column
     is the "reference" or "target" sequence name. The third and fourth columns
     are respectively the start and stop positions of the aligned region on the
     "query" sequence (i.e., a contig from our assembly); thus, we&rsquo;re
     keeping only alignments that are 1 Mbp or longer. This also has the
     consequence of ignoring contigs that are shorter than 1 Mbp.
-</details>
+
 
 **View the output file**
 
 Now that we&rsquo;ve culled the alignments, viewing them should be much easier:
 
-```
-less -S hg2hap2-x-chm13.gt1m-chrY.ssv
-```
+!!! terminal "code"
+
+    ```bash
+    less -S hg2hap2-x-chm13.gt1m-chrY.ssv
+    ```
 
 **Which contigs belong to chrY?**
 
-<details>
-    <summary>
-        <strong>Click here to reveal the answer</strong>
-    </summary>
+??? success "Answer"
+    
+    ```bash
     pat-0000724, pat-0000725,  and pat-0000727 are probably chrY.
-</details>
+    ```
 
 Others may be as well, but it is difficult to tell without a more refined
 investigation, and this is sufficient for our purposes.
