@@ -1,4 +1,4 @@
-# Long Read Assembly Workshop
+# 1. Introduction - Long Read Assembly Workshop
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/intro/HG002_bandage.png?raw=true" width="250"/>

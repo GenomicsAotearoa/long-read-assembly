@@ -1,4 +1,4 @@
-# Preamble: How Are Assemblies Created?
+# 2. Preamble: How Are Assemblies Created?
 
 We are about to start learning about the sequencing data types that are used in assembly, but it can be a bit hard to appreciate what these data types are without knowing how we will use them. In this section we will go over the rough outline of Verkko's approach to assembly. Hopefully this will help put the data types in context.
 

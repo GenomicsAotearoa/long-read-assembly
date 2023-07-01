@@ -1,4 +1,4 @@
-# Day 2: Assembly
+# 4. Day 2: Assembly
 
 Here is a rundown of what we are doing today:
 * Run Hifiasm with test data (HiFi only)
