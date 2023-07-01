@@ -287,13 +287,16 @@ Anything with a long, high-identity alignment is a pretty good candidate,
 especially if the contig was determined to be paternal using trio markers (as
 these were). One thing that may help is seeing what percentage of the contig is
 covered by each alignment:
-```
-awk 'BEGIN{FS=" "; OFS="\t"; print "Contig", "Length", "Percent Identity", "Percent Aligned"}{print $1, $2, $10 "%", ($4-$3)/$2*100 "%"}' \
-    hg2hap2-x-chm13.gt1m-chrY.ssv \
-    | column -ts $'\t' \
-    > hg2hap2-x-chm13.gt1m-chrY.annotated.txt
-less -S hg2hap2-x-chm13.gt1m-chrY.annotated.txt
-```
+
+!!! terminal "cdoe"
+
+    ```bash
+    awk 'BEGIN{FS=" "; OFS="\t"; print "Contig", "Length", "Percent Identity", "Percent Aligned"}{print $1, $2, $10 "%", ($4-$3)/$2*100 "%"}' \
+        hg2hap2-x-chm13.gt1m-chrY.ssv \
+        | column -ts $'\t' \
+        > hg2hap2-x-chm13.gt1m-chrY.annotated.txt
+    less -S hg2hap2-x-chm13.gt1m-chrY.annotated.txt
+    ```
 <!-- this was wrong- it was based on only --pi 95, which is why we saw only a small amount:
 The astute observer will wonder why pat-0000724 should be included when
 it has only 1% of the contig is aligned. Note that only 1% of the
@@ -375,13 +378,15 @@ files for our contigs of interest.
 
 **Create and index subset fastas**
 
-```
-for CTG in pat-000072{4,5,7}
-do
-    samtools faidx ${CTG} hg002.hap2.fa > hg002.hap2.${CTG}.fa
-    samtools faidx hg002.hap2.${CTG}.fa
-done
-```
+!!! terminal "code"
+
+    ```bash
+    for CTG in pat-000072{4,5,7}
+    do
+        samtools faidx ${CTG} hg002.hap2.fa > hg002.hap2.${CTG}.fa
+        samtools faidx hg002.hap2.${CTG}.fa
+    done
+    ```
 
 **Run ModDotPlot**
 
