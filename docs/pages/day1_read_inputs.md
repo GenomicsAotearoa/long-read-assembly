@@ -393,26 +393,19 @@ Hi-C is a proximity ligation method. It takes intact chromatin and locks it in p
 
 Given that Hi-C ligates molecules that are proximate (nearby) to each other, it can be used for spatial genomics applications. In assembly, we take advantage of the fact that most nearby molecules are on the same strand (or haplotype) of DNA. 
 
-<details>
-    <summary>
-        <strong>What are the advantage of trio phasing over Hi-C?</strong>
-    </summary>
+??? question "What are the advantage of trio phasing over Hi-C ?"
+
     Trio data is great for phasing because you can assign haplotypes to maternal and paternal bins. This has the added benefit of assigning all maternal contigs to the same assembly. Hi-C ensure that an entire chromosome is phased into one haplotype, but across chromosomes the assignment is random. 
-</details>
 
-<details>
-    <summary>
-        <strong>So why wouldn't you always use trio data for phasing?</strong>
-    </summary>
+
+??? question "So why wouldn't you always use trio data for phasing ?"
+
     It can be hard to get trio data. If a sample has already been collected it may be hard to go back and identify the parents and collect sample from them. In non-human samples, trios can also be difficult particularly with samples taken from the wild. 
-</details>
 
-<details>
-    <summary>
-        <strong>Are there any difficulties in preparing Hi-C data?</strong>
-    </summary>
+
+??? question "Are there any difficulties in preparing Hi-C data ?"
+
     Yes! As you can see in the cartoon above Hi-C relies on having intact chromatin as an input, which means it needs whole, non-lysed cells. This means that cell lines are an excellent input source, but frozen blood is less good, for instance.
-</details>
 
 
 ## Other Datatypes
