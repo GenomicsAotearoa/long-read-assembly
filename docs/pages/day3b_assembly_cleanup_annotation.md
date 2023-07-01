@@ -39,51 +39,135 @@ export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
 ```
 
 **Now we can run the test data**
-```
-python3 ./fcs.py \
-    screen genome \
-    --fasta ./fcsgx_test.fa.gz \
-    --out-dir ./gx_out \
-    --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/test-only  \
-    --tax-id 6973 
-```
+
+!!! terminal "code"
+
+    ```bash
+    python3 ./fcs.py \
+        screen genome \
+        --fasta ./fcsgx_test.fa.gz \
+        --out-dir ./gx_out \
+        --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/test-only  \
+        --tax-id 6973 
+    ```
+??? success "Output"
+
+    ```bash
+    tax-id    : 6973
+    fasta     : /sample-volume/fcsgx_test.fa.gz
+    size      : 8.55 MiB
+    split-fa  : True
+    BLAST-div : roaches
+    gx-div    : anml:insects
+    w/same-tax: True
+    bin-dir   : /app/bin
+    gx-db     : /app/db/gxdb/test-only/test-only.gxi
+    gx-ver    : Mar 10 2023 15:34:33; git:v0.4.0-3-g8096f62
+    output    : /output-volume//fcsgx_test.fa.6973.taxonomy.rpt
+    
+    --------------------------------------------------------------------
+    
+    
+        GX requires the database to be entirely in RAM to avoid thrashing.
+        Consider placing the database files in a non-swappable tmpfs or ramfs.
+        See https://github.com/ncbi/fcs/wiki/FCS-GX for details.
+        Will prefetch (vmtouch) the database pages to have the OS cache them in main memory.
+    
+    Prefetching /app/db/gxdb/test-only/test-only.gxs 99%...                                
+    Prefetched /app/db/gxdb/test-only/test-only.gxs in 0.243985s; 0.290255 GB/s. The file is 100% in RAM.
+    Prefetching /app/db/gxdb/test-only/test-only.gxi 99%...                         
+    Prefetched /app/db/gxdb/test-only/test-only.gxi in 7.24798s; 0.62397 GB/s. The file is 100% in RAM.
+    Collecting masking statistics...
+    Collected masking stats:  0.0295689 Gbp; 3.21688s; 9.19177 Mbp/s. Baseline: 1.0774
+    
+    28.2MiB 0:00:20 [1.34MiB/s] [1.34MiB/s] [==========================================================================] 102%            
+    Processed 714 queries, 29.1754Mbp in 14.3783s. (2.02913Mbp/s); num-jobs:294
+    
+    Warning: asserted div 'anml:insects' is not represented in the output!
+    
+    
+    
+    --------------------------------------------------------------------------------------------------
+    Warning: Asserted tax-div 'anml:insects' is well-represented in db, but absent from inferred-primary-divs.
+    This means that either asserted tax-div is incorrect, or the input is predominantly contamination.
+    Will trust the asserted div and treat inferred-primary-divs as contaminants.
+    --------------------------------------------------------------------------------------------------
+    
+    Asserted div               : anml:insects
+    Inferred primary-divs      : ['prok:CFB group bacteria']
+    Corrected primary-divs     : ['anml:insects']
+    Putative contaminant divs  : ['prok:CFB group bacteria']
+    Aggregate coverage         : 51%
+    Minimum contam. coverage   : 30%
+    
+    --------------------------------------------------------------------
+    
+    fcs_gx_report.txt contamination summary:
+    ----------------------------------------
+                                    seqs      bases
+                                   ----- ----------
+    TOTAL                            243   27170378
+    -----                          ----- ----------
+    prok:CFB group bacteria          243   27170378
+    
+    --------------------------------------------------------------------
+    
+    fcs_gx_report.txt action summary:
+    ---------------------------------
+                                    seqs      bases
+                                   ----- ----------
+    TOTAL                            243   27170378
+    -----                          ----- ----------
+    EXCLUDE                          214   25795430
+    REVIEW                            29    1374948
+    
+    --------------------------------------------------------------------
+    ```
 Now perform a full run
-```
-cp /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta .
-```
 
-```
-nano fcs_full.sl
-```
+!!! terminal "code"
+
+    ```bash
+    cp /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta .
+
+    nano fcs_full.sl
+    ```
 And paste in the following
-```
-#!/bin/bash -e
 
-#SBATCH --account       nesi02659
-#SBATCH --job-name      test_fcs
-#SBATCH --cpus-per-task 24
-#SBATCH --time          03:00:00
-#SBATCH --mem           460G
-#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
-#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+!!! terminal "code"
 
-## load modules
-module purge
-module load Python/3.7.3-gimkl-2018b
-module load Singularity/3.11.3
-export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
-
-python3 /home/juklucas/day3_qc/fcs/fcs.py \
-    screen genome \
-    --fasta ./assembly.haplotype1.fasta \
-    --out-dir ./asm_fcs_output \
-    --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
-    --tax-id 9606 
-```
+     ```bash
+     #!/bin/bash -e
+     
+     #SBATCH --account       nesi02659
+     #SBATCH --job-name      test_fcs
+     #SBATCH --cpus-per-task 24
+     #SBATCH --time          03:00:00
+     #SBATCH --mem           460G
+     #SBATCH --partition     milan
+     #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+     #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+     
+     ## load modules
+     module purge
+     module load Python/3.8.2-gimkl-2020a
+     module load Singularity/3.11.3
+     export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
+     
+     python3 /home/juklucas/day3_qc/fcs/fcs.py \
+         screen genome \
+         --fasta ./assembly.haplotype1.fasta \
+         --out-dir ./asm_fcs_output \
+         --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
+         --tax-id 9606 
+     ```
 Now execute the job
-```
-sbatch fcs_full.sl
-```
+
+!!! terminal "code"
+
+    ```bash
+    sbatch fcs_full.sl
+    ```
 
 ## Genome Annotation
 
