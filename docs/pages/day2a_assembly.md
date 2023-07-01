@@ -9,42 +9,57 @@ Here is a rundown of what we are doing today:
 
 At the end of the day you will hopefully have a feel for how to actually run each assembler, what data to give them, and when to choose one over the other.
 
-# Playing With Test Data
+# Exploring With Test Data
 Running assemblers is very computationally intensive and the output files can be big. Let's not jump straight into assembling human genomes. Instead we can use the test data that both assemblers provide as a way to both ensure that we know how to run the tool (which is easy) and we can start to get a feel for the process and outputs in real life. 
 
 ## Run Hifiasm With Test Data
 
 **Create A Directory**
-```
-cd ~
-mkdir -p day2_assembly/hifiasm_test
-cd day2_assembly/hifiasm_test
-```
 
-**Now download Hifiasm's test data**<br>
-```
-wget https://github.com/chhylp123/hifiasm/releases/download/v0.7/chr11-2M.fa.gz
-```
+!!! terminal "code"
+    
+    ```bash
+    cd ~/lra
+    mkdir -p day2_assembly/hifiasm_test
+    cd day2_assembly/hifiasm_test
+    ```
+
+**Now download Hifiasm's test data**
+
+!!! terminal "code"
+
+     ```bash
+     wget https://github.com/chhylp123/hifiasm/releases/download/v0.7/chr11-2M.fa.gz
+     ```
 This is HiFi data from about 2 million bases of chromosome 11. Hifi data is the only required data type for Hifiasm and Verkko. You can create assemblies from only Hifi data and you can add ONT and phasing later. Also notice that this data is in fasta format! Presumably this is to make the file smaller since this is test data.
 
-Now let's load the hifiasm module
-```
-module purge
-module load hifiasm
-```
+**Now let's load the hifiasm module**
+
+!!! terminal "code"
+
+    ```bash
+    module purge
+    module load hifiasm
+    ```
 And actually run the test data
-```
-hifiasm \
-    -o test \
-    -t4 \
-    -f0 \
-    chr11-2M.fa.gz \
-    2> test.log &
-```
+
+!!! terminal "code"
+
+    ```bash
+    hifiasm \
+        -o test \
+        -t4 \
+        -f0 \
+        chr11-2M.fa.gz \
+        2> test.log &
+    ```
 This should take around 3 minutes. Once the run is complete take a look at the top of the log:
-```
-head -n 60 test.log
-```
+
+!!! terminal "code"
+
+    ```bash
+    head -n 60 test.log
+    ```
 Now check the [hifiasm log interpretation](https://hifiasm.readthedocs.io/en/latest/interpreting-output.html#hifiasm-log-interpretation) section of the documentation to give that some context.
 
 <details>
