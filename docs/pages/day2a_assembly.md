@@ -249,21 +249,27 @@ Take a look at the shell script that was created for your run
     ```bash
     cat assembly/snakemake.sh
     ```
-    
+
 It is just a call to snakemake!!! You can think of Verkko as a tool, but also as a pipeline because it is. This has some advantages. One is that if you know what Verkko is doing (which is somewhat achievable given that the snakemake rules guide you through Verkko's logic), you can add to it, or even swap out how Verkko performs a given step for how you'd like to do it. It also means that you can restart a run at any given step (if you made a mistake or if the run failed). Lastly, and maybe most importantly, snakemake supports Slurm as a backend. So if you have access to an HPC you could (and probably should) run verkko and allow it to launch Slurm jobs for you. (This is in contrast to what we just did which was to run a slurm job and just allow all jobs to run on the allocated resources that we requested for the entire run.)
 
 **Now take a look at the jobs that were run**
 
 You can view the stderr from the run in your slurm logs, or in snakemake's logs. Let's take a look at the top of the log:
-```
-head -n 35 assembly/.snakemake/log/*.log
-```
+
+!!! terminal "code"
+
+    ```bash
+    head -n 35 assembly/.snakemake/log/*.log
+    ```
 This shows a list of snakemake jobs that will get executed for this dataset. There are a few things to note. The first is that for larger datasets some jobs will get executed many times (hence the count column). This dataset is small, so most jobs have count=1. The second thing to note is that these jobs are sorted alphabetically, so we can get a feel for scale, but it's a bit hard to figure out what Verkko is really doing.
 
 Open the logs and scroll through them
-```
-less asm/.snakemake/log/*.log
-```
+
+!!! termial "code"
+
+    ```bash
+    less asm/.snakemake/log/*.log
+    ```
 You can see all of the snakemake jobs, in order, that were run. Even for this tiny dataset there are many. Since there are a lot of jobs, there are a lot of outputs, and these are organized (roughly) by snakemake rule. Take a look at the output folder in order to familiarize yourself with the layout.
 ```
 ls -lh assembly
