@@ -10,7 +10,7 @@
 !!! "Attribution notice"
 
 
-!!! quote-right "References"
+!!! book-atlas "References"
 
     - Lorig-Roach, Ryan, et al. "Phased nanopore assembly with Shasta and modular graph phasing with GFAse." *bioRxiv* (2023): 2023-02.
 
