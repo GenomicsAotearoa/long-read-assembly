@@ -518,7 +518,7 @@ The first thing we would like to do is to find out how our assembled genome comp
       -o asm-to-chm13.mashmap.out
     ```
 
-!!! filter "Take a look at the parameters for MashMap. What are `-f`, `--pi`, and `-s` ?"  
+??? filter "Take a look at the parameters for MashMap. What are `-f`, `--pi`, and `-s` ?"  
 
     `--pi` is the percent identity. The default value is 85 which means that mappings with 85% or more identity should be reported. 
     
@@ -527,28 +527,32 @@ The first thing we would like to do is to find out how our assembled genome comp
     `-f` is the filter mode. After MashMap identifies mappings, it can go through and filter to ensure only the best mapping is reported (if we pass "map") or in our case that all good mappings are reported (if we pass "one-to-one").
 
 
-<details>
-    <summary>
-        <strong>Why did we use the values that we used for --pi and -s?</strong>
-    </summary>    
-    Since we are mapping a human assembly against another human assembly we expect the sequences to be very similar. This is why we overwrote the default value of 85 for --pi. If we were to use the default value for -s (5000) then we would likely see a lot of hits from homologous regions. This may be interesting, but if we want to know how good our assembly is extra hits will just confuse things.
-</details>
+??? filter "Why did we use the values that we used for `--pi` and `-s` ?"
+    
+    Since we are mapping a human assembly against another human assembly we expect the sequences to be very similar. This is why we overwrote the default value of 85 for `--pi`. If we were to use the default value for `-s` (5000) then we would likely see a lot of hits from homologous regions. This may be interesting, but if we want to know how good our assembly is extra hits will just confuse things.
+
 
 **Once the mapping is done, let's take a look at the output.**
-```
-head asm-to-chm13.mashmap.out
-```
-Note that the output is similar to the Paired Alignment Format, or [PAF](https://github.com/lh3/miniasm/blob/master/PAF.md), and has the following columns:
-* query name
-* length
-* 0-based start
-* end
-* strand
-* target name
-* length
-* start
-* end 
-* mapping nucleotide identity (estimate)
+
+!!! terminal "code"
+
+    ```bash
+    head asm-to-chm13.mashmap.out
+    ```
+
+
+!!! rectangle-list "Note that the output is similar to the Paired Alignment Format, or [PAF](https://github.com/lh3/miniasm/blob/master/PAF.md), and has the following columns:"
+
+    * query name
+    * length
+    * 0-based start
+    * end
+    * strand
+    * target name
+    * length
+    * start
+    * end 
+    * mapping nucleotide identity (estimate)
 
 
 The most recent versions of MashMap actually output PAF by defalt. But not the version we are using here. 
@@ -559,24 +563,21 @@ generateDotPlot png medium asm-to-chm13.mashmap.out
 ```
 And take a look at it (you can click on it in your file explorer).
 
-<details>
-    <summary>
-        <strong>Does anything stick out to you?</strong>
-    </summary>    
+??? clipboard-question "Does anything stick out to you ?"
+
     There is no sequence in the assembly mapping to chrY. This makes sense as this is the maternal haplotype's assembly. 
-</details>
 
 
-### Exercise: Can We Find Any Contigs/Scaffolds That Are T2T?
+!!! question "Exercise: Can We Find Any Contigs/Scaffolds That Are T2T?"
 
-Look through the dotplot to try and identify a contig or two that are assembled T2T. Once you've done that we will have to bring in another tool to make sure that there are actually telomeric repeats on the 5' and 3' ends. (Some people care about the presence of telomeric repeats when defining what T2T means.)
-
-Run the `telo` tool from seqtk to identify (human) telomeric ends:
-```
-seqtk telo assembly.haplotype1.fasta > telos.bed
-```
-
-Now look through the bed file and find the contig you are interested in to see if there are telomeres on both ends. 
+    Look through the dotplot to try and identify a contig or two that are assembled T2T. Once you've done that we will have to bring in another tool to make sure that there are actually telomeric repeats on the 5' and 3' ends. (Some people care about the presence of telomeric repeats when defining what T2T means.)
+    
+    Run the `telo` tool from seqtk to identify (human) telomeric ends:
+    ```
+    seqtk telo assembly.haplotype1.fasta > telos.bed
+    ```
+    
+    Now look through the bed file and find the contig you are interested in to see if there are telomeres on both ends. 
 
 <details>
     <summary>
