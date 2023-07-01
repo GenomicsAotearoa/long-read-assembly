@@ -62,12 +62,10 @@ This should take around 3 minutes. Once the run is complete take a look at the t
     ```
 Now check the [hifiasm log interpretation](https://hifiasm.readthedocs.io/en/latest/interpreting-output.html#hifiasm-log-interpretation) section of the documentation to give that some context.
 
-<details>
-    <summary>
-        <strong>What does the histogram represent, and how many peaks do you expect?</strong>
-    </summary>    
+??? question "What does the histogram represent, and how many peaks do you expect ?"
+        
     The histogram represents the kmer count in the hifi reads. For humans we expect to see a large peak somewhere around our expected sequencing coverage: this represents homozygous kmers. The smaller peak represents heterozygous kmers.
-</details>
+\
 
 Now `ls` the directory to see what outputs are present. What do you see? No fasta files, but there are a lot of files that  end in `gfa`. If you haven't seen these before, then we get to introduce you to another file format! 
 
