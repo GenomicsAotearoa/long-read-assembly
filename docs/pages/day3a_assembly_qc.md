@@ -176,46 +176,46 @@ Now that we know how to get the statistics for one assembly, let's get them for 
         3. the `-t` flag in gfastats specifies that the output should be tab-delimited, which makes it more computer-parseable
         4. the `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
         
-Your output should look something like this:
-
-??? success "Output"
-
-    ```bash
-    # contigs       68252   2312
-    Total contig length     3858601893      4179275425
-    Average contig length   56534.63        1807645.08
-    Contig N50      223090  10829035
-    Contig auN      638121.24       11407399.64
-    Contig L50      4232    134
-    Largest contig  23667669        38686347
-    Smallest contig 1608    1987
-    # gaps in scaffolds     0       0
-    Total gap length in scaffolds   0       0
-    Average gap length in scaffolds 0.00    0.00
-    Gap N50 in scaffolds    0       0
-    Gap auN in scaffolds    0.00    0.00
-    Gap L50 in scaffolds    0       0
-    Largest gap in scaffolds        0       0
-    Smallest gap in scaffolds       0       0
-    Base composition (A:C:G:T)      1089358958:840831652:838233402:1090177881       1180405407:909914907:908088683:1180866428
-    GC content %    43.51   43.50
-    # soft-masked bases     0       0
-    # segments      68252   2312
-    Total segment length    3858601893      4179275425
-    Average segment length  56534.63        1807645.08
-    # gaps  0       0
-    # paths 68252   2312
-    # edges 181274  5790
-    Average degree  2.66    2.50
-    # connected components  45      47
-    Largest connected component length      496518810       530557693
-    # dead ends     684     562
-    # disconnected components       18      184
-    Total length disconnected components    7267912 60717682
-    # separated components  63      231
-    # bubbles       4312    8
-    # circular segments     31      11
-    ```
+    Your output should look something like this:
+    
+    ??? success "Output"
+    
+        ```bash
+        # contigs       68252   2312
+        Total contig length     3858601893      4179275425
+        Average contig length   56534.63        1807645.08
+        Contig N50      223090  10829035
+        Contig auN      638121.24       11407399.64
+        Contig L50      4232    134
+        Largest contig  23667669        38686347
+        Smallest contig 1608    1987
+        # gaps in scaffolds     0       0
+        Total gap length in scaffolds   0       0
+        Average gap length in scaffolds 0.00    0.00
+        Gap N50 in scaffolds    0       0
+        Gap auN in scaffolds    0.00    0.00
+        Gap L50 in scaffolds    0       0
+        Largest gap in scaffolds        0       0
+        Smallest gap in scaffolds       0       0
+        Base composition (A:C:G:T)      1089358958:840831652:838233402:1090177881       1180405407:909914907:908088683:1180866428
+        GC content %    43.51   43.50
+        # soft-masked bases     0       0
+        # segments      68252   2312
+        Total segment length    3858601893      4179275425
+        Average segment length  56534.63        1807645.08
+        # gaps  0       0
+        # paths 68252   2312
+        # edges 181274  5790
+        Average degree  2.66    2.50
+        # connected components  45      47
+        Largest connected component length      496518810       530557693
+        # dead ends     684     562
+        # disconnected components       18      184
+        Total length disconnected components    7267912 60717682
+        # separated components  63      231
+        # bubbles       4312    8
+        # circular segments     31      11
+        ```
 
 !!! info "Output explained"
 
