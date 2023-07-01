@@ -126,42 +126,62 @@ the satellites on chrY.
         -q hg002.hap2.fa \
         -o hg2hap2-x-chm13.ssv
     ```
+    ??? clipboard-question "What do these parameters do ?"
+    
+        You can run `mashmap -h` to find out. Here are the options we used:
 
-<details>
-    <summary>
-        <strong>What do these parameters do?</strong>
-    </summary>
-    You can run <code>mashmap -h</code> to find out. Here are the options we
-    used:
-<pre><code>
--r <value>, --ref <value>
-    an input reference file (fasta/fastq)[.gz]
+        ```bash
+        -----------------
+        Mashmap is an approximate long read or contig mapper based on Jaccard
+        similarity
+        -----------------
+        Example usage:
+        $ mashmap -r ref.fa -q seq.fq [OPTIONS]
+        $ mashmap --rl reference_files_list.txt -q seq.fq [OPTIONS]
+        
+        Available options
+        -----------------
+        -h, --help
+            Print this help page
+        
+        -r <value>, --ref <value>
+            an input reference file (fasta/fastq)[.gz]
+        
+        --refList <value>, --rl <value>
+            a file containing list of reference files, one per line
+        
+        -q <value>, --query <value>
+            an input query file (fasta/fastq)[.gz]
+        
+        --ql <value>, --queryList <value>
+            a file containing list of query files, one per line
+        
+        -s <value>, --segLength <value>
+            mapping segment length [default : 5,000]
+            sequences shorter than segment length will be ignored
+        
+        --noSplit
+            disable splitting of input sequences during mapping [enabled by default]
+        
+        --perc_identity <value>, --pi <value>
+            threshold for identity [default : 85]
+        
+        -t <value>, --threads <value>
+            count of threads for parallel execution [default : 1]
+        
+        -o <value>, --output <value>
+            output file name [default : mashmap.out]
+        
+        -k <value>, --kmer <value>
+            kmer size <= 16 [default : 16]
+        
+        -f <value>, --filter_mode <value>
+            filter modes in mashmap: 'map', 'one-to-one' or 'none' [default: map]
+            'map' computes best mappings for each query sequence
+            'one-to-one' computes best mappings for query as well as reference sequence
+            'none' disables filtering
+        ```
 
--q <value>, --query <value>
-    an input query file (fasta/fastq)[.gz]
-
--s <value>, --segLength <value>
-    mapping segment length [default : 5,000]
-    sequences shorter than segment length will be ignored
-
---perc_identity <value>, --pi <value>
-    threshold for identity [default : 85]
-
--t <value>, --threads <value>
-    count of threads for parallel execution [default : 1]
-
--o <value>, --output <value>
-    output file name [default : mashmap.out]
-
--k <value>, --kmer <value>
-    kmer size <= 16 [default : 16]
-
--f <value>, --filter_mode <value>
-    filter modes in mashmap: 'map', 'one-to-one' or 'none' [default: map]
-    'map' computes best mappings for each query sequence
-    'one-to-one' computes best mappings for query as well as reference sequence
-    'none' disables filtering</code></pre>
-</details>
 
 <!--
 **Grab the MashMap alignments from earlier**
@@ -175,26 +195,38 @@ ln -s ../day3b_annotation/mashmap/asm-to-chm13.mashmap.out hg2hap2-x-chm13.ssv
     Submit it as a job with `sbatch`. First copy the command into a
     script named `mashmap.sh` and change the number of threads to 16:
 
-<pre><code>#! /usr/bin/env bash
 
-set -euo pipefail
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      mashmap
+    #SBATCH --cpus-per-task 16
+    #SBATCH --time          00:20:00
+    #SBATCH --mem           8G
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+    #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+    
+    
+    module purge
+    module load MashMap/3.0.4-Miniconda3
+    
+    mashmap -f "one-to-one" \
+        -k 16 --pi 90 \
+        -s 100000 -t 16 \
+        -r chm13.fa \
+        -q hg002.hap2.fa \
+        -o hg2hap2-x-chm13.ssv
+    ```
 
-module load MashMap/3.0.4-Miniconda3
 
-mashmap -f "one-to-one" \
-    -k 16 --pi 90 \
-    -s 100000 -t 16 \
-    -r chm13.fa \
-    -q hg002.hap2.fa \
-    -o hg2hap2-x-chm13.ssv
-</code></pre>
-
-
-Then submit the job with <code>sbatch</code>:
-
-<pre><code>sbatch -J mashmap -N1 -n1 -c16 --mem=6G -t 0-00:15 -A nesi02659 -o %x.%j.log mashmap.sh</code></pre>
-
-</details>
+    Then submit the job with
+    
+    !!! terminal "code"
+        ```
+        sbatch mashmap.sh
+        ```
 
 **View the output file**
 
