@@ -31,55 +31,37 @@ long reads). Mapping to a good reference (e.g., CHM13-T2T) for your species of
 interest (if one exists) _won&rsquo;t_ work either because the alignment
 software can&rsquo;t distinguish between repeat copies.
 
-<details>
-    <summary>
-        <strong>What are sketching methods?</strong>
-    </summary>
-    <p>
-        &ldquo;Sketching&rdquo; is a technique to create reduced-representations
-        of a sequence. The most widely-known option for sketching is probably
-        minimizers, made particularly popular with tools like
-        <a href="https://lh3.github.io/minimap2">minimap2</a>
-        (<a href="https://doi.org/10.1093/bioinformatics/bty191">Li 2018</a>),
-        which applies minimizers to the alignment problem. We discussed
-        minimizers earlier when running MashMap. The minimizer for any given
-        window is the lexicographically smallest canonical k-mer. Several
-        variants to minimizers exist, e.g., syncmers, minmers, and modimizers,
-        the latter of which is used in ModDotPlot. Each sketching method has
-        different properties depending on how they select the subsequence used
-        to represent a larger area, whether they allow overlaps, whether a
-        certain density of representative sequences is enforced in any given
-        window, whether the neighboring windows are dependent on eachother, etc.
-        In general, the representative sequences are found by sliding along the
-        sequence and selecting a representative subsequence in the given window.
-    </p>
-    <p>
-        Many other tools use sketching in some way, here are a few examples:
-        <ul>
-            <li>
-                <a href="https://github.com/marbl/Mash">Mash</a>
-                (<a href="https://doi.org/10.1186/s13059-016-0997-x">Ondov <em>et al.</em> 2016</a>)
-            </li>
-            <li>
-                <a href="https://github.com/marbl/MashMap">MashMap</a>
-                (<a href="https://doi.org/10.1101/2023.05.16.540882">Kille <em>et al.</em> 2023</a>)
-            </li>
-            <li>
-                <a href="https://github.com/maickrau/MBG">MBG</a>
-                (<a href="https://doi.org/10.1093/bioinformatics/btab004">Rautiainen &amp; Marschall 2021</a>)
+??? clipboard-question "What are sketching methods ?"
+
+    Sketchingis a technique to create reduced-representations
+    of a sequence. The most widely-known option for sketching is probably
+    minimizers, made particularly popular with tools like
+    <a href="https://lh3.github.io/minimap2">minimap2</a>
+    (<a href="https://doi.org/10.1093/bioinformatics/bty191">Li 2018</a>),
+    which applies minimizers to the alignment problem. We discussed
+    minimizers earlier when running MashMap. The minimizer for any given
+    window is the lexicographically smallest canonical k-mer. Several
+    variants to minimizers exist, e.g., syncmers, minmers, and modimizers,
+    the latter of which is used in ModDotPlot. Each sketching method has
+    different properties depending on how they select the subsequence used
+    to represent a larger area, whether they allow overlaps, whether a
+    certain density of representative sequences is enforced in any given
+    window, whether the neighboring windows are dependent on eachother, etc.
+    In general, the representative sequences are found by sliding along the
+    sequence and selecting a representative subsequence in the given window    
+    
+    Many other tools use sketching in some way, here are a few examples    
+
+    - <a href="https://github.com/marbl/Mash">Mash</a>(<a href="https://doi.org/10.1186/s13059-016-0997-x">Ondov <em>et al.</em> 2016</a>)
+    - <a href="https://github.com/marbl/MashMap">MashMap</a>(<a href="https://doi.org/10.1101/2023.05.16.540882">Kille <em>et al.</em> 2023</a>)
+    -  <a href="https://github.com/maickrau/MBG">MBG</a>(<a href="https://doi.org/10.1093/bioinformatics/btab004">Rautiainen &amp; Marschall 2021</a>)
                 <strong>
                     &lt;-- Used in
                     <a href="https://github.com/marbl/verkko">Verkko</a>
                     (<a href="https://doi.org/10.1038/s41587-023-01662-6">Rautiainen <em>et al.</em> 2023</a>)!
-                </strong>
-            </li>
-            <li>
-                <a href="https://github.com/chhylp123/hifiasm">hifiasm</a>
-                (<a href="https://doi.org/10.1038/s41587-022-01261-x">Cheng <em>et al.</em> 2022</a>)
-            </li>
-        </ul>
-    </p>
-</details>
+ 
+    - <a href="https://github.com/chhylp123/hifiasm">hifiasm</a>(<a href="https://doi.org/10.1038/s41587-022-01261-x">Cheng <em>et al.</em> 2022</a>)
+
 
 We&rsquo;re going to run ModDotPlot on part of the Y chromosome from our
 earlier assembly. First we&rsquo;ll need to identify the appropriate chunk,
