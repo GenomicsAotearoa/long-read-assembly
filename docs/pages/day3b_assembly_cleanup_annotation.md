@@ -584,6 +584,7 @@ And take a look at it (you can click on it in your file explorer).
     In this assembly chromosomes 3, 10, 11, and 16 are assembled T2T with contigs (no gaps) and chr5 is assembled T2T in a scaffold. As of the writing of this document (June 2023) for a diploid human assembly you can expect to get around 12 chromosomes assembled T2T in contigs and an additional 12 or so assembled T2T in scaffolds with Verkko. Hifiasm is very similar but without scaffolds. This means that for a diploid verkko assembly about half of the chromosomes are T2T out of the box for ~40X HiFi and >15X (or so) UL ONT with either HiC or trio phasing. Pretty amazing. This sample (HG002) is not very heterozygous so it's actually a tough sample to assemble. That is why we aren't seeing very many T2T contigs/scaffolds. Sometimes you have to judge how good an assembly is on a per-sample basis.
 
 **Closing notes**
+
 1. This could all be automated, of course. The T2T and HPRC consortiums have workflows that go through assemblies to determine T2T status at the chromosomal level, but those workflows are pretty similar to what we did above, actually. 
 
 2. Not having base-level information is actually ok for what we just did. If you would like base level information at only a few fold the run cost of mashmap (so still very fast), then you probably want to check out [wfmash](https://github.com/waveygang/wfmash/blob/master/README.md). It can be used for alignments of long reads (100kb+) or assemblies at very large scales.
@@ -594,20 +595,26 @@ If you are mapping long read data and you'd like to have base-level alignment, m
 Today we are going to use minimap2 to align ONT reads that have 5mC information stored in Mm/Ml tags to our diploid assembly.
 
 **Create A Directory**
-```
-cd ~
-mkdir -p lra/day3b_annotation/minimap2
-cd lra/day3b_annotation/minimap2
-```
+
+!!! terminal "code"
+
+    ```bash
+    cd ~/lra
+    mkdir -p lra/day3b_annotation/minimap2
+    cd lra/day3b_annotation/minimap2
+    ```
 
 **Copy over our Verkko trio assembly**
 
 We are going to use the diploid version of our Verkko trio assembly. (This just means that the maternal and paternal haplotypes are both included in the fasta.)
-```
-cp \
-    /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.fasta \
-    verkko_trio_diploid.fa
-```
+
+!!! terminal "code"
+
+    ```bash
+    cp \
+        /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.fasta \
+        verkko_trio_diploid.fa
+    ```
 **Create a minimap2 slurm script**
 
 Open your favourite text editor
