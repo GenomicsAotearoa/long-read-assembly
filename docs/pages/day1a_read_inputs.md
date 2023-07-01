@@ -53,7 +53,7 @@ Finally the assembly graph can be converted into two haplotypes which are repres
 
 
 
-# More Preamble: What Data Are We Using?
+## More Preamble: What Data Are We Using?
 
 !!! info ""
 
@@ -74,7 +74,7 @@ Finally the assembly graph can be converted into two haplotypes which are repres
     
     Since HG002 has so much data to compare against, it is pretty common for new technologies to benchmark on HG002 -- making even more HG002 data. It has grown into a data ecosystem. This is part of the reason why it was chosen for the T2T consortium as the target for one of its next big pushes: a [high-quality diploid T2T genome](https://github.com/marbl/HG002). This assembly has been worked on by many leading people in the field. And while it is undergoing polishing and is talked about as a draft, it is gapless outside of rDNA arrays and is very good. This makes HG002 a very good sample for testing assembly processes. You can always go back and compare your results against the draft from the T2T consortium.
     
-# Graph Building: PacBio & ONT Data
+## Graph Building: PacBio & ONT Data
 
 We are going to start by introducing the two long read sequencing technologies that we will be using: PacBio's HiFi and Oxford Nanopore's Ultralong. These two technologies are complementary and each have their own strengths. You can answer some questions more easily with HiFi and some more easily with ONT UL. They can also be used together, and this is important for the concept of a hybrid assembly algorithm where accurate reads are used to create a draft assembly and long reads are used to extend that assembly. 
 
