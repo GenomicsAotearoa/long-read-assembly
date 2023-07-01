@@ -3,9 +3,12 @@
 We are about to start learning about the sequencing data types that are used in assembly, but it can be a bit hard to appreciate what these data types are without knowing how we will use them. In this section we will go over the rough outline of Verkko's approach to assembly. Hopefully this will help put the data types in context.
 
 Both Verkko and Hifiasm can use a variety of data sources:
-* PacBio HiFi: >10kbp, around 99.9% accuracy
-* Oxford Nanopore Ultralong: >100kb, around 97% accuracy
-* Phasing data from Hi-C or trio Illumina data
+
+!!! quote ""
+
+    * PacBio HiFi: >10kbp, around 99.9% accuracy
+    * Oxford Nanopore Ultralong: >100kb, around 97% accuracy
+    * Phasing data from Hi-C or trio Illumina data
 
 PacBio HiFi data is required for both assemblers. Other data types are optional -- but they lead to much better assemblies. So let's jump ahead a bit and take a peak at how Verkko creates assemblies using figure 1 from the recent Verkko paper (Rautiainen, Mikko, et al.). It's ok if this is a bit confusing, we will come back to this in day 2.
 
@@ -49,25 +52,28 @@ Finally the assembly graph can be converted into two haplotypes which are repres
 </p>
 
 
+
 # More Preamble: What Data Are We Using?
 
-**Genome In A Bottle & HG002** 
+!!! info ""
 
-In this workshop we will be using data from HG002, which is a reference sample from the [Genome In A Bottle (GIAB)](https://www.nist.gov/programs-projects/genome-bottle) consortium. The GIAB project releases benchmark data for genomic characterization, and you may have seen their benchmark variant calls and regions out in the wild. As part of their benchmarking material generation, they release datasets for their reference samples. We will be using those in this workshop.
+    **Genome In A Bottle & HG002** 
 
-**Family Structure**
-
-HG002 is actually part of a trio of reference samples. Below is the family listing, also known as the Ashkenazim trio:
-* HG002: Son
-* HG003: Father
-* HG004: Mother
-
-If you'd like to use data from any of the Ashkenazim trio, there is a set of [index files on the GIAB github](https://github.com/genome-in-a-bottle/giab_data_indexes).
-
-**There is an excellent HG002 assembly available**
-
-Since HG002 has so much data to compare against, it is pretty common for new technologies to benchmark on HG002 -- making even more HG002 data. It has grown into a data ecosystem. This is part of the reason why it was chosen for the T2T consortium as the target for one of its next big pushes: a [high-quality diploid T2T genome](https://github.com/marbl/HG002). This assembly has been worked on by many leading people in the field. And while it is undergoing polishing and is talked about as a draft, it is gapless outside of rDNA arrays and is very good. This makes HG002 a very good sample for testing assembly processes. You can always go back and compare your results against the draft from the T2T consortium.
-
+    In this workshop we will be using data from HG002, which is a reference sample from the [Genome In A Bottle (GIAB)](https://www.nist.gov/programs-projects/genome-bottle) consortium. The GIAB project releases benchmark data for genomic characterization, and you may have seen their benchmark variant calls and regions out in the wild. As part of their benchmarking material generation, they release datasets for their reference samples. We will be using those in this workshop.
+    
+    **Family Structure**
+    
+    HG002 is actually part of a trio of reference samples. Below is the family listing, also known as the Ashkenazim trio:
+    * HG002: Son
+    * HG003: Father
+    * HG004: Mother
+    
+    If you'd like to use data from any of the Ashkenazim trio, there is a set of [index files on the GIAB github](https://github.com/genome-in-a-bottle/giab_data_indexes).
+    
+    **There is an excellent HG002 assembly available**
+    
+    Since HG002 has so much data to compare against, it is pretty common for new technologies to benchmark on HG002 -- making even more HG002 data. It has grown into a data ecosystem. This is part of the reason why it was chosen for the T2T consortium as the target for one of its next big pushes: a [high-quality diploid T2T genome](https://github.com/marbl/HG002). This assembly has been worked on by many leading people in the field. And while it is undergoing polishing and is talked about as a draft, it is gapless outside of rDNA arrays and is very good. This makes HG002 a very good sample for testing assembly processes. You can always go back and compare your results against the draft from the T2T consortium.
+    
 # Graph Building: PacBio & ONT Data
 
 We are going to start by introducing the two long read sequencing technologies that we will be using: PacBio's HiFi and Oxford Nanopore's Ultralong. These two technologies are complementary and each have their own strengths. You can answer some questions more easily with HiFi and some more easily with ONT UL. They can also be used together, and this is important for the concept of a hybrid assembly algorithm where accurate reads are used to create a draft assembly and long reads are used to extend that assembly. 
@@ -100,99 +106,104 @@ These UL reads, while less accurate than HiFi, span tricky regions, which makes 
 Let's get our hands on some data so we can see with our own eyes what HiFi and UL data look like.
 
 **Create A Directory**
-```
-cd ~/lra
-mkdir day1_data
-cd day1_data
-```
+
+!!! terminal "code"
+    ```bash
+    cd ~/lra
+    mkdir day1_data
+    cd day1_data
+    ```
 **Load modules**
-```
-module load pigz/2.7
-module load NanoComp/1.20.0-gimkl-2022a-Python-3.10.5
-```
+
+!!! terminal "code"
+
+    ```bash
+    module load pigz/2.7
+    module load NanoComp/1.20.0-gimkl-2022a-Python-3.10.5
+    ```
 **Subset Our Input Data**<br>
 In order to get a feel for the data, we only need a small portion of it. Pull the first few thousand reads of the HiFi reads and write them to new files.
-```
-zcat /nesi/nobackup/nesi02659/LRA/resources/LRA_hifi.fq.gz \
-    | head -n 200000 \
-    | pigz > LRA_hifi_50k_reads.fq.gz &
-```
+
+!!! terminal "code"
+
+    ```bash
+    zcat /nesi/nobackup/nesi02659/LRA/resources/LRA_hifi.fq.gz \
+        | head -n 200000 \
+        | pigz > LRA_hifi_50k_reads.fq.gz &
+    ```
 Next, downsample the ONT UL reads, too.
-```
-zcat /nesi/nobackup/nesi02659/LRA/resources/LRA_ONTUL.fq.gz \
-    | head -n 4000 \
-    | pigz > LRA_ONTUL_1k_reads.fq.gz &
-```
+
+!!! terminal "code"
+    ```bash
+    zcat /nesi/nobackup/nesi02659/LRA/resources/LRA_ONTUL.fq.gz \
+        | head -n 4000 \
+        | pigz > LRA_ONTUL_1k_reads.fq.gz &
+    ```
 
 **Now let's compare the data**<br>
 We are going to use a tool called NanoComp. This tool can take in multiple fastqs (or bams) and will create summary statistics and nice plots that show things like read length and quality scores. NanoComp has nano in the name, and has some ONT-specific functionality, but it can be used with PacBio data just fine.
-```
-NanoComp --fastq \
-    LRA_hifi_50k_reads.fq.gz \
-    LRA_ONTUL_5k_reads.fq.gz \
-    --names PacBio_HiFi ONT_UL \
-    --outdir nanocomp_hifi_vs_ul
-```
+
+!!! terminal "code"
+
+    ```bash
+    NanoComp --fastq \
+        LRA_hifi_50k_reads.fq.gz \
+        LRA_ONTUL_5k_reads.fq.gz \
+        --names PacBio_HiFi ONT_UL \
+        --outdir nanocomp_hifi_vs_ul
+    ```
 Once the run is complete, navigate in your file browser to the NanoComp-report.html file and click on it to open it. Take a look at the plots for log-transformed read lengths and basecall quality scores. 
 
-<details>
-    <summary>
-        <strong>What is the range of Q-scores seen in HiFi data?</strong>
-    </summary>
+!!! question "What is the range of Q-scores seen in HiFi data?"
+    
     While most HiFi data is Q30, there is a spread. The CCS process actually produces different data based on a number of different factors, including the number of times a molecule is read (also called subread passes). Raw CCS data is usually filtered for >Q20 reads at which point it is by convention called HiFi. (Note that some people use CCS data below Q20!)
-</details>
 
-<details>
-    <summary>
-        <strong>What percent of UL reads are over 100kb?</strong>
-    </summary>
-    This depends on the dataset but it is very common to see 30% of reads being over 100kb. The 100kb number gets passed around a lot because reads that are much longer than HiFi are when UL distinguishes itself.
-</details>
+
+!!! question "What percent of UL reads are over 100kb?"
+
+    This depends on the dataset but it is very common to see 30% of reads being over 100kb. The 100kb number gets passed around a lot because reads that are much longer than HiFi are when UL distinguishes itself
+
 
 # Cleaning Data For Assembly
 ## PacBio Adapter Trimming
 PacBio's CCS software attempts to identify adapters and remove them. This process is getting better all the time, but some datasets (especially older ones) can have adapters remaining. If this is the case, adapters can find their way into the assemblies. 
 
 Run CutAdapt to check for adapter sequences in the downsampled data that we are currently using. (The results will print to stdout on your terminal screen.)
-```
-module load cutadapt/4.1-gimkl-2022a-Python-3.10.5
 
-cutadapt \
-    -b "AAAAAAAAAAAAAAAAAATTAACGGAGGAGGAGGA;min_overlap=35" \
-    -b "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT;min_overlap=45" \
-    --discard-trimmed \
-    -o /dev/null \
-    LRA_hifi_50k_reads.fq.gz \
-    -j 0 \
-    --revcomp \
-    -e 0.05
-```
+!!! terminal "code"
+
+     ```
+     module load cutadapt/4.1-gimkl-2022a-Python-3.10.5
+     
+     cutadapt \
+         -b "AAAAAAAAAAAAAAAAAATTAACGGAGGAGGAGGA;min_overlap=35" \
+         -b "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT;min_overlap=45" \
+         --discard-trimmed \
+         -o /dev/null \
+         LRA_hifi_50k_reads.fq.gz \
+         -j 0 \
+         --revcomp \
+         -e 0.05
+     ```
 Notice that we are writing output to `/dev/null`. We are working on a subset of these reads so the runtime is reasonable. There is no need to hold onto the reads that we are filtering on, just a subset of the data.
 
-<details>
-    <summary>
-        <strong>What do you think the two sequences that we are filtering out are? (hint: you can Google them)</strong>
-    </summary>
+??? question "What do you think the two sequences that we are filtering out are? (hint: you can Google them)"
+
     The first sequence is the primer and the second sequence is the hairpin adapter. You can see the hairpin by looking at the 5' and 3' ends and checking that they are reverse complements.
-</details>
 
-<details>
-    <summary>
-        <strong>Why can we get away with throwing away entire reads that contain adapter sequences?</strong>
-    </summary>
+
+??? question "Why can we get away with throwing away entire reads that contain adapter sequences?"
+
     As you can see from the summary statistics from CutAdapt, not many reads in this dataset have adapters/primers. There is some concern about bias -- where we remove certain sequences from the genome assembly process. We've taken the filtered reads and aligned them to the genome and they didn't look like they were piling up in any one area.
-</details>
 
-<details>
-    <summary>
-        <strong>What would happen if we left adapter sequences in the reads?</strong>
-    </summary>
+??? question "What would happen if we left adapter sequences in the reads?"
+
     If there are enough adapters present, you can get entire contigs comprised of adapters. This is not the worst, actually, because they are easy to identify and remove wholesale. It is trickier (and this happens more often) when adapter sequences end up embedded in the final assemblies. If/when you upload assemblies to repositories like Genbank they check for these adapters and force you to mask them out with N's. This is confusing to users because it is common to use N's to signify gaps in scaffolded assemblies. So users don't know if they are looking at a scaffolded assembly or masked out sequence.
-</details>
 
 
 ## ONT Read Length Filtering
 Hifiasm is often run with ONT data filtered to be over 50kb in length, so let's filter that data now to see how much of the data remains. 
+
 ```
 seqkit seq \
     -m 50000 \
@@ -204,13 +215,8 @@ Now we can quickly check how many reads are retained.
 zcat LRA_ONTUL_1k_reads.50kb.fq.gz | wc -l
 ```
 
-<details>
-    <summary>
-        <strong>Why do you think an assembler might want to include only reads over 50kb?</strong>
-    </summary>
-    
-</details>
-
+??? question "Why do you think an assembler might want to include only reads over 50kb?"
+]
 # Phasing Data: Trio DBs and Hi-C
 Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
 
