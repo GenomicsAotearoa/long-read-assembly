@@ -21,10 +21,10 @@ Now view the runtime parameters
 Command
 ```
 
-**Question what we did** (optional)<br>
-(Example questions)
-* Why did we run with X parameter?
-* What does the Y parameter do?
+!!! question "Question what we did" 
+
+    * Why did we run with X parameter?
+    * What does the Y parameter do?
 
 **Notes** (optional)<br>
 (Example notes)
@@ -32,11 +32,12 @@ Command
 * Are there other tools that could be used?
 * How long is a typical runtime?
 
-**Understanding**<br>
-(Examples)
-* Rerun with other parameters (cool, but hard)
-* Look at output with bash/python commands (recommended)
-* Look at log file
+!!! into "Understanding"
 
-**Take Home**<br>
-What did we just do and how does it apply to our overall goal of making nice assemblies (and using them)?
+    * Rerun with other parameters (cool, but hard)
+    * Look at output with bash/python commands (recommended)
+    * Look at log file
+
+!!!info "Take Home"
+
+    What did we just do and how does it apply to our overall goal of making nice assemblies (and using them)?
