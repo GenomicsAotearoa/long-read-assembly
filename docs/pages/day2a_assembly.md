@@ -265,15 +265,18 @@ This shows a list of snakemake jobs that will get executed for this dataset. The
 
 Open the logs and scroll through them
 
-!!! termial "code"
+!!! terminal "code"
 
     ```bash
     less asm/.snakemake/log/*.log
     ```
 You can see all of the snakemake jobs, in order, that were run. Even for this tiny dataset there are many. Since there are a lot of jobs, there are a lot of outputs, and these are organized (roughly) by snakemake rule. Take a look at the output folder in order to familiarize yourself with the layout.
-```
-ls -lh assembly
-```
+
+!!! terminal "code"
+
+    ```bash
+    ls -lh assembly
+    ```
 
 **Take a look at the initial hifi graph**
 
