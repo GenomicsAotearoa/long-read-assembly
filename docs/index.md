@@ -3,5 +3,5 @@
 </center>
 
 <center>
-![image](./theme_figures/updated_genome.png){width="350"}
+![image](./theme_figures/double_helix_mirror.png){width="350"}
 </center>
