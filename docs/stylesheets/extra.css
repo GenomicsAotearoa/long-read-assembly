@@ -639,15 +639,15 @@
   }
   .md-typeset .admonition.quote-right,
   .md-typeset details.quote-right {
-    border-color: rgb(211, 241, 190);
+    border-color: rgb(243, 226, 170);
   }
   .md-typeset .quote-right > .admonition-title,
   .md-typeset .quote-right > summary {
-    background-color: rgba(205, 231, 176, 0.459);
+    background-color: rgba(237, 240, 62, 0.459);
   }
   .md-typeset .quote-right > .admonition-title::before,
   .md-typeset .quote-right > summary::before {
-    background-color: rgb(87, 172, 62);
+    background-color: rgb(252, 165, 4);
     -webkit-mask-image: var(--md-admonition-icon--quote-right);
             mask-image: var(--md-admonition-icon--quote-right);
   }
