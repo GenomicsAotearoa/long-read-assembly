@@ -395,10 +395,18 @@ memory footprint for sequences <10 Mbp, but memory usage can exceed 20 GB for
 large sequences (>100 Mbp). Let&rsquo;s create a script to submit with
 `sbatch`. Paste the following into `moddotplot.sh`:
 ```
-#! /usr/bin/env bash
+#!/bin/bash -e 
 
-set -euo pipefail
+#SBATCH --account       nesi02659
+#SBATCH --job-name      moddotplot
+#SBATCH --cpus-per-task 4
+#SBATCH --time          00:05:00
+#SBATCH --mem           8G
+#SBATCH --partition     milan
+#SBATCH --output        slurmlogs/%x.%j.log
+#SBATCH --error         slurmlogs/%x.%j.err
 
+module purge
 module load ModDotPlot/2023-06-gimkl-2022a-Python-3.11.3
 
 for CTG in pat-000072{4,5,7}
