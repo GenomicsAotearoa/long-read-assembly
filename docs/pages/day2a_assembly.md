@@ -192,54 +192,64 @@ but depending on how you created your notebook environment this command may cras
 
 Start your favourite text editor
 
-```bash
-nano verkko_test.sl
-```
+!!! terminal "code"
 
-And then paste in the following
-```
-#!/bin/bash -e
+    ```bash
+    nano verkko_test.sl
+    ```
+    
+    And then paste in the following
 
-#SBATCH --account       nesi02659
-#SBATCH --partition     milan
-#SBATCH --job-name      test_verkko
-#SBATCH --cpus-per-task 8
-#SBATCH --time          00:15:00
-#SBATCH --mem           24G
-#SBATCH --output        slurmlogs/%x.%j.log
-#SBATCH --error         slurmlogs/%x.%j.err
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --partition     milan
+    #SBATCH --job-name      test_verkko
+    #SBATCH --cpus-per-task 8
+    #SBATCH --time          00:15:00
+    #SBATCH --mem           24G
+    #SBATCH --output        slurmlogs/%x.%j.log
+    #SBATCH --error         slurmlogs/%x.%j.err
+    
+    ## load modules
+    module purge
+    module load verkko/1.3.1-Miniconda3
+    
+    
+    ## run verkko
+    verkko \
+        -d assembly \
+        --hifi ./hifi.fastq.gz \
+        --nano ./ont.fastq.gz
+    ```
 
-## load modules
-module purge
-module load verkko/1.3.1-Miniconda3
-
-
-## run verkko
-verkko \
-    -d assembly \
-    --hifi ./hifi.fastq.gz \
-    --nano ./ont.fastq.gz
-```
-
-**Run verkko test**
-```
-sbatch verkko_test.sl
-```
+    **Run verkko test**
+    ```bash
+    sbatch verkko_test.sl
+    ```
 This should only take a few minutes to complete.
 
-You can keep track of the run w/ the `squeue` command. (If you don't know your username, you can find it with `whoami`).
-```
-squeue -u myusername
-```
+You can keep track of the run w/ the `squeue` command.
+
+!!! terminal "code"
+    
+    ```bash
+    squeue --me
+    ```
 
 **How does Verkko run?**
 
 It turns out that if you run Verkko more than once or twice you will have to know a bit about how it is constructed. Verkko is a program that reads in the parameters you gave it and figures out a few things about your verkko installation and then creates a configuration file (`verkko.yml`) and a shell script (`snakemake.sh`). The shell script is then automatically executed.
 
 Take a look at the shell script that was created for your run
-```
-cat assembly/snakemake.sh
-```
+
+!!! terminal "code"
+
+    ```bash
+    cat assembly/snakemake.sh
+    ```
+    
 It is just a call to snakemake!!! You can think of Verkko as a tool, but also as a pipeline because it is. This has some advantages. One is that if you know what Verkko is doing (which is somewhat achievable given that the snakemake rules guide you through Verkko's logic), you can add to it, or even swap out how Verkko performs a given step for how you'd like to do it. It also means that you can restart a run at any given step (if you made a mistake or if the run failed). Lastly, and maybe most importantly, snakemake supports Slurm as a backend. So if you have access to an HPC you could (and probably should) run verkko and allow it to launch Slurm jobs for you. (This is in contrast to what we just did which was to run a slurm job and just allow all jobs to run on the allocated resources that we requested for the entire run.)
 
 **Now take a look at the jobs that were run**
