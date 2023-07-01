@@ -451,9 +451,12 @@ large sequences (>100 Mbp). Let'ss create a script to submit with
 **Inspect the output files**
 
 First, take a look at the log file:
-```
-less -S moddotplot.*.log
-```
+
+!!! terminal "code"
+
+    ```bash
+    less -S moddotplot.*.log
+    ```
 
 Then note that for every run, we created `_HIST.png` and `_TRI.png` files. The
 HIST files show the distribution of the Percent Identity of the alignments. The
