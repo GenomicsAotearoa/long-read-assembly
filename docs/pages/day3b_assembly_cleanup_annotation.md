@@ -689,12 +689,13 @@ This should only take 3 hours or so, but we have some pre-baked results for you 
     ln -s /nesi/nobackup/nesi02659/LRA/resources/ont_ul/aligned/verkko_trio_diploid.mm2.5mC.bam.bai
     ```
 
-**Now view the alignments in IGV**
-1. Open an IGV window as you did above. Don't forget to `module load IGV/2.16.1` (we need v 2.14 or greater)
-2. We need to use our assembly as the genome file. Do that by clicking the **Genomes** dropdown at the top and then select **Load Genome From File**. Navigate to your folder and select the Verkko trio genome that we copied in.
-3. Load the 5mC bam by clicking on the **File** dropdown then selecting **Load From File**
-4. Show the methylation predictions by right clicking on the alignment track and selecting **Color alignments by**, then click **base modifications (5mc)**
+!!! jupyter "Now view the alignments in IGV"
 
+    1. Open an IGV window as you did above. Don't forget to `module load IGV/2.16.1` (we need v 2.14 or greater)
+    2. We need to use our assembly as the genome file. Do that by clicking the **Genomes** dropdown at the top and then select **Load Genome From File**. Navigate to your folder and select the Verkko trio genome that we copied in.
+    3. Load the 5mC bam by clicking on the **File** dropdown then selecting **Load From File**
+    4. Show the methylation predictions by right clicking on the alignment track and selecting **Color alignments by**, then click **base modifications (5mc)**
+    
 **Explore the data a bit**
 
 Zoom in on a random region that is a few hundred basepairs in size. You can see the methylation levels in the track histogram and in the reads themselves. Red is methylated and blue is unmethylated.
