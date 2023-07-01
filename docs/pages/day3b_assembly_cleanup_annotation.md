@@ -376,19 +376,22 @@ First create a shell script `liftoff.sh` with the following content:
         chm13.fa
     ```
 
-<details>
-    <summary>
-        <strong>What do each of these options do?</strong>
-    </summary>
-    <code>-p</code> specifies the number of threads to use. <code>-db</code> specifies the location of
+!!! info "What do each of these options do ?"
+
+    `-p`specifies the number of threads to use. 
+
+    `-db` specifies the location of
     the SQLite database of features extracted by Liftoff from the GFF file with
-    the input annotations for the reference. <code>-o</code> specifies the
+    the input annotations for the reference. 
+    
+    `-o` specifies the
     location of the GFF file with the output annotations for the target. The two
     positional parameters at the end are respectively the target assembly (our
     HG002 assembly) and the reference assembly (T2T-CHM13). Run the following
+    
     command to see all the options described in more detail:
-    <pre><code>liftoff -h</code></pre>
-</details>
+
+    `liftoff -h`
 
 <!-- OTHER POSSIBLE OPTIONS
     -g chm13-annotations.gff
