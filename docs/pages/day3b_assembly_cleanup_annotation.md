@@ -207,7 +207,7 @@ Here we will get a taste for annotation with one popular tool: Liftoff, which
 makes use of another genome assembly with annotations you wish to "copy" onto
 your assembly.
 
-??? question "What is the easiest way to annotate my genome of interest ?"
+??? clipboard-question "What is the easiest way to annotate my genome of interest ?"
     
     The easiest way to get a genome annotated is to have someone else do it. If
     sharing data with NCBI is possible and your assembly is the best option to
@@ -217,10 +217,8 @@ your assembly.
     Otherwise, finding a collaborator with expertise is a good option.
 
 
-<details>
-    <summary>
-        <strong>What are the most common formats for sharing annotation data?</strong>
-    </summary>
+??? clipboard-question "What are the most common formats for sharing annotation data ?" 
+
     The most common formats are
     <a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format1">BED (Browser Extensible Data)</a>,
     <a href="https://gmod.org/wiki/GFF3">GFF (Generic Feature Format; v3)</a>,
@@ -229,12 +227,10 @@ your assembly.
     <a href="http://genome.cse.ucsc.edu/goldenPath/help/wiggle.html">Wiggle</a>
     format and its variants are also common for displaying information in a genome
     browser.
-</details>
 
-<details>
-    <summary>
-        <strong>Which tool(s) should I use for my project?</strong>
-    </summary>
+
+??? clipboard-question "Which tool(s) should I use for my project ?"
+
     Annotation is a complex problem, and no single tool exists that can be
     universally recommended. A high-quality annotation plan often requires the
     use of may tools and/or complex pipelines, and the installation of many of
@@ -259,45 +255,36 @@ your assembly.
     when working with GFF3 files, and <a
     href="https://gfacs.readthedocs.io">gFACs</a> can help with filtering,
     analysis, and conversion tasks.
-</details>
 
-<details>
-    <summary>
-        <strong>How can I learn more about annotation?</strong>
-    </summary>
+
+??? clipboard-question "How can I learn more about annotation ?"
     Please consider the following sources:
-    <ul>
-        <li>
-            Review of eukaryotic genome annotation written for beginners
-            (Yandell and Ence, 2012; doi:
-            <a href="https://doi.org/10.1038/nrg3174">10.1038/nrg3174</a>)
-        </li>
-        <li>
-            Review of assembly and annotation written for conservation
-            geneticists and assuming limited understanding of bioinformatics and
-            high-throughput sequencing (Ekblom and Wolf, 2014; doi:
-            <a href="https://doi.org/10.1111/eva.12178">10.1111/eva.12178</a>)
-        </li>
-        <li>
-            Review of structural and functional annotation, providing
-            definitions and the limitations of annotation (Mudge and Harrow,
-            2016; doi: <a href="https://doi.org/10.1038/nrg.2016.119">10.1038/nrg.2016.119</a>)
-        </li>
-        <li>
-            Protocol (from <a href="https://www.protocols.io">protocols.io</a>)
-            for <em>de novo</em> annotation using the <a
-            href="https://yandell-lab.org/software/maker.html">MAKER</a>
-            pipeline. This is annotation "in the wild" describing actual steps
-            taken if not the justification for them, but it is based on this <a
-            href="https://weatherby.genetics.utah.edu/MAKER/wiki/index.php/MAKER_Tutorial_for_WGS_Assembly_and_Annotation_Winter_School_2018">2018
-            tutorial</a> by the developers of MAKER. <a
-            href="https://doi.org/10.17504/protocols.io.b3xvqpn6">The
-            protocol</a> was used to annotate a non-model fish genome (Pickett
-            and Talma <em>et al.</em>, 2022; doi: <a
-            href="https://doi.org/10.46471/gigabyte.44">10.46471/gigabyte.44</a>).
-        </li>
-    </ul>
-</details>
+
+    - Review of eukaryotic genome annotation written for beginners
+    (Yandell and Ence, 2012; doi:
+    <a href="https://doi.org/10.1038/nrg3174">10.1038/nrg3174</a>)
+
+    - Review of assembly and annotation written for conservation
+    geneticists and assuming limited understanding of bioinformatics and
+    high-throughput sequencing (Ekblom and Wolf, 2014; doi:
+    <a href="https://doi.org/10.1111/eva.12178">10.1111/eva.12178</a>)
+
+    - Review of structural and functional annotation, providing
+    definitions and the limitations of annotation (Mudge and Harrow,
+    2016; doi: <a href="https://doi.org/10.1038/nrg.2016.119">10.1038/nrg.2016.119</a>)
+
+    - Protocol (from <a href="https://www.protocols.io">protocols.io</a>)
+    for <em>de novo</em> annotation using the <a
+    href="https://yandell-lab.org/software/maker.html">MAKER</a>
+    pipeline. This is annotation "in the wild" describing actual steps
+    taken if not the justification for them, but it is based on this <a
+    href="https://weatherby.genetics.utah.edu/MAKER/wiki/index.php/MAKER_Tutorial_for_WGS_Assembly_and_Annotation_Winter_School_2018">2018
+    tutorial</a> by the developers of MAKER. <a
+    href="https://doi.org/10.17504/protocols.io.b3xvqpn6">The
+    protocol</a> was used to annotate a non-model fish genome (Pickett
+    and Talma <em>et al.</em>, 2022; doi: <a
+    href="https://doi.org/10.46471/gigabyte.44">10.46471/gigabyte.44</a>).
+  
 
 ### Annotation with Liftoff
 

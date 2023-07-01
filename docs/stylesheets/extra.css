@@ -783,15 +783,15 @@
   }
   .md-typeset .admonition.clipboard-question,
   .md-typeset details.clipboard-question {
-    border-color: rgb(243, 234, 103);
+    border-color: rgb(206, 153, 236);
   }
   .md-typeset .clipboard-question > .admonition-title,
   .md-typeset .clipboard-question > summary {
-    background-color: rgba(233, 208, 95, 0.459);
+    background-color: rgba(182, 182, 228, 0.459);
   }
   .md-typeset .clipboard-question > .admonition-title::before,
   .md-typeset .clipboard-question > summary::before {
-    background-color: rgb(168, 86, 9);
+    background-color: rgba(17, 6, 66, 0.712);
     -webkit-mask-image: var(--md-admonition-icon--clipboard-question);
             mask-image: var(--md-admonition-icon--clipboard-question);
   }
