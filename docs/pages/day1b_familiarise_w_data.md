@@ -160,13 +160,13 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
     One way you will hear us talk about phasing in this workshop is in the context of ultra long reads. In this case we may have two heterozygous regions separated by a homozougous region. If we can find a long read that maps to the top sequences in both, then we could say that these sequences come from the same haplotype. That is phasing.
 
     <p align="center">
-        <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/ont_phasing.png?raw=true" width="350"/>
+        <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/ont_phasing.png?raw=true" width="550"/>
     </p>
 
     We can play a similar trick with parental data. If we fine paternal markers in both sequences in the top, then we can say that they both come from the paternal haplotype. This is also phasing. 
 
     <p align="center">
-        <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/trio_phasing2.png?raw=true" width="350"/>
+        <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/trio_phasing2.png?raw=true" width="550"/>
     </p>
 
 
