@@ -442,13 +442,14 @@ them.
 !!! jupyter "To open IGV and view the annotations, do the following:"
 
     1. Open IGV
-        1. Open a Virtual Desktop session from your Jupyter Lab Launcher
+        1. Open a Virtual Desktop according to [these instructions](../supplementary/supplementary_3.md)
         2. Open the Terminal Emulator application
         3. Load the IGV module and launch IGV
            ```bash
            module load IGV/2.16.1
            igv.sh
            ```
+           ![image](../theme_figures/igv_launch.png)
     2. Load the CHM13-T2T genome (instead of the default hg19): Genome > Load Genome from File... > `chm13.fa`
     3. Load the GFF file: File > Load from File... > `asm.hap1.annotations.sorted.gff`
     4. Explore

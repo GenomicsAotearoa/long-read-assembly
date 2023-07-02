@@ -1,14 +1,14 @@
 # 4. Day 2: Assembly
 
-Here is a rundown of what we will do today:
+!!! info "Here is a rundown of what we will do today:"
 
-* Learn about how Verkko & Hifiasm create assemblies
-* Run Hifiasm with test data (HiFi only)
-* Run Verkko with test data (HiFi + ONT)
-* See how to run both with full datasets
-* Compare the two assemblers
-* Talk about how much data we need 
-
+    * Learn about how Verkko & Hifiasm create assemblies
+    * Run Hifiasm with test data (HiFi only)
+    * Run Verkko with test data (HiFi + ONT)
+    * See how to run both with full datasets
+    * Compare the two assemblers
+    * Talk about how much data we need 
+    
 At the end of the day you will hopefully have a feel for how to actually run each assembler, what data to give them, and when to choose one over the other.
 
 ## Theoretical Walkthrough Of The Assembly Process
