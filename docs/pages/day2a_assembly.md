@@ -217,11 +217,6 @@ In general, when using Bandage people look at the unitig GFAs (not contig GFAs).
 2. If you have a phased diploid assembly with a large sequence that is missing, you can look at the unitig gfa, color the nodes by haplotype, and see which sequences are omitted. Those sequences can then be analyzed and manually added into the final assembly.
 3. You can label nodes with (hifi) coverage and inspect regions with low quality too see if they have low coverage as well. If so, you might want to throw them out. (This does happen, in particular for small contigs that assemblers tend to output.)
 
-!!! terminal "code"
-
-    ```bash
-    pbmm2 align -j 128 $referencepath $hifi_demux > $alignedbam
-    ```
 
 ## Run Verkko With Test Data
 **Create A Directory**
