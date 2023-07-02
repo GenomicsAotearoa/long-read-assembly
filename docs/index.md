@@ -1,9 +1,11 @@
+<center>![image](./theme_figures/institution_logos.png){width="500"}</center>
+
 <center>
-# Long-read Assembly
+# **Long-read Assembly**
 </center>
 
 <center>
-![image](./theme_figures/double_helix_mirror.png){width="350"}
+![image](./theme_figures/double_helix_mirror.png){width="300"}
 </center>
 
 
