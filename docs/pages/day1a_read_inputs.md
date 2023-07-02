@@ -11,6 +11,7 @@
     **Family Structure**
     
     HG002 is actually part of a trio of reference samples. Below is the family listing, also known as the Ashkenazim trio:
+    
     * HG002: Son
     * HG003: Father
     * HG004: Mother
@@ -19,7 +20,7 @@
     
     **There is an excellent HG002 assembly available**
     
-    Since HG002 has so much data to compare against, it is pretty common for new technologies to benchmark on HG002 -- making even more HG002 data. It has grown into a data ecosystem. This is part of the reason why it was chosen for the T2T consortium as the target for one of its next big pushes: a [high-quality diploid T2T genome](https://github.com/marbl/HG002). This assembly has been worked on by many leading people in the field. And while it is undergoing polishing and is talked about as a draft, it is gapless outside of rDNA arrays and is very good. This makes HG002 a very good sample for testing assembly processes. You can always go back and compare your results against the draft from the T2T consortium.
+    Since HG002 has so much data to compare against, it is pretty common for new technologies to benchmark on HG002&mdash;making even more HG002 data. It has grown into a data ecosystem. This is part of the reason why it was chosen for the T2T consortium as the target for one of its next big pushes: a [high-quality diploid T2T genome](https://github.com/marbl/HG002). This assembly has been worked on by many leading people in the field. And while it is undergoing polishing and is talked about as a draft, it is gapless outside of rDNA arrays and is very good. This makes HG002 a very good sample for testing assembly processes. You can always go back and compare your results against the draft from the T2T consortium.
     
 ## Data For Graph Building: PacBio & ONT Data
 
@@ -38,7 +39,7 @@ PacBio's high fidelity (or HiFi) reads are long (~15kb) and accurate (~99.9%). P
 Long, highly accurate reads allows for a number of analyses that were difficult or impossible in the context of short reads. For instance, variants can be more easily phased as you can just look for variants that are seen in the same sequencing read since HiFi read lengths span much more than short read lengths. In our context, long accurate reads allow assembly algorithms to build assembly graphs across difficult regions. But it turns out that HiFi reads aren't long enough to span exact repeats in regions like human centromeres.
 
 ## ONT Ultralong: Lower Quality But Really Long Reads
-Oxford Nanopore's ultralong (UL) sequencing has lower accuracy (~97%), but is really long (even longer than normal ONT). This is achieved though a different library prep -- as compared to normal DNA sequencing with ONT. UL library prep uses a transposase to cut DNA at non-specific sites where it can then be adapted for sequencing. 
+Oxford Nanopore's ultralong (UL) sequencing has lower accuracy (~97%), but is really long (even longer than normal ONT). This is achieved though a different library prep&mdash;as compared to normal DNA sequencing with ONT. UL library prep uses a transposase to cut DNA at non-specific sites where it can then be adapted for sequencing. 
 
 **ONT Ultralong Library Prep**
 <p align="center">
