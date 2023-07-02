@@ -1,6 +1,6 @@
 # 5. Day 3a: Assembly Quality Control (QC)
 
-Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": contiguity, correctness, and completeness.
+Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": **contiguity**, **correctness**, and **completeness**.
 
 !!! question "Food for thought"
 
@@ -9,9 +9,9 @@ Now that we have understood our data types (day 1) and put them through an assem
 
 
 ## Contiguity (assembly statistics using gfastats)
-Recall that the sequences in our assembly are referred to as *contigs*, 
+Recall that the sequences in our assembly are referred to as *contigs*.
 
-Normally, when we receive a hodgepodge of things with different values of the same variable, such as our contigs of varying lengths, we are inclined to use descriptive statistics such as average or median to try to get a grasp on how our data looks. However, it can be hard to compare average contig length between assemblies -- if they have the same total size and same number of contigs, it's still the same average, even if it's five contigs of 100 bp, or one 460 bp contig and four 10 bp ones! This matters for assembly because ideally we want *fewer* contigs that are *larger*. 
+Normally, when we receive a hodgepodge of things with different values of the same variable, such as our contigs of varying lengths, we are inclined to use descriptive statistics such as average or median to try to get a grasp on how our data looks. However, it can be hard to compare average contig length between assemblies&mdash;if they have the same total size and same number of contigs, it's still the same average, even if it's five contigs of 100 bp, or one 460 bp contig and four 10 bp ones! This matters for assembly because ideally we want *fewer* contigs that are *larger*. 
 
 Median comes closer to reaching what we're trying to measure, but it can be skewed by having many very small contigs, so instead a popular metric for assessing assemblies is *N50*.
 
@@ -99,7 +99,7 @@ Let's get some basic statistics for an assembly using a tool called **gfastats**
 
 **Run gfastats on a GFA**
 
-Remember that the file we initially got was an assembly *graph* -- what if we wanted to know some graph-specitic stats about our assembly, such as number of nodes or disconnected components? We can also assess that using gfastats. 
+Remember that the file we initially got was an assembly *graph*&mdash;what if we wanted to know some graph-specitic stats about our assembly, such as number of nodes or disconnected components? We can also assess that using gfastats. 
 
 !!! terminal "code"
 
@@ -162,7 +162,7 @@ Check out the graph-specific statistics at the end of the output.
 
 **Compare two graphs' stats**
 
-Now that we know how to get the statistics for one assembly, let's get them for two so we can actually compare them. We already compared a verkko hifi-only and hifi+ONT graph visually, so let's do it with assembly stats this time. We're going to use a one-liner to put the assembly stats side-by-side, because it can be kind of cumbersome to scroll up and down between two separate command line runs and their outputs.
+Now that we know how to get the statistics for one assembly, let's get them for two so we can actually compare them. We already compared a Verkko HiFi-only and HiFi+ONT graph visually, so let's do it with assembly stats this time. We're going to use a one-liner to put the assembly stats side-by-side, because it can be kind of cumbersome to scroll up and down between two separate command line runs and their outputs.
 
 !!! terminal "code"
 
@@ -172,9 +172,9 @@ Now that we know how to get the statistics for one assembly, let's get them for 
     !!! info ""
     
         1. `paste` is a command that pastes two files side by side
-        2. the `<(COMMAND)` syntax is called process substitution, and it passes the output of the command(s) inside the parentheses to another command (here it is passing the `gfastats` output to `paste`), and can be useful when using a pipe (|) might not be possible
-        3. the `-t` flag in gfastats specifies that the output should be tab-delimited, which makes it more computer-parseable
-        4. the `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
+        2. The `<(COMMAND)` syntax is called process substitution, and it passes the output of the command(s) inside the parentheses to another command (here it is passing the `gfastats` output to `paste`), and can be useful when using a pipe (`|`) might not be possible
+        3. The `-t` flag in gfastats specifies that the output should be tab-delimited, which makes it more computer-parsable
+        4. The `cut` command in the substitution is just getting the actual statistics column from the gfastats output, because the first column is the name of the statistic
         
     Your output should look something like this:
     
@@ -242,7 +242,7 @@ Merqury operates using *k*-mer databases like the ones we generated using meryl,
 
 **Running Meryl and GenomeScope on the *E. coli* verkko assembly**
 
-Let's try this out on the *E. coli* verkko assembly. First we need a meryl database, so let's generate that 
+Let's try this out on the *E. coli* Verkko assembly. First we need a meryl database, so let's generate that 
 
 !!! terminal "code"
 
@@ -297,46 +297,48 @@ That shouldn't take too long to run. Now we have a meryl DB for our HiFi reads. 
 
 If you tried to run that command with the output straight to standard out (*i.e.*, your terminal screen), you'll see it's rather overwhelming and puts you all the way at the high, high coverage *k*-mer counts, which are only one occurance. Let's look at just the first 100 lines instead.
 
-```
-srun -c 8 meryl histogram read-db.meryl > read-db.hist
-head -n 100 read-db.hist
-```
-
-This is more manageable, and you can even kind of see the histogram forming from the count values. There's a lot of *k*-mers that are present at only one copy (or otherwise very low copy) in the read set: these are usually sequencing errors, because there's a lot of these *k*-mers present at low copy. Because the sequence isn't actually real (*i.e.*, it isn't actually in the genome and isn't actually serving as sequencing template), these *k*-mers stay at low copy. After these error *k*-mers, there's a dip in the histogram until about the 24-28 copy range. This peak is the coverage of the actual *k*-mers coming from the genome that you sequenced, thus it corresponds to having coverage of ~26X in this read set. We only have one peak here because this is a haploid dataset, but if your dataset is diploid then expect two peaks with the first peak varying in height depending on heterozygosity of your sample. 
-
-"What if I want a pretty graph instead of imagining it?" Good news -- there's <del>an app</del> a program for that. GenomeScope is a straightforward program with an online web page where you can just drop in your meryl histogram file and it will draw the histogram for you as well as use the GenomeScope model to predict some genome characteristics of your data, given the expected ploidy. Let's try it out! Download the `read-db.hist` file and throw it into the GenomeScope website: http://qb.cshl.edu/genomescope/genomescope2.0/ and adjust the parameters accordingly.
-
-**Can I use GenomeScope to QC my raw data before assembly?** (hi Dini I think maybe this section can be a large detail drop down? I'm not sure if it breaks the flow of the tutorial)
-
-As you can see here, GenomeScope can be useful for getting an idea of what your raw dataset looks like, as well as feeling out the genome that should be represented by those sequencing reads. This can be useful as a QC step before even running the assembly, to make sure that your dataset is good enough to use. Here's an example of a good diploid dataset of HiFi reads:
-
-![mMicPen1 genomescope](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/genomescope_mMicPen1.png)
-
-
-??? question "How does the data look? What does the coverage look to be? How many peaks are there in the data and what do they represent? What are some characteristics of the genome as inferred by GenomeScope?"
+!!! terminal "code"
     
-    This data looks good, and you know that 1) because this tutorial text already called it good previously, and 2) there's a good amount of coverage, around 40X diploid coverage in fact. Additionally, the peaks are all very clear and distinct from each other and from the error *k*-mer slope on the left. Recall that the first peak represents haploid coverage (i.e., coverage of heterozygous loci) and the second peak is diploid coverage. GenomeScope is predicting the total size of the genome to be about 2.2 Gbp with 1.23% heterozygosity. This is data for <i>Microtus pennsylvaticus</i>, the eastern meadow vole. 
+    ```bash
+    meryl histogram read-db.meryl > read-db.hist
+    head -n 100 read-db.hist
+    ```
+
+This is more manageable, and you can even kind of see the histogram forming from the count values. There's a lot of *k*-mers that are present at only one copy (or otherwise very low copy) in the read set: these are usually sequencing errors, because there's a lot of these *k*-mers present at low copy. Because the sequence isn't actually real (*i.e.*, it isn't actually in the genome and isn't actually serving as sequencing template), these *k*-mers stay at low copy. After these error *k*-mers, there's a dip in the histogram until about the 24&ndash;28 copy range. This peak is the coverage of the actual *k*-mers coming from the genome that you sequenced, thus it corresponds to having coverage of ~26X in this read set. We only have one peak here because this is a haploid dataset, but if your dataset is diploid then expect two peaks with the first peak varying in height depending on heterozygosity of your sample. 
+
+"What if I want a pretty graph instead of imagining it?" Good news&mdash;there's <del>an app</del> a program for that. GenomeScope is a straightforward program with an online web page where you can just drop in your meryl histogram file and it will draw the histogram for you as well as use the GenomeScope model to predict some genome characteristics of your data, given the expected ploidy. Let's try it out! Download the `read-db.hist` file and throw it into the GenomeScope website: http://qb.cshl.edu/genomescope/genomescope2.0/ and adjust the parameters accordingly.
+
+??? tip "Can I use GenomeScope to QC my raw data before assembly?"
+
+    As you can see here, GenomeScope can be useful for getting an idea of what your raw dataset looks like, as well as feeling out the genome that should be represented by those sequencing reads. This can be useful as a QC step before even running the assembly, to make sure that your dataset is good enough to use. Here's an example of a good diploid dataset of HiFi reads:
+
+    ![mMicPen1 genomescope](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/genomescope_mMicPen1.png)
 
 
-Here's an example of another HiFi dataset:
+    ??? question "How does the data look? What does the coverage look to be? How many peaks are there in the data and what do they represent? What are some characteristics of the genome as inferred by GenomeScope?"
 
-![xbAnaTube1 genomescope 1](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/genomescope_xbAnaTube1_bad.png)
+        This data looks good, and you know that 1) because this tutorial text already called it good previously, and 2) there's a good amount of coverage, around 40X diploid coverage in fact. Additionally, the peaks are all very clear and distinct from each other and from the error *k*-mer slope on the left. Recall that the first peak represents haploid coverage (i.e., coverage of heterozygous loci) and the second peak is diploid coverage. GenomeScope is predicting the total size of the genome to be about 2.2 Gbp with 1.23% heterozygosity. This is data for <i>Microtus pennsylvaticus</i>, the eastern meadow vole. 
 
-Compare this to the previous examples. Does this look like a good dataset? Ignoring how GenomeScope itself is getting confused and can't get its model to fit properly to the *k*-mer spectra, let's look at the actual observed *k*-mer spectra. It does look like there's potentially two peaks whose distributions are overlapping, one peak around 10X and the other just under 20X. These are presumably our haploid and diploid peaks, but there's not enough coverage to resolve them properly here. This is an example of a GenomeScope QC that would tell me we don't have enough HiFi data to continue onto assembly, let's try to generate some more data.  
 
-![xbAnaTube1 genomescope 2](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/genomescope_xbAnaTube1_good.png)
-
-Wow, more data! This result is from after adding one more (notably more successful) SMRT cell of HiFi data and re-running GenomeScope. We can see the resolution of the peaks much more cleanly, and the GenomeScope model fits the data much better now, so we can trust the genome characteristic estimates here more than before. If you noted the comparatively small genome size and wondered what this was, it's *Anadara tuberculosa*, the piangua.
-
-Now you might be wondering: what happens if I try to assemble data without enough coverage? Answer: a headache. The assembly that results from the dataset that made the first GenomeScope plot resulted in two haplotypes of over 3,000 contigs each, which is very fragmented for a genome this small, recapitulated by their auN values being ~0.5 Mbp. In comparison, an assembly with the dataset pictured in the second GenomeScope plot resulted in two haplotypes of 500-800 contigs with auN values of 3.6-3.9 Mbp! The improvement in contiguity can also be visualized in the Bandage plots:
-
-![xbAnaTube1 bandage 1](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/bandage_xbAnaTube1_bad.png)
-
-The above is the hifiasm unitig graph for the assembly done without good HiFi coverage.
-
-![xbAnaTube1 bandage 2](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/bandage_xbAnaTube1_good.png)
-
-The above is the hifiasm unitig graph for the assembly done with good (~56X) HiFi coverage.
+    Here's an example of another HiFi dataset:
+    
+    ![xbAnaTube1 genomescope 1](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/genomescope_xbAnaTube1_bad.png)
+    
+    Compare this to the previous examples. Does this look like a good dataset? Ignoring how GenomeScope itself is getting confused and can't get its model to fit properly to the *k*-mer spectra, let's look at the actual observed *k*-mer spectra. It does look like there's potentially two peaks whose distributions are overlapping, one peak around 10X and the other just under 20X. These are presumably our haploid and diploid peaks, but there's not enough coverage to resolve them properly here. This is an example of a GenomeScope QC that would tell me we don't have enough HiFi data to continue onto assembly, let's try to generate some more data.  
+    
+    ![xbAnaTube1 genomescope 2](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/genomescope_xbAnaTube1_good.png)
+    
+    Wow, more data! This result is from after adding one more (notably more successful) SMRT cell of HiFi data and re-running GenomeScope. We can see the resolution of the peaks much more cleanly, and the GenomeScope model fits the data much better now, so we can trust the genome characteristic estimates here more than before. If you noted the comparatively small genome size and wondered what this was, it's *Anadara tuberculosa*, the piangua.
+    
+    Now you might be wondering: what happens if I try to assemble data without enough coverage? Answer: a headache. The assembly that results from the dataset that made the first GenomeScope plot resulted in two haplotypes of over 3,000 contigs each, which is very fragmented for a genome this small, recapitulated by their auN values being ~0.5 Mbp. In comparison, an assembly with the dataset pictured in the second GenomeScope plot resulted in two haplotypes of 500-800 contigs with auN values of 3.6-3.9 Mbp! The improvement in contiguity can also be visualized in the Bandage plots:
+    
+    ![xbAnaTube1 bandage 1](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/bandage_xbAnaTube1_bad.png)
+    
+    The above is the hifiasm unitig graph for the assembly done without good HiFi coverage.
+    
+    ![xbAnaTube1 bandage 2](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/bandage_xbAnaTube1_good.png)
+    
+    The above is the hifiasm unitig graph for the assembly done with good (~56X) HiFi coverage.
 
 **OK cool, now back to Merqury**
 
@@ -464,7 +466,7 @@ A perfect asesmbly would have %MMC be zero, while a higher fraction indicates th
 
 The output will be a tab-delimed list of metrics and the value of that metric for the reference and for your given assembly. The line **full_sgl** gives the number of single-copy genes present in the reference and your assembly -- if these numbers are off-balanced, then you might have false duplications, which are also pointed out on the **full_dup** line. For the multi-copy genes, you can look at **dup_cnt** to see the number of multi-copy genes in the reference and see how many of those genes are still multi-copy in your assembly. You can then use these values to calculate %MMC via the formula `1 - (dup_cnt asm / dup_cnt ref)`. 
 
-Let's try running asmgene on `haplotype1` and `haplotype2` from the pre-baked verkko trio assemblies. 
+Let's try running asmgene on `haplotype1` and `haplotype2` from the pre-baked Verkko trio assemblies. 
 
 !!! terminal "code"
 

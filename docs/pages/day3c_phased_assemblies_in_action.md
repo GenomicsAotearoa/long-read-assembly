@@ -2,13 +2,13 @@
 
 What can you do with a phased assembly that you cannot do with a squashed
 assembly? Why does having a highly-continuous and highly-accurate assembly
-matter? In same cases, you don&rsquo; need an assembly like that, e.g., if
+matter? In same cases, you don&rsquo;t need an assembly like that, e.g., if
 doing targeted sequencing of a region of interest that fits inside the length
-of a read. Conversly, some applications _require_ a good assembly, e.g., when
+of a read. Conversely, some applications _require_ a good assembly, e.g., when
 studying repetitive DNA, especially long and/or interspersed repeats. Phasing
 is also helpful when the haplotypes differ, especially when those differences
 are structural in nature (e.g., copy number variants or large insertions,
-deletions, duplications, or inversions). Let&rsquo; take a look at the repeats
+deletions, duplications, or inversions). Let&rsquo;s take a look at the repeats
 in chromosome Y of our HG002 assembly.
 
 ## Visualizing Repeats using ModDotPlot
@@ -33,7 +33,7 @@ software can&rsquo;t distinguish between repeat copies.
 
 ??? clipboard-question "What are sketching methods ?"
 
-    Sketchingis a technique to create reduced-representations
+    Sketching is a technique to create reduced-representations
     of a sequence. The most widely-known option for sketching is probably
     minimizers, made particularly popular with tools like
     <a href="https://lh3.github.io/minimap2">minimap2</a>
@@ -99,9 +99,9 @@ can map against the human CHM13-T2T reference.
     ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype2.fasta.fai hg002.hap2.fa.fai
     ```
 
-Note that we&rsquo; cheating a bit. We could map against the entire diploid
+Note that we&rsquo;re cheating a bit. We could map against the entire diploid
 assembly, but we&rsquo;ve already determined that chrY is in haplotype2, so
-we&squo;ll save some time and work with only that haplotype.
+we&rsquo;ll save some time and work with only that haplotype.
 
 ### Find chrY contigs with MashMap
 

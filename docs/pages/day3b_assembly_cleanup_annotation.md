@@ -3,9 +3,10 @@
 
 ## Assembly Cleanup
 Once you have a genome, and you think you want to hold onto it for a while and start doing actual analysis it is time to check it for contamination. In particular, before using and sharing your assembly it is best to make sure that you don't have:
-* contamination from other species
-* lot's of contigs for Epstein Barr Virus (EBV) or mitochondrial sequence
-* adapters embedded in your contigs
+
+* Contamination from other species
+* Lots of contigs for Epstein Barr Virus (EBV) or mitochondrial sequence
+* Adapters embedded in your contigs
 
 When you upload your assembly to Genbank, the sequence is automatically screen for contaminants and if anything is found you have to fix it and upload the fixed assembly. It's much better to take a look on your end. Luckily NCBI has released a version of their screening tool that can be run locally, so we will do that now.
 
@@ -30,13 +31,14 @@ When you upload your assembly to Genbank, the sequence is automatically screen f
 
 This tool is a python script that calls a Docker/Singularity container. This was done because contamination screens notoriously require a ton of dependencies. So having a Docker container makes things easier on the user. The docker container requires that a database of contaminants are downloaded. We have already downloaded the test database here: `/nesi/nobackup/nesi02659/LRA/resources/fcs/test-only`. The container has already been downloaded as well, we just need to load the singularity module and let FCS know where the container is:
 
-
-```bash
-module purge 
-module load Python/3.8.2-gimkl-2020a
-module load Singularity/3,11,3
-export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
-```
+!!! terminal "code"
+    
+    ```bash
+    module purge 
+    module load Python/3.8.2-gimkl-2020a
+    module load Singularity/3,11,3
+    export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
+    ```
 
 **Now we can run the test data**
 
@@ -171,7 +173,7 @@ Now execute the job
 
 ## Genome Annotation
 
-A genome assembly &ndash; even a very good one &ndash; is of limited utility
+A genome assembly&mdash;even a very good one&mdash;is of limited utility
 without annotation to provide context about the raw bases. Broadly speaking, an
 annotation is any information about some region of the genome, e.g., the GC% in
 a given window or whether and in which way a particular region is repetitive.
@@ -340,19 +342,22 @@ of HG002.
     Liftoff stores features from the GFF file in a SQLite database. The first
     part of any liftoff run processes the GFF file and creates the database,
     which by default is written to the same file location and name with a
-    <code>_gz</code> appended to the end. If you experience an error at any
+    `.gz` appended to the end. If you experience an error at any
     point (e.g., failing to allocate enough memory to your job), liftoff will
     automatically re-create the database, even if that part of the process
     completed successfully previously. This SQLite database is from a previous
     run we did, and we&rsquo;ll use it in place of the GFF file to shave some
     time (~10 mins for a full human genome) during our run. If you run
-    <code>liftoff -h</code>, you&rsquo;ll see that <code>-g</code> (to provide
+    `liftoff -h`, you&rsquo;ll see that `-g` (to provide
     the input GFF file) and <code>-db</code> (to provide the input SQLite
     database) are interchangeable. We&rsquo;ll be using the database to save
     time, but we could instead use the other option and supply the GFF file.
     If you haven&rsquo;t yet viewed a GFF file, now would be a good time to
-    check one out: <pre><code>less -S chm13-annotations.gff.gz</code></pre>
+    check one out:
 
+    ```bash
+    less -S chm13-annotations.gff.gz
+    ```
 
 **Run Liftoff**
 
@@ -378,18 +383,11 @@ First create a shell script `liftoff.sh` with the following content:
 
 !!! info "What do each of these options do ?"
 
-    `-p`specifies the number of threads to use. 
+    `-p` specifies the number of threads to use. 
 
-    `-db` specifies the location of
-    the SQLite database of features extracted by Liftoff from the GFF file with
-    the input annotations for the reference. 
+    `-db` specifies the location of the SQLite database of features extracted by Liftoff from the GFF file with the input annotations for the reference. 
     
-    `-o` specifies the
-    location of the GFF file with the output annotations for the target. The two
-    positional parameters at the end are respectively the target assembly (our
-    HG002 assembly) and the reference assembly (T2T-CHM13). Run the following
-
-    command to see all the options described in more detail:
+    `-o` specifies the location of the GFF file with the output annotations for the target. The two positional parameters at the end are respectively the target assembly (our HG002 assembly) and the reference assembly (T2T-CHM13). Run the following command to see all the options described in more detail:
 
     `liftoff -h`
 
@@ -558,9 +556,13 @@ The first thing we would like to do is to find out how our assembled genome comp
 The most recent versions of MashMap actually output PAF by defalt. But not the version we are using here. 
 
 **Now generate a dot plot of the alignment**
-```
-generateDotPlot png medium asm-to-chm13.mashmap.out
-```
+
+!!! terminal "code"
+
+    ```bash
+    generateDotPlot png medium asm-to-chm13.mashmap.out
+    ```
+
 And take a look at it (you can click on it in your file explorer).
 
 ??? clipboard-question "Does anything stick out to you ?"
@@ -700,7 +702,7 @@ This should only take 3 hours or so, but we have some pre-baked results for you 
 
 Zoom in on a random region that is a few hundred basepairs in size. You can see the methylation levels in the track histogram and in the reads themselves. Red is methylated and blue is unmethylated.
 
-If you are familiar with ONT data already you know that ONT and PacBio have the ability to detect base modifications without any additional steps like bisulfite conversion. What we are adding here is the ability to look at methylation in the context of a sample's own assembly. Maybe that wouldn't matter if you are looking at regions of the genome which are structurally consistent across samples -- like promoters for well known genes. 
+If you are familiar with ONT data already you know that ONT and PacBio have the ability to detect base modifications without any additional steps like bisulfite conversion. What we are adding here is the ability to look at methylation in the context of a sample's own assembly. Maybe that wouldn't matter if you are looking at regions of the genome which are structurally consistent across samples&mdash;like promoters for well known genes. 
 
 Now let's take a look at a region where it matters that we are using a matched data and sample:
 Navigate to  `mat-0000038:51,448,000 - 51,510,000`. This is the biggest contig that maps to chrX and we chose a region that is usually where the centromere is on chrX. 
