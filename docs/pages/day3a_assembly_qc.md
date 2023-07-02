@@ -262,6 +262,29 @@ Let's try this out on the *E. coli* verkko assembly. First we need a meryl datab
 ??? clipboard-question "`--wrap` ???"
    
     Previously, we used the `sbatch` command to submit a slurm script to the cluster and the slurm job handler. The `sbatch` command can actually take a lot of parameters like the ones we included in the beginning of our script, and one of those parameters is `--wrap` which kind of wraps whatever command you give it in a slurm wrapper so that the cluster can schedule it as if it was a slurm script. 
+    
+    Take note that running a process in this manner is not reproducible. Unless you have access to the `history` logs, other researchers are not able to know what parameters you have used. Therefore, it is advisable to write it out in a SLURM script as below:
+
+    !!! terminal "code"
+
+        ```bash
+        #!/bin/bash -e
+        #SBATCH --account=nesi02659
+        #SBATCH --job-name=meryl
+        #SBATCH --time=00:15:00
+        #SBATCH --cpus-per-task=8
+        #SBATCH --mem=24G
+        #SBATCH --partition=milan
+        
+        # Modules
+        module purge
+        module load Merqury/1.3-Miniconda3
+        
+        # Run
+        meryl count k=30 memory=24 threads=8 \
+          hifi.fastq.gz \
+          output read-db.meryl
+        ``` 
 
 
 That shouldn't take too long to run. Now we have a meryl DB for our HiFi reads. If we're curious about the distribution of our *k*-mers, we can use meryl generate a histogram of the counts to show us how often a *k*-mer occurs only once in the reads, twice, etc. 
