@@ -17,6 +17,7 @@ Let's get our hands on some data so we can see with our own eyes what HiFi and U
     ```bash
     module load pigz/2.7
     module load NanoComp/1.20.0-gimkl-2022a-Python-3.10.5
+    module load SAMtools/1.16.1-GCC-11.3.0
     ```
 **Subset Our Input Data**<br>
 In order to get a feel for the data, we only need a small portion of it. Pull the first few thousand reads of the HiFi reads and write them to new files.
@@ -24,17 +25,18 @@ In order to get a feel for the data, we only need a small portion of it. Pull th
 !!! terminal "code"
 
     ```bash
-    zcat /nesi/nobackup/nesi02659/LRA/resources/LRA_hifi.fq.gz \
+    zcat /nesi/nobackup/nesi02659/LRA/resources/deepconsensus/m64011_190830_220126.Q20.fastq.gz \
         | head -n 200000 \
-        | pigz > LRA_hifi_50k_reads.fq.gz &
+        | pigz > hifi_50k_reads.fq.gz &
     ```
 Next, downsample the ONT UL reads, too.
 
 !!! terminal "code"
     ```bash
-    zcat /nesi/nobackup/nesi02659/LRA/resources/LRA_ONTUL.fq.gz \
-        | head -n 4000 \
-        | pigz > LRA_ONTUL_1k_reads.fq.gz &
+    samtools fastq -@4 \
+        /nesi/nobackup/nesi02659/LRA/resources/ont_ul/03_08_22_R941_HG002_1_Guppy_6.1.2_5mc_cg_prom_sup.bam \
+        | head -n 20000 \
+        | pigz > ont_ul_5k_reads.fq.gz &
     ```
 
 **Now let's compare the data**<br>
@@ -44,16 +46,16 @@ We are going to use a tool called NanoComp. This tool can take in multiple fastq
 
     ```bash
     NanoComp --fastq \
-        LRA_hifi_50k_reads.fq.gz \
-        LRA_ONTUL_5k_reads.fq.gz \
+        hifi_50k_reads.fq.gz \
+        ont_ul_5k_reads.fq.gz \
         --names PacBio_HiFi ONT_UL \
         --outdir nanocomp_hifi_vs_ul
     ```
-Once the run is complete, navigate in your file browser to the NanoComp-report.html file and click on it to open it. Take a look at the plots for log-transformed read lengths and basecall quality scores. 
+Once the run is complete (~2 minutes), navigate in your file browser to the folder that NanoComp just created and then click on the NanoComp-report.html file (near the bottom of the folder's contents) to open it. Take a look at the plots for log-transformed read lengths and basecall quality scores. (Note that you may have to click **Trust HTML** at the top of the page for the charts to display.)
 
 !!! question "What is the range of Q-scores seen in HiFi data?"
     
-    While most HiFi data is Q30, there is a spread. The CCS process actually produces different data based on a number of different factors, including the number of times a molecule is read (also called subread passes). Raw CCS data is usually filtered for >Q20 reads at which point it is by convention called HiFi. (Note that some people use CCS data below Q20!)
+    The mean and median Q-scores are around 33 and 34, but there is a spread. The CCS process actually produces different data based on a number of different factors, including the number of times a molecule is read (also called subread passes). Raw CCS data is usually filtered for >Q20 reads at which point it is by convention called HiFi. (Note that some people use CCS data below Q20!)
 
 
 !!! question "What percent of UL reads are over 100kb?"
@@ -77,12 +79,12 @@ Run CutAdapt to check for adapter sequences in the downsampled data that we are 
          -b "ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT;min_overlap=45" \
          --discard-trimmed \
          -o /dev/null \
-         LRA_hifi_50k_reads.fq.gz \
+         hifi_50k_reads.fq.gz \
          -j 0 \
          --revcomp \
          -e 0.05
      ```
-Notice that we are writing output to `/dev/null`. We are working on a subset of these reads so the runtime is reasonable. There is no need to hold onto the reads that we are filtering on, just a subset of the data.
+Notice that we are writing output to `/dev/null`. We are working on a subset of these reads so the runtime is reasonable. There is no need to hold onto the reads that we are filtering on, it is just a subset of the data.
 
 ??? clipboard-question "What do you think the two sequences that we are filtering out are? (hint: you can Google them)"
 
@@ -107,19 +109,28 @@ Hifiasm is often run with ONT data filtered to be over 50kb in length, so let's 
     module load SeqKit/2.4.0
     seqkit seq \
         -m 50000 \
-        LRA_ONTUL_1k_reads.fq.gz \
-        | pigz > LRA_ONTUL_1k_reads.50kb.fq.gz &
+        ont_ul_5k_reads.fq.gz \
+        | pigz > ont_ul_5k_reads.50kb.fq.gz &
     ```
 Now we can quickly check how many reads are retained.
 
 !!! terminal "code"
 
     ```bash
-    zcat LRA_ONTUL_1k_reads.50kb.fq.gz | wc -l
+    NanoComp --fastq \
+        ont_ul_5k_reads.fq.gz \
+        ont_ul_5k_reads.50kb.fq.gz \
+        --names ONT_UL ONT_UL_50kb \
+        --outdir nanocomp_ul_vs_ul_50kb
     ```
 
-??? question "Why do you think an assembler might want to include only reads over 50kb?"
-<!-- Answer -->
+??? clipboard-question "When we filter for reads over 50kb, how many reads and total basepairs of DNA are filtered out?"
+
+    Over half of the reads are filtered out, but only about 25% of the data is filtered. This makes sense as the long reads contribute more bp per read.
+
+??? clipboard-question "Verkko is typically run without having filtered by size, why do you think that is?"
+
+    Based on the answer to the last question, filtering an ultralong readset for >50kb reads does not reduce the overall size of the dataset very much. 
 
 ## Phasing Data: Trio DBs and Hi-C
 Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
