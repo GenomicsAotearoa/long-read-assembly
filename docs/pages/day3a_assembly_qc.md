@@ -394,7 +394,7 @@ To find out the QV, we want the file named `output.qv`. Take a look at it and tr
     #SBATCH --job-name      merqury2
     #SBATCH --cpus-per-task 8
     #SBATCH --time          02:00:00
-    #SBATCH --mem           24G
+    #SBATCH --mem           40G
     #SBATCH --partition     milan
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
