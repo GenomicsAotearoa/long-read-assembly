@@ -354,7 +354,7 @@ Use your text editor of choice to make a slurm script (`run_merqury.sl`) to run 
     #SBATCH --job-name      merqury1
     #SBATCH --cpus-per-task 8
     #SBATCH --time          00:15:00
-    #SBATCH --mem           24G
+    #SBATCH --mem           40G
     #SBATCH --partition     milan
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
