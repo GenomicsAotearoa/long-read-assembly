@@ -1,4 +1,4 @@
-# 4. Day 2: Assembly
+# 4. Assembly
 
 !!! info "Here is a rundown of what we will do today:"
 
