@@ -126,7 +126,7 @@ Now we can quickly check how many reads are retained.
 
 ??? clipboard-question "When we filter for reads over 50kb, how many reads and total basepairs of DNA are filtered out?"
 
-    Over half of the reads are filtered out, but only about 25% of the data is filtered. This makes sense as the long reads contribute more bp per read.
+    Over half of the reads are filtered out, but only about 25% of the data (see "Total bases") is filtered. This makes sense as the long reads contribute more bp per read.
 
 ??? clipboard-question "Verkko is typically run without having filtered by size, why do you think that is?"
 
