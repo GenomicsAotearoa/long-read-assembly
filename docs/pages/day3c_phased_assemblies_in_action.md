@@ -57,7 +57,7 @@ software can&rsquo;t distinguish between repeat copies.
     -  <a href="https://github.com/maickrau/MBG">MBG</a>(<a href="https://doi.org/10.1093/bioinformatics/btab004">Rautiainen &amp; Marschall 2021</a>)
                 <strong>
                     &lt;-- Used in
-                    <a href="https://github.com/marbl/verkko">Verkko</a>
+                    <a href="https://github.com/marbl/verkko">Verkko</a></strong>
                     (<a href="https://doi.org/10.1038/s41587-023-01662-6">Rautiainen <em>et al.</em> 2023</a>)!
  
     - <a href="https://github.com/chhylp123/hifiasm">hifiasm</a>(<a href="https://doi.org/10.1038/s41587-022-01261-x">Cheng <em>et al.</em> 2022</a>)
