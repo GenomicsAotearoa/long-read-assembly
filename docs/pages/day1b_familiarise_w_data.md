@@ -172,7 +172,7 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
     ```bash
     zcat /nesi/nobackup/nesi02659/LRA/resources/ilmn/pat/HG003_HiSeq30x_subsampled_R1.fastq.gz \
         | head -n 20000000 \
-        | pigz > HG003_HiSeq30x_20M_reads_R1.fastq.gz &
+        | pigz > HG003_HiSeq30x_5M_reads_R1.fastq.gz &
     ```    
 
 **Create a kmer DB from an Illumina read set**
@@ -187,8 +187,8 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
         k=30 \
         threads=4 \
         memory=8 \
-        HG003_HiSeq30x_20M_reads_R1.fastq.gz \
-        output paternal_20M_compress.k30.meryl
+        HG003_HiSeq30x_5M_reads_R1.fastq.gz \
+        output paternal_5M_compress.k30.meryl
     ```
 
 This should be pretty fast because we are just using a small amount of data to get a feel for the program. The output of Meryl is a folder that contains 64 index files and 64 data files. If you try and look at the data files you'll see that they aren't human readable. In order to look at the actual kmers, you have to use meryl to print them.
