@@ -12,4 +12,10 @@
 
 !!! jupyter "In an instance where Virtual Desktop failed to connect"
 
-    - 
+    - If you are to encounter following during Virtual Desktop launch
+
+    <center>![image](../theme_figures/novnc.png){width="299"}</center>
+
+    - Restart Jupyter as below and try again please 
+
+    ![image](../theme_figures/restart_jupyter.png)
