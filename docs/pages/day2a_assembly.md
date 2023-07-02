@@ -53,21 +53,23 @@ Using these alignments, nodes that are linked (or phased) by a read are combined
 
 **The graph can now be phased**
 
-In the case of trio Illumina data, Verkko looks at the nodes and counts the number of maternal-specific or paternal-specific sequences of DNA (from meryl hapmer DBs). If it finds that a node has, for instance, a bunch of maternal specific sequences/kmers and almost no paternal specific sequences/kmers then the assembler will assign that node to be maternal. 
+In the case of trio Illumina data, Verkko looks at the nodes and counts the number of maternal-specific or paternal-specific sequences of DNA (from meryl hapmer DBs). If it finds that a node has, for instance, a bunch of maternal specific sequences/kmers and almost no paternal specific sequences/kmers then the assembler will assign that node to be maternal. Nodes that are the same haplotype but are separated by a homozygous region are then merged.
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_phasing.png?raw=true" width="550"/>
 </p>
 
-Finally the assembly graph can be converted into two haplotypes which are represented with maternal and paternal contigs.
+Finally the assembly graph can be converted into two contigs which represent maternal and paternal haplotypes.
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_contigs.png?raw=true" width="550"/>
 </p>
 
+Maternal and paternal contigs for the entire assembly are then put into one diploid fasta as well as two haploid fastas.
+
 !!! info "How does Hi-C phasing work?"
 
-    Hi-C data is aligned to the graph and reads that are linked across nodes can be used to phase the graph as shown in this figure modified from (Garg, Shilpa):
+    Like using trio data, Hi-C phasing aims to find nodes that are near to each other and come from the same haplotype. To achieve this, Hi-C data is aligned to the graph and reads that are linked across nodes can be used to phase the graph as shown in this figure modified from (Garg, Shilpa):
     <p align="center">
         <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/hic_phasing.png?raw=true" width="450"/>
     </p>
@@ -404,16 +406,16 @@ This has led some people (well at least one person) to call this approach grapho
 
 Hifiasm creates string graphs from HiFi and ONT data separately (kind of) and then combines them. The argument here is that by creating a standalone ONT graph you don't risk losing information that may be missing in the HiFi-only graph. At the time moment (July 2023) Hifiasm does not include a scaffolding step. Though that will likely change in the coming months.
 
-!!! info "I Have Data, Just Tell Me Which To Choose"
+### How Should I Choose?
 
-    **It's not an easy choice, but here are some guidelines**
-    * If you can, use both
-    * If you have Hifi coverage under 40X: use Hifiasm
-        * Verkko tends to perform less well at lower HiFi coverages
-    * If you have to pay for compute time: use Hifiasm (see the previous section)
-        * Verkko is more expensive to run. If you are on an HPC that may be ok. If you are paying Amazon for your compute then Verkko assemblies can cost upwards of $300 (USD).
-    * If you want to assemble then fiddle with it to perfect the assembly: use both, then fix things with Verkko
-        * Verkko allows you to see its inner workings. You can also make manual changes and then restart from that point in the assembly process. If you do things right, Verkko will take care of the rest. This was done, for instance, by the Verkko team on their version of the HG002 assembly: they manually resolved tangles in the graph.
+**It's not an easy choice, but here are some guidelines**
+* If you can, use both
+* If you have Hifi coverage under 40X: use Hifiasm
+    * Verkko tends to perform less well at lower HiFi coverages
+* If you have to pay for compute time: use Hifiasm (see the previous section)
+    * Verkko is more expensive to run. If you are on an HPC that may be ok. If you are paying Amazon for your compute then Verkko assemblies can cost upwards of $300 (USD).
+* If you want to assemble then fiddle with it to perfect the assembly: use both, then fix things with Verkko
+    * Verkko allows you to see its inner workings. You can also make manual changes and then restart from that point in the assembly process. If you do things right, Verkko will take care of the rest. This was done, for instance, by the Verkko team on their version of the HG002 assembly: they manually resolved tangles in the graph.
 
 ## How Much Input Data Do I Need?
 
