@@ -24,7 +24,7 @@ Both Verkko and Hifiasm can use a variety of data sources:
     * Oxford Nanopore Ultralong: >100kb, around 97% accuracy
     * Phasing data from Hi-C or trio Illumina data
 
-PacBio HiFi data is required for both assemblers. Other data types are optional -- but they lead to much better assemblies. So let's jump ahead a bit and take a peak at how Verkko creates assemblies using figure 1 from the recent Verkko paper (Rautiainen, Mikko, et al.). It's ok if this is a bit confusing, we will come back to this in day 2.
+PacBio HiFi data is required for both assemblers. Other data types are optional -- but they lead to much better assemblies. So let's jump ahead a bit and take a peak at how Verkko creates assemblies using figure 1 from the recent Verkko paper (Rautiainen, Mikko, et al.). It's ok if this is a bit confusing, you don't need to know the inner workings of Verkko in order to make great assemblies.
 
 **PacBio HiFi is used to create the initial graph** 
 
@@ -51,9 +51,9 @@ Using these alignments, nodes that are linked (or phased) by a read are combined
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_ont_resolved.png?raw=true" width="550"/>
 </p>
 
-**The graph can now be phased with Hi-C or trio data**
+**The graph can now be phased**
 
-By looking at the nodes and trying to find maternal-specific or paternal-specific sequences of DNA, the assembler phases nodes into maternal and paternal. Hi-C data does something very similar -- which we will learn about later.
+In the case of trio Illumina data, Verkko looks at the nodes and counts the number of maternal-specific or paternal-specific sequences of DNA (from meryl hapmer DBs). If it finds that a node has, for instance, a bunch of maternal specific sequences/kmers and almost no paternal specific sequences/kmers then the assembler will assign that node to be maternal. 
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_phasing.png?raw=true" width="550"/>
@@ -65,6 +65,23 @@ Finally the assembly graph can be converted into two haplotypes which are repres
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_contigs.png?raw=true" width="550"/>
 </p>
 
+!!! info "How does Hi-C phasing work?"
+
+Hi-C data is aligned to the graph and reads that are linked across nodes can be used to phase the graph as shown in this figure modified from (Garg, Shilpa):
+
+<p align="center">
+    <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/hic_phasing.png?raw=true" width="450"/>
+</p>
+
+One key difference between trio phasing and Hi-C is that Hi-C data cannot say that a set of nodes all come from the sample's mother or father, only that they come from the same haplotype. 
+
+
+!!! note ""
+
+
+<p align="center">
+    <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_contigs.png?raw=true" width="550"/>
+</p>
 
 
 ## Exploring With Test Data
