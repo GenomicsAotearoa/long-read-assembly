@@ -1,4 +1,4 @@
-# 2. Day 1: Sequence Data
+# 2. Sequence Data
 
 **Preamble: What Data Are We Using?**
 
