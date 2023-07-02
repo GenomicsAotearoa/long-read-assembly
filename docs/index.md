@@ -26,6 +26,7 @@
     | :-------------- | :----------------------------------------------------------------------------------------- |
     | Supplementary 1 | [NeSI HPC Authentication Factor Setup and Jupyter Login](supplementary/supplementary_1.md) |
     | Supplementary 2 | [NeSI File System, Working Directory, and Symlinks](supplementary/supplementary_2.md) |
+    | Supplementary 3 | [Jupyter Virtual Desktop](supplementary/supplementary_3.md)|
 
 
 !!! copyright "Attribution notice"
