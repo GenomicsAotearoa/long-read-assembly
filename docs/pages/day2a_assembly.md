@@ -1,8 +1,8 @@
 # 4. Day 2: Assembly
 
-Here is a rundown of what we are doing today:
+Here is a rundown of what we will do today:
 
-* Learn about how Verkko creates assemblies
+* Learn about how Verkko & Hifiasm create assemblies
 * Run Hifiasm with test data (HiFi only)
 * Run Verkko with test data (HiFi + ONT)
 * See how to run both with full datasets
@@ -13,7 +13,8 @@ At the end of the day you will hopefully have a feel for how to actually run eac
 
 ## Theoretical Walkthrough Of The Assembly Process
 
-We are about to start learning about the sequencing data types that are used in assembly, but it can be a bit hard to appreciate what these data types are without knowing how we will use them. In this section we will go over the rough outline of Verkko's approach to assembly. Hopefully this will help put the data types in context.
+### Verkko
+In this section we will go over the rough outline of Verkko's approach to assembly. Hopefully this will help put the data types from yesterday in context. Knowing how each datatype is used also helps you to make better decisions when planning your sequencing runs.
 
 Both Verkko and Hifiasm can use a variety of data sources:
 
