@@ -1,4 +1,4 @@
-# 3. Preamble: Familiarize Ourselves With The Data
+# 3. Familiarize Ourselves With The Data
 
 Let's get our hands on some data so we can see with our own eyes what HiFi and UL data look like.
 
