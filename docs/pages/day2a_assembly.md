@@ -191,35 +191,35 @@ To get a fasta we just pull the S lines from a GFA and print them to a file:
 ### View Hifiasm Test Assembly GFA in Bandage
 We are going to take a look at the assembly GFA file in a browser called Bandage. Bandage provides a way to visualize something called unitig graphs.
 
-**Start Bandage**
+!!! jupyter "Start Bandage"
 
-1. From your Jupyter session click the <kbd>+</kbd> icon to create a new tab.
-2. Click the Virtual Desktop icon (this will open a new tab in your web browser)
-3. In the Virtual Desktop, click on the terminal emulator icon (in your toolbar at the bottom of your screen)
-4. Load the Bandage module with `module load Bandage`
-4. Type `Bandage &` to start Bandage
-
-**Load a unitig GFA**
-
-1. Click the *File* dropdown then *Load Graph*
-2. Navigate to our current folder (`day2_assembly/hifiasm_test`)
-3. Select the `test.bp.r_utg.noseq.gfa` file and press the **Open** icon
-4. Under **Graph Drawing** on the left-hand side click **Draw Graph**
-
-Ok, so what are we looking at? The thick lines are nodes&mdash;which in this case represent sequences. Since we loaded the unitig graph the sequences are unitigs. A unitig is a high confidence contig. It is a place where the assembler says "I know exactly what is going on here". The ends of unitigs are where it gets messy. At the ends, an assembler has choices to make about which unitig(s) to connect to next.
-
-**Now load a contig GFA**<br>
-Open the `test.bp.p_ctg.noseq.gfa` file to see how boring it is.
-
-In general, when using Bandage people look at the unitig GFAs (not contig GFAs). An assembly is a hypothesis, and the contigs output by the assembler are its best guess at the correct haplotype sequence. The contigs don't show much information about the decisions being made, however. They are the output. We view unitig GFAs so we can see the data structure at the point that the assembler was making tough decisions. 
-
-**Here are some things you can do with Bandage**
-
-1. Let's say you mapped a sample's ONT reads back onto that sample's denovo assembly and have identified a misjoin. You can open up bandage and find that  unitigs that went into the contig to see if it can be easily manually broken.
-2. If you have a phased diploid assembly with a large sequence that is missing, you can look at the unitig gfa, color the nodes by haplotype, and see which sequences are omitted. Those sequences can then be analyzed and manually added into the final assembly.
-3. You can label nodes with (hifi) coverage and inspect regions with low quality too see if they have low coverage as well. If so, you might want to throw them out. (This does happen, in particular for small contigs that assemblers tend to output.)
-
-
+    1. Open Jupyter Virtual Desktop [according to these instructions](../supplementary/supplementary_3.md)
+    2. In the Virtual Desktop, click on the terminal emulator icon (in your toolbar at the bottom of your screen)
+    3. Load the Bandage module with `module load Bandage`
+    4. Type `Bandage &` to start Bandage
+       ![image](../theme_figures/bandage_vdt.png){width="600"}
+    
+    **Load a unitig GFA**
+    
+    1. Click the *File* dropdown then *Load Graph*
+    2. Navigate to our current folder (`day2_assembly/hifiasm_test`)
+    3. Select the `test.bp.r_utg.noseq.gfa` file and press the **Open** icon
+    4. Under **Graph Drawing** on the left-hand side click **Draw Graph**
+    
+    Ok, so what are we looking at? The thick lines are nodes&mdash;which in this case represent sequences. Since we loaded the unitig graph the sequences are unitigs. A unitig is a high confidence contig. It is a place where the assembler says "I know exactly what is going on here". The ends of unitigs are where it gets messy. At the ends, an assembler has choices to make about which unitig(s) to connect to next.
+    
+    **Now load a contig GFA**<br>
+    Open the `test.bp.p_ctg.noseq.gfa` file to see how boring it is.
+    
+    In general, when using Bandage people look at the unitig GFAs (not contig GFAs). An assembly is a hypothesis, and the contigs output by the assembler are its best guess at the correct haplotype sequence. The contigs don't show much information about the decisions being made, however. They are the output. We view unitig GFAs so we can see the data structure at the point that the assembler was making tough decisions. 
+    
+    **Here are some things you can do with Bandage**
+    
+    1. Let's say you mapped a sample's ONT reads back onto that sample's denovo assembly and have identified a misjoin. You can open up bandage and find that  unitigs that went into the contig to see if it can be easily manually broken.
+    2. If you have a phased diploid assembly with a large sequence that is missing, you can look at the unitig gfa, color the nodes by haplotype, and see which sequences are omitted. Those sequences can then be analyzed and manually added into the final assembly.
+    3. You can label nodes with (hifi) coverage and inspect regions with low quality too see if they have low coverage as well. If so, you might want to throw them out. (This does happen, in particular for small contigs that assemblers tend to output.)
+    
+    
 ## Run Verkko With Test Data
 **Create A Directory**
 
