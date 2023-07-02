@@ -14,6 +14,8 @@
     | Tuesday, 4th July   | 1:00PM <br> 2:00PM <br> 3:00PM | [Introduction to the workshop](pages/day0_intro.md) <br> [How are assemblies created?](pages/day1a_read_inputs.md) <br> [Familiarize Ourselves with the Data](pages/day1b_familiarise_w_data.md) <br> Talk by Assistant Professor Karen Miga |
     | Wednesday, 5th July | 9:00AM <br> 12:00PM <br> 1:00PM <br> 2:00PM <br> 3:00PM | [Assembly](pages/day2a_assembly.md) <br> Lunch break <br> [Assembly continued](pages/day2a_assembly.md) <br> Talk by Dr Brandon Pickett <br> Talk by Dr Joseph Guhlin                                      |
     | Thursday, 6th July  | 9:00AM <br> 10:00AM <br> 11:00AM <br> 12:00PM <br> 1:00PM  | [Assembly QC](pages/day3a_assembly_qc.md) <br> [Assembly clean-up](pages/day3b_assembly_cleanup_annotation.md) <br> [Phased assemblies in action](pages/day3c_phased_assemblies_in_action.md) <br> Lunch break <br> Talk by Assistant Professor Benedict Paten                              |
+  
+
 
 
 ??? example "Supplementary materials"
