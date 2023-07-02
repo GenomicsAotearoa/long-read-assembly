@@ -1,4 +1,5 @@
-## 2. Day 1: Sequence Data
+# 2. Day 1: Sequence Data
+
 **Preamble: What Data Are We Using?**
 
 !!! info ""
