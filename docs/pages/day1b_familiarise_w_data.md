@@ -53,12 +53,12 @@ We are going to use a tool called NanoComp. This tool can take in multiple fastq
     ```
 Once the run is complete (~2 minutes), navigate in your file browser to the folder that NanoComp just created and then click on the NanoComp-report.html file (near the bottom of the folder's contents) to open it. Take a look at the plots for log-transformed read lengths and basecall quality scores. (Note that you may have to click **Trust HTML** at the top of the page for the charts to display.)
 
-!!! question "What is the range of Q-scores seen in HiFi data?"
+??? clipboard-question "What is the range of Q-scores seen in HiFi data?"
     
     The mean and median Q-scores are around 33 and 34, but there is a spread. The CCS process actually produces different data based on a number of different factors, including the number of times a molecule is read (also called subread passes). Raw CCS data is usually filtered for >Q20 reads at which point it is by convention called HiFi. (Note that some people use CCS data below Q20!)
 
 
-!!! question "What percent of UL reads are over 100kb?"
+??? clipboard-question "What percent of UL reads are over 100kb?"
 
     This depends on the dataset but it is very common to see 30% of reads being over 100kb. The 100kb number gets passed around a lot because reads that are much longer than HiFi are when UL distinguishes itself
 
