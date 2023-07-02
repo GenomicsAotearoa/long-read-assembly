@@ -1,4 +1,4 @@
-# 6.Day 3b: Assembly Cleanup & Genome Annotation
+# 6. Assembly Cleanup & Genome Annotation
 
 
 ## Assembly Cleanup
