@@ -91,7 +91,7 @@ Notice that we are writing output to `/dev/null`. We are working on a subset of 
 
 ??? clipboard-question "Why can we get away with throwing away entire reads that contain adapter sequences?"
 
-    As you can see from the summary statistics from CutAdapt, not many reads in this dataset have adapters/primers. There is some concern about bias -- where we remove certain sequences from the genome assembly process. We've taken the filtered reads and aligned them to the genome and they didn't look like they were piling up in any one area.
+    As you can see from the summary statistics from CutAdapt, not many reads in this dataset have adapters/primers. There is some concern about bias&mdash;where we remove certain sequences from the genome assembly process. We've taken the filtered reads and aligned them to the genome and they didn't look like they were piling up in any one area.
 
 ??? clipboard-question "What would happen if we left adapter sequences in the reads?"
 
@@ -118,7 +118,8 @@ Now we can quickly check how many reads are retained.
     zcat LRA_ONTUL_1k_reads.50kb.fq.gz | wc -l
     ```
 
-??? question "Why do you think an assembler might want to include only reads over 50kb ?"
+??? question "Why do you think an assembler might want to include only reads over 50kb?"
+<!-- Answer -->
 
 ## Phasing Data: Trio DBs and Hi-C
 Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
@@ -255,8 +256,10 @@ We see a lot of kmers missing and the histogram (frequency column) has a ton of 
 #### Closing notes
 
 **Meryl DBs for Assembly and QC**
+
 It should be noted that Meryl DBs used for assembly with Verkko and for base-level QC with Merqury are created differently. Here are the current recommendations for kmer size and compression:
-* Verkko: use `k=30` and the `compress` command.
+
+* Verkko: use `k=30` and the `compress` command
 * Merqury: use `k=21` and do not include the `compress` command
 
 ??? question "Why does Verkko use compressed Meryl DBs while Merqury does not?"
@@ -264,7 +267,7 @@ It should be noted that Meryl DBs used for assembly with Verkko and for base-lev
     The biggest error type from long read sequencing comes from homopolymer repeats. So assembly graphs are typically constructed from homopolymer compressed data. After the assembly graph is created the homopolymers are added back in. Verkko compresses the HiFi reads for you, but you need to give it homopolymer compressed Meryl DBs so they play nicely together. Merqury on the other hand is used to assess the quality of the resultant assembly, so you want to keep those homopolymers in order to find errors in them.
 
 
-??? question "Why does Merqury use k=21 ?"
+??? question "Why does Merqury use `k=21` ?"
 
     Larger K sizes give more conservative results, but this comes at a cost since you get lower effective coverage. For non-human species, if you know your genome size you can [estimate an optimal K using Meryl itself](https://github.com/marbl/merqury/wiki/1.-Prepare-meryl-dbs#1-get-the-right-k-size). If you are wondering, Verkko uses k=30 in order to be "conservative". And at the time of writing this document, different species typically stick with k=30. Though this hasn't been tested, so it may change in the future.
 

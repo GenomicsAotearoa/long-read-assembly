@@ -1,6 +1,7 @@
 # 4. Day 2: Assembly
 
 Here is a rundown of what we are doing today:
+
 * Run Hifiasm with test data (HiFi only)
 * Run Verkko with test data (HiFi + ONT)
 * See how to run both with full datasets
@@ -92,12 +93,11 @@ P   14  11+,12-,13+ 4M,5M
     * L (Link): Overlap between two segments
         * We can read the first Link line as saying that the end of Segment 11 (+) connects to the beginning of Segment 12 (-) and the overlap is 4 matching bases. In this case it would look like this:
         
-```bash
-    ACCTT    (Segment 11)
-     ||||
-     GGAACT  (Segment 12 -- reversed)
-```
-!!! note ""
+    ```bash
+        ACCTT    (Segment 11)
+         ||||
+         GGAACT  (Segment 12 -- reversed)
+    ```
 
     * P (Path): Ordered list of segments (connected by links)
 
@@ -117,40 +117,47 @@ To get a fasta we just pull the S lines from a GFA and print them to a file:
     2. Then print the second column of those lines (which is the sequence ID) 
     3. Also print another line with the actual sequence
     
-??? question "Why does Hifiasm output GFAs and not Fastas ?"
+??? question "Why does Hifiasm output GFAs and not FASTAs?"
   
-    Hifiasm (and many other assemblers) use gfas while they are actually assembling. The gfa represents/stores the assembly graph. Hifiasm probably doesn't output fastas just because everything in the fasta is contained in the gfa, so why store it twice?
+    Hifiasm (and many other assemblers) use GFAs while they are actually assembling. The gfa represents/stores the assembly graph. Hifiasm probably doesn't output FASTAs just because everything in the fasta is contained in the GFA, so why store it twice?
 
 
 ### View Hifiasm Test Assembly GFA in Bandage
-We are going to take a look at the assembly gfa file in a browser called Bandage. Bandage provides a way to visualize something called unitig graphs.
+We are going to take a look at the assembly GFA file in a browser called Bandage. Bandage provides a way to visualize something called unitig graphs.
 
 **Start Bandage**
-1. From your Jupyter session click the + icon to create a new tab.
+
+1. From your Jupyter session click the <kbd>+</kbd> icon to create a new tab.
 2. Click the Virtual Desktop icon (this will open a new tab in your web browser)
 3. In the Virtual Desktop, click on the terminal emulator icon (in your toolbar at the bottom of your screen)
 4. Load the Bandage module with `module load Bandage`
 4. Type `Bandage &` to start Bandage
 
 **Load a unitig GFA**
+
 1. Click the *File* dropdown then *Load Graph*
-2. Navigate to our current folder (day2_assembly/hifiasm_test)
+2. Navigate to our current folder (`day2_assembly/hifiasm_test`)
 3. Select the `test.bp.r_utg.noseq.gfa` file and press the **Open** icon
 4. Under **Graph Drawing** on the left-hand side click **Draw Graph**
 
-Ok, so what are we looking at? The thick lines are nodes -- which in this case represent sequences. Since we loaded the unitig graph the sequences are unitigs. A unitig is a high confidence contig. It is a place where the assembler says "I know exactly what is going on here". The ends of unitigs are where it gets messy. At the ends, an assembler has choices to make about which unitig(s) to connect to next.
+Ok, so what are we looking at? The thick lines are nodes&mdash;which in this case represent sequences. Since we loaded the unitig graph the sequences are unitigs. A unitig is a high confidence contig. It is a place where the assembler says "I know exactly what is going on here". The ends of unitigs are where it gets messy. At the ends, an assembler has choices to make about which unitig(s) to connect to next.
 
 **Now load a contig GFA**<br>
 Open the `test.bp.p_ctg.noseq.gfa` file to see how boring it is.
 
-In general, when using Bandage people look at the unitig gfas (not contig gfas). An assembly is a hypothesis, and the contigs output by the assembler are its best guess at the correct haplotype sequence. The contigs don't show much information about the decisions being made, however. They are the output. We view unitig gfas so we can see the data structure at the point that the assembler was making tough decisions. 
+In general, when using Bandage people look at the unitig GFAs (not contig GFAs). An assembly is a hypothesis, and the contigs output by the assembler are its best guess at the correct haplotype sequence. The contigs don't show much information about the decisions being made, however. They are the output. We view unitig GFAs so we can see the data structure at the point that the assembler was making tough decisions. 
 
 **Here are some things you can do with Bandage**
+
 1. Let's say you mapped a sample's ONT reads back onto that sample's denovo assembly and have identified a misjoin. You can open up bandage and find that  unitigs that went into the contig to see if it can be easily manually broken.
 2. If you have a phased diploid assembly with a large sequence that is missing, you can look at the unitig gfa, color the nodes by haplotype, and see which sequences are omitted. Those sequences can then be analyzed and manually added into the final assembly.
 3. You can label nodes with (hifi) coverage and inspect regions with low quality too see if they have low coverage as well. If so, you might want to throw them out. (This does happen, in particular for small contigs that assemblers tend to output.)
 
-pbmm2 align -j 128 $referencepath $hifi_demux > $alignedbam
+!!! terminal "code"
+
+    ```bash
+    pbmm2 align -j 128 $referencepath $hifi_demux > $alignedbam
+    ```
 
 ## Run Verkko With Test Data
 **Create A Directory**
@@ -171,7 +178,7 @@ pbmm2 align -j 128 $referencepath $hifi_demux > $alignedbam
     curl -L https://obj.umiacs.umd.edu/sergek/shared/ecoli_hifi_subset24x.fastq.gz -o hifi.fastq.gz
     curl -L https://obj.umiacs.umd.edu/sergek/shared/ecoli_ont_subset50x.fastq.gz -o ont.fastq.gz
     ```
-You can see that this dataset is for ecoli and there is both HiFi and ONT data included.
+You can see that this dataset is for *E. coli* and there is both HiFi and ONT data included.
 
 We could follow what we did with Hifiasm and just run Verkko in our notebook environment like so:
 
@@ -186,7 +193,7 @@ We could follow what we did with Hifiasm and just run Verkko in our notebook env
         --hifi ./hifi.fastq.gz \
         --nano ./ont.fastq.gz
     ```
-but depending on how you created your notebook environment this command may crash it. That's ok, it gives us an opportunity to test running Verkko w/ Slurm.
+but depending on how you created your notebook environment this command may crash it. That's ok, it gives us an opportunity to test running Verkko with Slurm.
 
 **Create Slurm script for test Verkko run**
 
@@ -230,7 +237,7 @@ Start your favourite text editor
     ```
 This should only take a few minutes to complete.
 
-You can keep track of the run w/ the `squeue` command.
+You can keep track of the run with the `squeue` command.
 
 !!! terminal "code"
     
@@ -250,7 +257,7 @@ Take a look at the shell script that was created for your run
     cat assembly/snakemake.sh
     ```
 
-It is just a call to snakemake!!! You can think of Verkko as a tool, but also as a pipeline because it is. This has some advantages. One is that if you know what Verkko is doing (which is somewhat achievable given that the snakemake rules guide you through Verkko's logic), you can add to it, or even swap out how Verkko performs a given step for how you'd like to do it. It also means that you can restart a run at any given step (if you made a mistake or if the run failed). Lastly, and maybe most importantly, snakemake supports Slurm as a backend. So if you have access to an HPC you could (and probably should) run verkko and allow it to launch Slurm jobs for you. (This is in contrast to what we just did which was to run a slurm job and just allow all jobs to run on the allocated resources that we requested for the entire run.)
+It is just a call to snakemake!!! You can think of Verkko as a tool, but also as a pipeline because it is. This has some advantages. One is that if you know what Verkko is doing (which is somewhat achievable given that the snakemake rules guide you through Verkko's logic), you can add to it, or even swap out how Verkko performs a given step for how you'd like to do it. It also means that you can restart a run at any given step (if you made a mistake or if the run failed). Lastly, and maybe most importantly, snakemake supports Slurm as a backend. So if you have access to an HPC you could (and probably should) run Verkko and allow it to launch Slurm jobs for you. (This is in contrast to what we just did which was to run a Slurm job and just allow all jobs to run on the allocated resources that we requested for the entire run.)
 
 **Now take a look at the jobs that were run**
 
@@ -261,7 +268,7 @@ You can view the stderr from the run in your slurm logs, or in snakemake's logs.
     ```bash
     head -n 35 assembly/.snakemake/log/*.log
     ```
-This shows a list of snakemake jobs that will get executed for this dataset. There are a few things to note. The first is that for larger datasets some jobs will get executed many times (hence the count column). This dataset is small, so most jobs have count=1. The second thing to note is that these jobs are sorted alphabetically, so we can get a feel for scale, but it's a bit hard to figure out what Verkko is really doing.
+This shows a list of snakemake jobs that will get executed for this dataset. There are a few things to note. The first is that for larger datasets some jobs will get executed many times (hence the count column). This dataset is small, so most jobs have `count=1`. The second thing to note is that these jobs are sorted alphabetically, so we can get a feel for scale, but it's a bit hard to figure out what Verkko is really doing.
 
 Open the logs and scroll through them
 
@@ -294,11 +301,12 @@ Open the `assembly/5-untip/unitig-normal-connected-tip.gfa` file in Bandage. Now
 Hifiasm is compiled into a single binary file, and, when executed, it manages all tasks and parallelism under one parent process. You can run it the same on a VM in the cloud or in an HPC. 
 
 For a human sample with around 40X HiFi and 30X UL and either HiC or trio phasing Hifiasm can assemble with:
+
 * 64 cores
 * 240GB of memory (most samples will use less)
 * Around 24 hours of total runtime
 
-So Hifiasm takes about 1500 cpu hours to assemble this sample. On a cluster you can just execute the run command. If you are on a cloud and would like to take advantage of pre-emptible instances, you can break the run command into three parts (each take around 8 hours).
+So Hifiasm takes about 1500 CPU hours to assemble this sample. On a cluster you can just execute the run command. If you are on a cloud and would like to take advantage of pre-emptible instances, you can break the run command into three parts (each take around 8 hours).
 
 
 ### Verkko
@@ -319,13 +327,13 @@ Note that the runtime estimates for Hifiasm and Verkko don't consider the prepar
 
 # High-Level Comparison of Verkko & Hifiasm
 
-Verkko and Hifiasm are both excellent assemblers. If you have a human sample with over 40X HiFi and over 15X ONT data over 100kb then the high level metrics that you will learn about tomorrow should be pretty comparable across the two assemblers. If you have a set of data that you spent a bunch of money on, and you are hoping to make a high-quality assembly, your best bet is to assemble with both and see which assembly is better. You could even stitch the good parts of each assembly together -- though the people who have to do the actual work tend to flinch when they hear that.
+Verkko and Hifiasm are both excellent assemblers. If you have a human sample with over 40X HiFi and over 15X ONT data over 100kb then the high level metrics that you will learn about tomorrow should be pretty comparable across the two assemblers. If you have a set of data that you spent a bunch of money on, and you are hoping to make a high-quality assembly, your best bet is to assemble with both and see which assembly is better. You could even stitch the good parts of each assembly together&mdash;though the people who have to do the actual work tend to flinch when they hear that.
 
 
 ## Verrko's Approach
-As we saw previously, Verkko uses HiFi data to create a graph (in the case of Verkko it is a DeBruijn graph). ONT reads are aligned to the graph and the graph is then simplified. One thing that Verkko does is it outputs scaffolds -- where Hifiasm only outputs contigs. With 40X+ HiFi, Verkko's scaffolding tends to add about 12 extra T2T chromosomes to a diploid human assembly. 
+As we saw previously, Verkko uses HiFi data to create a graph (in the case of Verkko it is a DeBruijn graph). ONT reads are aligned to the graph and the graph is then simplified. One thing that Verkko does is it outputs scaffolds&mdash;where Hifiasm only outputs contigs. With 40X+ HiFi, Verkko's scaffolding tends to add about 12 extra T2T chromosomes to a diploid human assembly. 
 
-The way it is scaffolded comes from the graph (as shown below). One the left we see one haplotype and there is a tangle in the middle of the sequence. Verkko doesn't neccesarily know how to walk through this tangle and it doesn't want to output incorrect sequence. So it just estimates the size of the nodes in the tangle and puts the corresponding number of N's into the final assembly. Similarly, on the right we have a gap in one haplotype. Verkko will infer the size of the missing sequence from the other haplotype and put that many N's into to top sequence.
+The way it is scaffolded comes from the graph (as shown below). One the left we see one haplotype and there is a tangle in the middle of the sequence. Verkko doesn't necessarily know how to walk through this tangle and it doesn't want to output incorrect sequence. So it just estimates the size of the nodes in the tangle and puts the corresponding number of N's into the final assembly. Similarly, on the right we have a gap in one haplotype. Verkko will infer the size of the missing sequence from the other haplotype and put that many N's into to top sequence.
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_grapholds.png?raw=true" width="350"/>
@@ -340,6 +348,7 @@ Hifiasm creates string graphs from HiFi and ONT data separately (kind of) and th
 ## I Have Data, Just Tell Me Which To Choose
 
 **It's not an easy choice, but here are some guidelines**
+
 * If you can, use both
 * If you have Hifi coverage under 40X: use Hifiasm
     * Verkko tends to perform less well at lower HiFi coverages

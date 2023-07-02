@@ -64,6 +64,7 @@ Finally the assembly graph can be converted into two haplotypes which are repres
     **Family Structure**
     
     HG002 is actually part of a trio of reference samples. Below is the family listing, also known as the Ashkenazim trio:
+    
     * HG002: Son
     * HG003: Father
     * HG004: Mother
