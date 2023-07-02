@@ -1,5 +1,5 @@
 <center>![image](./theme_figures/institution_logos.png){width="500"}</center>
-
+<hr style="border:1px solid grey">
 <center>
 # **Long-read Assembly**
 </center>
