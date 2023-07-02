@@ -78,12 +78,6 @@ One key difference between trio phasing and Hi-C is that Hi-C data cannot say th
 
 !!! note ""
 
-
-<p align="center">
-    <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_contigs.png?raw=true" width="550"/>
-</p>
-
-
 ## Exploring With Test Data
 Running assemblers is very computationally intensive and the output files can be big. Let's not jump straight into assembling human genomes. Instead we can use the test data that both assemblers provide as a way to both ensure that we know how to run the tool (which is easy) and we can start to get a feel for the process and outputs in real life. 
 
