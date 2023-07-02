@@ -163,7 +163,7 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
         <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/ont_phasing.png?raw=true" width="550"/>
     </p>
 
-    We can play a similar trick with parental data. If we fine paternal markers in both sequences in the top, then we can say that they both come from the paternal haplotype. This is also phasing. 
+    We can play a similar trick with parental data. If we find paternal markers in both sequences in the top, then we can say that they both come from the paternal haplotype. This is also phasing. 
 
     <p align="center">
         <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/trio_phasing2.png?raw=true" width="550"/>
