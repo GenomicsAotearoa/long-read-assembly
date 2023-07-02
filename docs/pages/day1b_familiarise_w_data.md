@@ -200,7 +200,7 @@ This should be pretty fast because we are just using a small amount of data to g
     ```bash
     meryl print \
         greater-than 1 \
-        paternal_20M_compress.k30.meryl \
+        paternal_5M_compress.k30.meryl \
         | head
     ```
 The first column is the kmer and the second column is the count of that kmer in the dataset.
@@ -211,7 +211,7 @@ The first column is the kmer and the second column is the count of that kmer in 
 
     ```bash
     meryl statistics \
-        paternal_20M_compress.k30.meryl \
+        paternal_5M_compress.k30.meryl \
         | head -n 20
     ```
 
@@ -221,7 +221,7 @@ We see a lot of kmers missing and the histogram (frequency column) has a ton of 
 
 **Here is what the slurm script would look like:**
 
-(Don't run this, it is slow! We have made these for you already.
+(Don't run this, it is slow! We have made these for you already.)
 
 !!! terminal "code"
 
