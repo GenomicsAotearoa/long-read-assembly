@@ -14,7 +14,7 @@ At the end of the day you will hopefully have a feel for how to actually run eac
 ## Theoretical Walkthrough Of The Assembly Process
 
 ### Verkko
-In this section we will go over the rough outline of Verkko's approach to assembly. Hopefully this will help put the data types from yesterday in context. Knowing how each datatype is used also helps you to make better decisions when planning your sequencing runs.
+In this section we will go over the rough outline of Verkko's approach to assembly. Hopefully this will help put the data types from yesterday in context. Knowing how each data type is used also helps you to make better decisions when planning your sequencing runs.
 
 Both Verkko and Hifiasm can use a variety of data sources:
 
@@ -24,11 +24,11 @@ Both Verkko and Hifiasm can use a variety of data sources:
     * Oxford Nanopore Ultralong: >100kb, around 97% accuracy
     * Phasing data from Hi-C or trio Illumina data
 
-PacBio HiFi data is required for both assemblers. Other data types are optional -- but they lead to much better assemblies. So let's jump ahead a bit and take a peak at how Verkko creates assemblies using figure 1 from the recent Verkko paper (Rautiainen, Mikko, et al.). It's ok if this is a bit confusing, you don't need to know the inner workings of Verkko in order to make great assemblies.
+PacBio HiFi data is required for both assemblers. Other data types are optional&mdash;but they lead to much better assemblies. So let's jump ahead a bit and take a peak at how Verkko creates assemblies using figure 1 from the recent Verkko paper (Rautiainen, Mikko, et al.). It's ok if this is a bit confusing, you don't need to know the inner workings of Verkko in order to make great assemblies.
 
 **PacBio HiFi is used to create the initial graph** 
 
-Verkko's first theoretical task is to create an assembly graph from HiFi data, but it has to prepare the HiFi reads first. HiFi data is less accurate in homopolymer repeats and microsattelites, so before creating an assembly graph, the reads are "compressed" in these regions:
+Verkko's first theoretical task is to create an assembly graph from HiFi data, but it has to prepare the HiFi reads first. HiFi data is less accurate in homopolymer repeats and microsatellites, so before creating an assembly graph, the reads are "compressed" in these regions:
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_hifi_repeat_compr.png?raw=true" width="550"/>
 </p>
@@ -53,7 +53,7 @@ Using these alignments, nodes that are linked (or phased) by a read are combined
 
 **The graph can now be phased**
 
-In the case of trio Illumina data, Verkko looks at the nodes and counts the number of maternal-specific or paternal-specific sequences of DNA (from meryl hapmer DBs). If it finds that a node has, for instance, a bunch of maternal specific sequences/kmers and almost no paternal specific sequences/kmers then the assembler will assign that node to be maternal. Nodes that are the same haplotype but are separated by a homozygous region are then merged.
+In the case of trio Illumina data, Verkko looks at the nodes and counts the number of maternal-specific or paternal-specific sequences of DNA (from meryl hapmer DBs). If it finds that a node has, for instance, a bunch of maternal specific sequences/*k*-mers and almost no paternal specific sequences/*k*-mers then the assembler will assign that node to be maternal. Nodes that are the same haplotype but are separated by a homozygous region are then merged.
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_phasing.png?raw=true" width="550"/>
@@ -65,7 +65,7 @@ Finally the assembly graph can be converted into two contigs which represent mat
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_contigs.png?raw=true" width="550"/>
 </p>
 
-Maternal and paternal contigs for the entire assembly are then put into one diploid fasta as well as two haploid fastas.
+Maternal and paternal contigs for the entire assembly are then put into one diploid FASTA as well as two haploid FASTAs.
 
 !!! info "How does Hi-C phasing work?"
 
@@ -81,7 +81,7 @@ Running assemblers is very computationally intensive and the output files can be
 
 ### Run Hifiasm With Test Data
 
-**Create A Directory**
+**Create a directory**
 
 !!! terminal "code"
     
@@ -98,9 +98,9 @@ Running assemblers is very computationally intensive and the output files can be
      ```bash
      wget https://github.com/chhylp123/hifiasm/releases/download/v0.7/chr11-2M.fa.gz
      ```
-This is HiFi data from about 2 million bases of chromosome 11. Hifi data is the only required data type for Hifiasm and Verkko. You can create assemblies from only Hifi data and you can add ONT and phasing later. Also notice that this data is in fasta format! Presumably this is to make the file smaller since this is test data.
+This is HiFi data from about 2 million bases of chromosome 11. HiFi data is the only required data type for Hifiasm and Verkko. You can create assemblies from only HiFi data and you can add ONT and phasing later. Also notice that this data is in FASTA format! Presumably this is to make the file smaller since this is test data.
 
-**Now let's load the hifiasm module**
+**Now let's load the Hifiasm module**
 
 !!! terminal "code"
 
@@ -127,17 +127,17 @@ This should take around 3 minutes. Once the run is complete take a look at the t
     ```bash
     head -n 60 test.log
     ```
-Now check the [hifiasm log interpretation](https://hifiasm.readthedocs.io/en/latest/interpreting-output.html#hifiasm-log-interpretation) section of the documentation to give that some context.
+Now check the [Hifiasm log interpretation](https://hifiasm.readthedocs.io/en/latest/interpreting-output.html#hifiasm-log-interpretation) section of the documentation to give that some context.
 
-??? question "What does the histogram represent, and how many peaks do you expect ?"
+??? question "What does the histogram represent, and how many peaks do you expect?"
         
-    The histogram represents the kmer count in the hifi reads. For humans we expect to see a large peak somewhere around our expected sequencing coverage: this represents homozygous kmers. The smaller peak represents heterozygous kmers.
+    The histogram represents the *k*-mer count in the HiFi reads. For humans we expect to see a large peak somewhere around our expected sequencing coverage: this represents homozygous *k*-mers. The smaller peak represents heterozygous *k*-mers.
 
 
-Now `ls` the directory to see what outputs are present. What do you see? No fasta files, but there are a lot of files that  end in `gfa`. If you haven't seen these before, then we get to introduce you to another file format! 
+Now `ls` the directory to see what outputs are present. What do you see? No FASTA files, but there are a lot of files that  end in `gfa`. If you haven't seen these before, then we get to introduce you to another file format! 
 
 ### Introduction To GFA Files
-GFA stands for [Graphical Fragment Alignment](http://gfa-spec.github.io/GFA-spec/GFA1.html) and Hifiasm outputs assemblies in GFA files. GFAs aren't like bed or sam files which have one entry per line (or fasta/q that have 2/4 lines per entry). But this is bioinformatics, so you can rest assured that it is just a text file with a new file extension. It's easiest to just look at an example of a GFA file from the spec:
+GFA stands for [Graphical Fragment Alignment](http://gfa-spec.github.io/GFA-spec/GFA1.html) and Hifiasm outputs assemblies in GFA files. GFAs aren't like bed or sam files which have one entry per line (or FASTA/Q that have 2/4 lines per entry). But this is bioinformatics, so you can rest assured that it is just a text file with a new file extension. It's easiest to just look at an example of a GFA file from the spec:
 
 ```bash
 H    VN:Z:1.0
@@ -167,8 +167,8 @@ P   14  11+,12-,13+ 4M,5M
 
     * P (Path): Ordered list of segments (connected by links)
 
-**So how do we get a fasta from a GFA?**<br>
-To get a fasta we just pull the S lines from a GFA and print them to a file:
+**So how do we get a FASTA from a GFA?**<br>
+To get a FASTA we just pull the S lines from a GFA and print them to a file:
 
 !!! terminal "code"
     ```bash
@@ -185,7 +185,7 @@ To get a fasta we just pull the S lines from a GFA and print them to a file:
     
 ??? question "Why does Hifiasm output GFAs and not FASTAs?"
   
-    Hifiasm (and many other assemblers) use GFAs while they are actually assembling. The gfa represents/stores the assembly graph. Hifiasm probably doesn't output FASTAs just because everything in the fasta is contained in the GFA, so why store it twice?
+    Hifiasm (and many other assemblers) use GFAs while they are actually assembling. The GFA represents/stores the assembly graph. Hifiasm probably doesn't output FASTAs just because everything in the FASTA is contained in the GFA, so why store it twice?
 
 
 ### View Hifiasm Test Assembly GFA in Bandage
@@ -215,13 +215,13 @@ We are going to take a look at the assembly GFA file in a browser called Bandage
     
     **Here are some things you can do with Bandage**
     
-    1. Let's say you mapped a sample's ONT reads back onto that sample's denovo assembly and have identified a misjoin. You can open up bandage and find that  unitigs that went into the contig to see if it can be easily manually broken.
+    1. Let's say you mapped a sample's ONT reads back onto that sample's *de novo* assembly and have identified a misjoin. You can open up bandage and find that  unitigs that went into the contig to see if it can be easily manually broken.
     2. If you have a phased diploid assembly with a large sequence that is missing, you can look at the unitig gfa, color the nodes by haplotype, and see which sequences are omitted. Those sequences can then be analyzed and manually added into the final assembly.
-    3. You can label nodes with (hifi) coverage and inspect regions with low quality too see if they have low coverage as well. If so, you might want to throw them out. (This does happen, in particular for small contigs that assemblers tend to output.)
+    3. You can label nodes with (HiFi) coverage and inspect regions with low quality too see if they have low coverage as well. If so, you might want to throw them out. (This does happen, in particular for small contigs that assemblers tend to output.)
     
     
 ## Run Verkko With Test Data
-**Create A Directory**
+**Create a directory**
 
 !!! terminal "code"
 
@@ -254,7 +254,7 @@ We could follow what we did with Hifiasm and just run Verkko in our notebook env
         --hifi ./hifi.fastq.gz \
         --nano ./ont.fastq.gz
     ```
-but depending on how you created your notebook environment this command may crash it. That's ok, it gives us an opportunity to test running Verkko with Slurm.
+However, depending on how you created your notebook environment this command may crash it. That's ok, it gives us an opportunity to test running Verkko with Slurm.
 
 **Create Slurm script for test Verkko run**
 
@@ -318,18 +318,18 @@ Take a look at the shell script that was created for your run
     cat assembly/snakemake.sh
     ```
 
-It is just a call to snakemake!!! You can think of Verkko as a tool, but also as a pipeline because it is. This has some advantages. One is that if you know what Verkko is doing (which is somewhat achievable given that the snakemake rules guide you through Verkko's logic), you can add to it, or even swap out how Verkko performs a given step for how you'd like to do it. It also means that you can restart a run at any given step (if you made a mistake or if the run failed). Lastly, and maybe most importantly, snakemake supports Slurm as a backend. So if you have access to an HPC you could (and probably should) run Verkko and allow it to launch Slurm jobs for you. (This is in contrast to what we just did which was to run a Slurm job and just allow all jobs to run on the allocated resources that we requested for the entire run.)
+It is just a call to Snakemake!!! You can think of Verkko as a tool, but also as a pipeline because it is. This has some advantages. One is that if you know what Verkko is doing (which is somewhat achievable given that the Snakemake rules guide you through Verkko's logic), you can add to it, or even swap out how Verkko performs a given step for how you'd like to do it. It also means that you can restart a run at any given step (if you made a mistake or if the run failed). Lastly, and maybe most importantly, Snakemake supports Slurm as a backend. So if you have access to an HPC you could (and probably should) run Verkko and allow it to launch Slurm jobs for you. (This is in contrast to what we just did which was to run a Slurm job and just allow all jobs to run on the allocated resources that we requested for the entire run.)
 
 **Now take a look at the jobs that were run**
 
-You can view the stderr from the run in your slurm logs, or in snakemake's logs. Let's take a look at the top of the log:
+You can view the stderr from the run in your Slurm logs, or in Snakemake's logs. Let's take a look at the top of the log:
 
 !!! terminal "code"
 
     ```bash
     head -n 35 assembly/.snakemake/log/*.log
     ```
-This shows a list of snakemake jobs that will get executed for this dataset. There are a few things to note. The first is that for larger datasets some jobs will get executed many times (hence the count column). This dataset is small, so most jobs have `count=1`. The second thing to note is that these jobs are sorted alphabetically, so we can get a feel for scale, but it's a bit hard to figure out what Verkko is really doing.
+This shows a list of Snakemake jobs that will get executed for this dataset. There are a few things to note. The first is that for larger datasets some jobs will get executed many times (hence the count column). This dataset is small, so most jobs have `count=1`. The second thing to note is that these jobs are sorted alphabetically, so we can get a feel for scale, but it's a bit hard to figure out what Verkko is really doing.
 
 Open the logs and scroll through them
 
@@ -338,7 +338,7 @@ Open the logs and scroll through them
     ```bash
     less asm/.snakemake/log/*.log
     ```
-You can see all of the snakemake jobs, in order, that were run. Even for this tiny dataset there are many. Since there are a lot of jobs, there are a lot of outputs, and these are organized (roughly) by snakemake rule. Take a look at the output folder in order to familiarize yourself with the layout.
+You can see all of the Snakemake jobs, in order, that were run. Even for this tiny dataset there are many. Since there are a lot of jobs, there are a lot of outputs, and these are organized (roughly) by Snakemake rule. Take a look at the output folder in order to familiarize yourself with the layout.
 
 !!! terminal "code"
 
@@ -346,7 +346,7 @@ You can see all of the snakemake jobs, in order, that were run. Even for this ti
     ls -lh assembly
     ```
 
-**Take a look at the initial hifi graph**
+**Take a look at the initial HiFi graph**
 
 Open the `assembly/1-buildGraph/hifi-resolved.gfa` file in Bandage. You will see that it is already pretty good. There are only three nodes.
 
@@ -382,9 +382,9 @@ Verkko is written as a shell wrapper around a Snakemake pipeline. This has the a
 | <sub> graph aligner </sub> | <sub> 12 </sub> | <sub> 100 </sub> | <sub> 2 </sub> |<sub> 2400 </sub> |
 | <sub> complete asm </sub> | <sub> 64 </sub> | <sub> 1 </sub> | <sub> 12 </sub> |<sub> 768 </sub> |
 
-This gives an estimate of around 9000 cpu hours for the same data as above. This is almost certainly an overestimate, but not by more than a factor of 2. 
+This gives an estimate of around 9000 CPU hours for the same data as above. This is almost certainly an overestimate, but not by more than a factor of 2. 
 
-Note that the runtime estimates for Hifiasm and Verkko don't consider the preparatory work of counting parental kmers with yak or meryl, which are necessary steps before running either in trio mode.
+Note that the runtime estimates for Hifiasm and Verkko don't consider the preparatory work of counting parental *k*-mers with yak or Meryl, which are necessary steps before running either in trio mode.
 
 ## Comparison of Outputs
 
@@ -409,6 +409,7 @@ Hifiasm creates string graphs from HiFi and ONT data separately (kind of) and th
 ### How Should I Choose?
 
 **It's not an easy choice, but here are some guidelines**
+
 * If you can, use both
 * If you have Hifi coverage under 40X: use Hifiasm
     * Verkko tends to perform less well at lower HiFi coverages
