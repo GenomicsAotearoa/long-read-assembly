@@ -225,11 +225,18 @@ Now that we know how to get the statistics for one assembly, let's get them for 
 
 Correctness refers to the base pair accuracy, and can be measured by comparing one's assembly to a gold standard reference genome. This approach is limited by 1) an assumption about the quality of the reference itself and the closeness between it and the assembly being compared, and 2) the need for a reference genome at all, which many species do not have (yet). To avoid this, we can use **Merqury**: a reference-free suite of tools for assessing assembly quality (particularly w.r.t. error rate) using *k*-mers and the read set that generated that assembly. If an assembly is made up from the same sequences that were in the sequencing reads, then we would not expect any sequences (*k*-mers) in the assembly that aren't present in the read set&mdash;but we do find those sometimes, and those are what Merqury flags as error *k*-mers. **It uses the following formula to calculate QV value, which typically results in QVs of 50-60**: 
 
+$$
+\Large 
+    E=1-P=1-\left (1-\frac{K_{\textrm{asm}}}{K_{\textrm{total}}} \right ) ^{\frac{1}{k}}
+$$
+
+<!--
 <center>
 ![QV formula](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/merqury_qvformula.png)
 </center>
+-->
 
-??? note "OK, but what does 'QV' mean, anyway ?"
+??? note "OK, but what does 'QV' mean, anyway?"
     
     The QV that Merqury is interpreted similarly to the commonly used Phred quality scale, which might be familiar to those who have done short-read sequencing or are otherwise acquainted with FASTQ files. Phred quality scores are logarithmically related to error-probability, such that:
     - Phred score of 30 represents a 1 in 1,000 error probability (*i.e.*, 99.9% accuracy)
@@ -240,9 +247,9 @@ Correctness refers to the base pair accuracy, and can be measured by comparing o
 
 Merqury operates using *k*-mer databases like the ones we generated using meryl, so that's what we'll do now. 
 
-**Running Meryl and GenomeScope on the *E. coli* verkko assembly**
+**Running Meryl and GenomeScope on the *E. coli* Verkko assembly**
 
-Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl database, so let's generate that 
+Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl database, so let's generate that.
 
 !!! terminal "code"
 

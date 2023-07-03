@@ -144,7 +144,7 @@ Today we want to use Meryl in the context of creating databases from PCR-free Il
 
 #### Helpful Background
 
-Verkko takes as an input what are called hapmer DBs. These are constructed from the *k*-mers that a child inherits from one parent and not the other. These *k*-mers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific *k*-mers and paternal-specific *k*-mers and use those to determine which haplotype to assign to each sequence.
+Meryl can be used to create hapmer DBs (*hap*lotype + k*mer*), which can be used as input for tools like Verkko and Merqury. Hapmer DBs are constructed from the *k*-mers that a child inherits from one parent and not the other. These *k*-mers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific *k*-mers and paternal-specific *k*-mers and use those to determine which haplotype to assign to each sequence.
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/meryl_venn.png?raw=true" width="350"/>
@@ -154,9 +154,11 @@ In the Venn diagram above, the maternal hapmer *k*-mers/DB are on the left-hand 
 
 !!! question "Wait, what is phasing?"
 
-    Phasing is the process of saying two things are on the same haplotype.
+    Phasing is the process of saying two things are on the same haplotype (<i>i.e.</i>, saying two blocks of sequence came from the maternal haplotype, or vice versa)
 
-    One way you will hear us talk about phasing in this workshop is in the context of ultra long reads. In this case we may have two heterozygous regions separated by a homozygous region. If we can find a long read that maps to the top sequences in both, then we could say that these sequences come from the same haplotype. That is phasing.
+    One way you will hear us talk about phasing in this workshop is in the context of ultra long reads. In this case, we may have two heterozygous regions separated by a homozygous region. When an assembler is walking this graph, if there is no external information about haplotype, then the assembler doesn't have a way of knowing that certain blocks of sequence came from the same sequence. For example, in the bottom image, the assembler might walk from the top left block, into the homozygous block, and then down to the <i>bottom right</i> block, switching between the two haplotypes.
+    
+    However, if we can find a long read that maps to the top sequences in both, then we could say that these sequences come from the same haplotype. That is phasing.
 
     <p align="center">
         <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/ont_phasing.png?raw=true" width="550"/>
@@ -233,8 +235,8 @@ We see a lot of *k*-mers missing and the histogram (frequency column) has a ton 
 
 ??? clipboard-question "How would we run Meryl for Verkko?"
 
-**Here is what the Slurm script would look like:**
-
+    **Here is what the Slurm script would look like:**
+    
     (Don't run this, it is slow! We have made these for you already.)
 
     !!! terminal "code"
@@ -360,21 +362,21 @@ Yak won't work on our Jupyter instances, so create a slurm script that has 32 co
 
     Notice that for paired-end reads we have to stream both reads to yak twice!
 
-If you haven't already, execute your yak command in slurm (takes about 2 minutes). 
+If you haven't already, execute your yak script using slurm (takes about 2 minutes). 
 !!! terminal "code"
 
     ```bash
     sbatch yak.sl 
     ```  
 
-When you are done you get out a non-human readable file. It doesn't need to be tarred or gzipped, and nothing else needs to be done in order to use it.
+When you are done you get out a non-human readable file. It doesn't need to be compressed or decompressed, and nothing else needs to be done in order to use it.
 
 **Closing remarks on yak**
 
-* If you have Illumina data for an entire trio (which we do) all you have to do is make yak dbs for each sample separately.
+* If you have Illumina data for an entire trio (which we do), then you can use yak to make yak DBs for each parent separately to use hifiasm for trio assembly or yak trioeval for quality control (more on that later)
 * You don't need to homopolymer compress yak dbs
 * There is no need to create separate dbs for assembly and for QC
-* yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is.
+* yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is
 
 ### Hi-C
 Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
