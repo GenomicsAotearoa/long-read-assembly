@@ -132,8 +132,8 @@ Now we can quickly check how many reads are retained.
 
     Based on the answer to the last question, filtering an ultralong readset for >50kb reads does not reduce the overall size of the dataset very much. 
 
-## Phasing Data: Trio DBs and Hi-C
-Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
+## Phasing Data
+Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies. 
 
 At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with kmer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about kmer DBs.
 
@@ -312,7 +312,7 @@ Here is an example of something you could do with Meryl:
     * Then write those out to a bed file with `meryl-lookup`. 
     Now you have "painted" all of the locations in the assembly with unique kmers. That can be a handy thing to have lying around.
 
-### Trio data: Yak (
+### Trio data: Yak
 
 Yak (Yet-Another Kmer Analyzer) is the kmer counter that we need for Hifiasm assemblies and to QC assemblies made with either assembler so let's learn about how to make yak dbs. 
 
