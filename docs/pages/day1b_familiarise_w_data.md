@@ -132,18 +132,17 @@ Now we can quickly check how many reads are retained.
 
     Based on the answer to the last question, filtering an ultralong readset for >50kb reads does not reduce the overall size of the dataset very much. 
 
-## Phasing Data: Trio DBs and Hi-C
-Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
+## Phasing Data
+Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies. 
 
-### Trio Data
-At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with *k*-mer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about *k*-mer DBs.
+At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with kmer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about kmer DBs.
 
-#### Meryl
-[Meryl](https://github.com/marbl/meryl) is a *k*-mer counter that dates back to Celera. It creates *k*-mer DBs, but it is also a toolset that you can use for finding *k*-mers and manipulating *k*-mer count sets. Meryl is to *k*-mers what BedTools is to genomic regions.
+### Trio data: Meryl
+[Meryl](https://github.com/marbl/meryl) is a kmer counter that dates back to Celera. It creates kmer DBs, but it is also a toolset that you can use for finding kmers and manipulating kmer count sets. Meryl is to kmers what BedTools is to genomic regions.
 
 Today we want to use Meryl in the context of creating databases from PCR-free Illumina readsets. These can be used both during the assembly process and during the post-assembly QC. 
 
-**Some background on assembly phasing with trios**
+#### Helpful Background
 
 Verkko takes as an input what are called hapmer DBs. These are constructed from the *k*-mers that a child inherits from one parent and not the other. These *k*-mers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific *k*-mers and paternal-specific *k*-mers and use those to determine which haplotype to assign to each sequence.
 
@@ -170,16 +169,14 @@ In the Venn diagram above, the maternal hapmer *k*-mers/DB are on the left-hand 
     </p>
 
 
-#### Let's start by just familiarizing ourselves with Meryl's functionality...
+#### Using Meryl
 
-**Create a directory**
+**Make sure you are in the right directory**
 
 !!! terminal "code"
 
     ```bash
-    cd ~/lra
-    mkdir day1_data/meryl
-    cd day1_data/meryl
+    cd day1_data
     ```
 
 **Now create a small file to work with**
@@ -234,56 +231,55 @@ The first column is the *k*-mer and the second column is the count of that *k*-m
 
 We see a lot of *k*-mers missing and the histogram (frequency column) has a ton of counts at 1. This makes sense for a heavily downsampled dataset. Great. We just got a feel for how to use Meryl in general on subset data. Now let's actually take a look at how to create Meryl DBs for Verkko assemblies.
 
-#### How would we run Meryl for Verkko?
+??? clipboard-question "How would we run Meryl for Verkko?"
 
 **Here is what the Slurm script would look like:**
 
-(Don't run this, it is slow! We have made these for you already.)
+    (Don't run this, it is slow! We have made these for you already.)
 
-!!! terminal "code"
+    !!! terminal "code"
 
-    ```bash
-    #!/bin/bash -e
-    
-    #SBATCH --account       nesi02659
-    #SBATCH --job-name      meryl_run
-    #SBATCH --cpus-per-task 32
-    #SBATCH --time          12:00:00
-    #SBATCH --mem           96G
-    #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/%x.%j.out
-    #SBATCH --error         slurmlogs/%x.%j.err
-    
-    
-    module purge
-    module load Merqury/1.3-Miniconda3
-    
-    ## Create mat/pat/child DBs
-    meryl count compress k=30 \
-        threads=32 memory=96 \
-        maternal.*fastq.gz \
-        output maternal_compress.k30.meryl
-    
-    meryl count compress k=30 \
-        threads=32 memory=96 \
-        paternal.*fastq.gz \
-        output paternal_compress.k30.meryl
-    
-    meryl count compress k=30 \
-        threads=32 memory=96    \
-        child.*fastq.gz output    \
-        child_compress.k30.meryl
-    
-    ## Create the hapmer DBs
-    $MERQURY/trio/hapmers.sh \
-      maternal_compress.k30.meryl \
-      paternal_compress.k30.meryl \
-         child_compress.k30.meryl
-    ```
+        ```bash
+        #!/bin/bash -e
+        
+        #SBATCH --account       nesi02659
+        #SBATCH --job-name      meryl_run
+        #SBATCH --cpus-per-task 32
+        #SBATCH --time          12:00:00
+        #SBATCH --mem           96G
+        #SBATCH --partition     milan
+        #SBATCH --output        slurmlogs/%x.%j.out
+        #SBATCH --error         slurmlogs/%x.%j.err
+        
+        
+        module purge
+        module load Merqury/1.3-Miniconda3
+        
+        ## Create mat/pat/child DBs
+        meryl count compress k=30 \
+            threads=32 memory=96 \
+            maternal.*fastq.gz \
+            output maternal_compress.k30.meryl
+        
+        meryl count compress k=30 \
+            threads=32 memory=96 \
+            paternal.*fastq.gz \
+            output paternal_compress.k30.meryl
+        
+        meryl count compress k=30 \
+            threads=32 memory=96    \
+            child.*fastq.gz output    \
+            child_compress.k30.meryl
+        
+        ## Create the hapmer DBs
+        $MERQURY/trio/hapmers.sh \
+          maternal_compress.k30.meryl \
+          paternal_compress.k30.meryl \
+             child_compress.k30.meryl
+        ```
 
-#### Closing notes
 
-**Meryl DBs for Assembly and QC**
+**Closing notes**
 
 It should be noted that Meryl DBs used for assembly with Verkko and for base-level QC with Merqury are created differently. Here are the current recommendations for *k*-mer size and compression:
 
@@ -316,7 +312,71 @@ Here is an example of something you could do with Meryl:
     * Then write those out to a bed file with `meryl-lookup`. 
     Now you have "painted" all of the locations in the assembly with unique *k*-mers. That can be a handy thing to have lying around.
 
-## Hi-C
+### Trio data: Yak
+
+Yak (Yet-Another Kmer Analyzer) is the kmer counter that we need for Hifiasm assemblies and to QC assemblies made with either assembler so let's learn about how to make yak dbs. 
+
+**In the Meryl section we subset R1, now subset R2 as well**
+
+!!! terminal "code"
+
+    ```bash
+    zcat /nesi/nobackup/nesi02659/LRA/resources/ilmn/pat/HG003_HiSeq30x_subsampled_R2.fastq.gz \
+        | head -n 20000000 \
+        | pigz > HG003_HiSeq30x_5M_reads_R2.fastq.gz &
+    ```  
+
+**Look up yak's github and figure out how to make a count/kmer db for this data**
+
+Yak won't work on our Jupyter instances, so create a slurm script that has 32 cores and 96GB of memory. That way it will work on our subset data and it will also work on full size data -- you'd just have to extend the time variable in slurm.
+
+??? clipboard-question "Click below for the answer"
+
+    Here is one way to call yak in a `yak.sl` script...
+
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      yak_run
+    #SBATCH --cpus-per-task 32
+    #SBATCH --time          00:10:00
+    #SBATCH --mem           96G
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/%x.%j.out
+    #SBATCH --error         slurmlogs/%x.%j.err
+    
+    
+    module purge
+    module load yak/0.1
+    
+    yak count \
+        -t32 \
+        -b37 \
+        -o HG003_subset.yak \
+         <(zcat HG003_HiSeq30x_5M_reads_R*.fastq.gz) \
+         <(zcat HG003_HiSeq30x_5M_reads_R*.fastq.gz)
+    ``` 
+
+    Notice that for paired-end reads we have to stream both reads to yak twice!
+
+If you haven't already, execute your yak command in slurm (takes about 2 minutes). 
+!!! terminal "code"
+
+    ```bash
+    nano yak.sl 
+    ```  
+
+When you are done you get out a non-human readable file. It doesn't need to be tarred or gzipped, and nothing else needs to be done in order to use it.
+
+**Closing remarks on yak**
+
+* If you have Illumina data for an entire trio (which we do) all you have to do is make yak dbs for each sample separately.
+* You don't need to homopolymer compress yak dbs
+* There is no need to create separate dbs for assembly and for QC
+* yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is.
+
+### Hi-C
 Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
 ![Hi-C Library Flow](https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/hi-c-flow-2.png?raw=true)
 
@@ -337,14 +397,14 @@ Given that Hi-C ligates molecules that are proximate (nearby) to each other, it 
     Yes! As you can see in the cartoon above Hi-C relies on having intact chromatin as an input, which means it needs whole, non-lysed cells. This means that cell lines are an excellent input source, but frozen blood is less good, for instance.
 
 
-## Other Data types
-We should also mention that there are other data types that can be used for phasing, though they are less common.
+### Other (Phasing) Datatypes
+We should also mention that there are other datatypes that can be used for phasing, though they are less common.
 
-### Pore-C
+**Pore-C**
 Pore-C is a variant of Hi-C which retains the chromatin conformation capture aspect, but the sequencing is done on ONT. This allows long reads sequencing of concatemers. Where Hi-C typically has at most one "contact" per read, Pore-C can have many contacts per read. The libraries also do not need to be amplified, so Pore-C reads can carry base modification calls. 
 
-### StrandSeq
-StrandSeq is a technique that creates sparse Illumina datasets that are both cell- and strand-specific. Cell specificity is achieved by putting one cell per well into 384 well plates (often multiple). Strand specificity is achieved through selective fragmentation of nascent strands. (During DNA replication, BrdU is incorporated exclusively into nascent DNA strands. In the library preparation the BrdU strand is fragmented and only the other strand amplifies.) This strand specificity gives another way to identify haplotype-specific *k*-mers and use them during assembly phasing.
+**StrandSeq**
+StrandSeq is a technique that creates sparse Illumina datasets that are both cell- and strand-specific. Cell specificity is achieved by putting one cell per well into 384 well plates (often multiple). Strand specificity is achieved through selective fragmentation of nascent strands. (During DNA replication, BrdU is incorporated exclusively into nascent DNA strands. In the library preparation the BrdU strand is fragmented and only the other strand amplifies.) This strand specificity gives another way to identify haplotype-specific kmers and use them during assembly phasing.
 
 !!! quote-right "If you are interested in these phasing approaches, you can read more about them in the following articles:"
 
