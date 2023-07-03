@@ -144,7 +144,7 @@ Today we want to use Meryl in the context of creating databases from PCR-free Il
 
 #### Helpful Background
 
-Verkko takes as an input what are called hapmer DBs. These are constructed from the *k*-mers that a child inherits from one parent and not the other. These *k*-mers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific *k*-mers and paternal-specific *k*-mers and use those to determine which haplotype to assign to each sequence.
+Meryl can be used to create hapmer DBs (*hap*lotype + k*mer*), which can be used as input for tools like Verkko and Merqury. Hapmer DBs are constructed from the *k*-mers that a child inherits from one parent and not the other. These *k*-mers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific *k*-mers and paternal-specific *k*-mers and use those to determine which haplotype to assign to each sequence.
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/meryl_venn.png?raw=true" width="350"/>
