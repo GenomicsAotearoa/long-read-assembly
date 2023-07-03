@@ -373,10 +373,10 @@ When you are done you get out a non-human readable file. It doesn't need to be c
 
 **Closing remarks on yak**
 
-* If you have Illumina data for an entire trio (which we do) all you have to do is make yak dbs for each sample separately.
+* If you have Illumina data for an entire trio (which we do), then you can use yak to make yak DBs for each parent separately to use hifiasm for trio assembly or yak trioeval for quality control (more on that later)
 * You don't need to homopolymer compress yak dbs
 * There is no need to create separate dbs for assembly and for QC
-* yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is.
+* yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is
 
 ### Hi-C
 Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
