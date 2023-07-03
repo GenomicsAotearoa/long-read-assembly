@@ -154,7 +154,7 @@ In the Venn diagram above, the maternal hapmer *k*-mers/DB are on the left-hand 
 
 !!! question "Wait, what is phasing?"
 
-    Phasing is the process of saying two things are on the same haplotype.
+    Phasing is the process of saying two things are on the same haplotype (<i>i.e.</i>, saying two blocks of sequence came from the maternal haplotype, or vice versa)
 
     One way you will hear us talk about phasing in this workshop is in the context of ultra long reads. In this case, we may have two heterozygous regions separated by a homozygous region. When an assembler is walking this graph, if there is no external information about haplotype, then the assembler doesn't have a way of knowing that certain blocks of sequence came from the same sequence. For example, in the bottom image, the assembler might walk from the top left block, into the homozygous block, and then down to the <i>bottom right</i> block, switching between the two haplotypes.
     
