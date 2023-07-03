@@ -312,9 +312,9 @@ Here is an example of something you could do with Meryl:
     * Then write those out to a bed file with `meryl-lookup`. 
     Now you have "painted" all of the locations in the assembly with unique kmers. That can be a handy thing to have lying around.
 
-### Yak (Yet-Another Kmer Analyzer)
+### Trio data: Yak (
 
-Yak is the kmer counter that we need for Hifiasm assemblies and to QC assemblies made with either assembler so let's learn about how to make yak dbs. 
+Yak (Yet-Another Kmer Analyzer) is the kmer counter that we need for Hifiasm assemblies and to QC assemblies made with either assembler so let's learn about how to make yak dbs. 
 
 **In the Meryl section we subset R1, now subset R2 as well**
 
@@ -376,7 +376,7 @@ When you are done you get out a non-human readable file. It doesn't need to be t
 * There is no need to create separate dbs for assembly and for QC
 * yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is.
 
-## Hi-C
+### Hi-C
 Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
 ![Hi-C Library Flow](https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/hi-c-flow-2.png?raw=true)
 
@@ -397,7 +397,7 @@ Given that Hi-C ligates molecules that are proximate (nearby) to each other, it 
     Yes! As you can see in the cartoon above Hi-C relies on having intact chromatin as an input, which means it needs whole, non-lysed cells. This means that cell lines are an excellent input source, but frozen blood is less good, for instance.
 
 
-## Other Datatypes
+### Other (Phasing) Datatypes
 We should also mention that there are other datatypes that can be used for phasing, though they are less common.
 
 **Pore-C**
