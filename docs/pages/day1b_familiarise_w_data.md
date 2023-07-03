@@ -135,10 +135,9 @@ Now we can quickly check how many reads are retained.
 ## Phasing Data: Trio DBs and Hi-C
 Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
 
-### Trio Data
 At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with kmer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about kmer DBs.
 
-#### Meryl
+### Meryl
 [Meryl](https://github.com/marbl/meryl) is a kmer counter that dates back to Celera. It creates kmer DBs, but it is also a toolset that you can use for finding kmers and manipulating kmer count sets. Meryl is to kmers what BedTools is to genomic regions.
 
 Today we want to use Meryl in the context of creating databases from PCR-free Illumina readsets. These can be used both during the assembly process and during the post-assembly QC. 
@@ -172,14 +171,12 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
 
 #### Let's start by just familiarizing ourselves with Meryl's functionality...
 
-**Create a directory**
+**Make sure you are in the right directory**
 
 !!! terminal "code"
 
     ```bash
-    cd ~/lra
-    mkdir day1_data/meryl
-    cd day1_data/meryl
+    cd day1_data
     ```
 
 **Now create a small file to work with**
@@ -315,6 +312,70 @@ Here is an example of something you could do with Meryl:
     * You could then print all kmers that are only present once (using `meryl print equal-to 1`) 
     * Then write those out to a bed file with `meryl-lookup`. 
     Now you have "painted" all of the locations in the assembly with unique kmers. That can be a handy thing to have lying around.
+
+### Yak (Yet-Another Kmer Analyzer)
+
+Yak is the kmer counter that we need for Hifiasm assemblies and to QC assemblies made with either assembler so let's learn about how to make yak dbs. 
+
+**In the Meryl section we subset R1, now subset R2 as well**
+
+!!! terminal "code"
+
+    ```bash
+    zcat /nesi/nobackup/nesi02659/LRA/resources/ilmn/pat/HG003_HiSeq30x_subsampled_R2.fastq.gz \
+        | head -n 20000000 \
+        | pigz > HG003_HiSeq30x_5M_reads_R2.fastq.gz &
+    ```  
+
+**Look up yak's github and figure out how to make a count/kmer db for this data**
+
+Yak won't work on our Jupyter instances, so create a slurm script that has 32 cores and 96GB of memory. That way it will work on our subset data and it will also work on full size data -- you'd just have to extend the time variable in slurm.
+
+??? clipboard-question "Click below for the answer"
+
+    nano yak.sl 
+
+    ```bash
+    #!/bin/bash -e
+    
+    #SBATCH --account       nesi02659
+    #SBATCH --job-name      yak_run
+    #SBATCH --cpus-per-task 32
+    #SBATCH --time          00:10:00
+    #SBATCH --mem           96G
+    #SBATCH --partition     milan
+    #SBATCH --output        slurmlogs/%x.%j.out
+    #SBATCH --error         slurmlogs/%x.%j.err
+    
+    
+    module purge
+    module load yak/0.1
+    
+    yak count \
+        -t32 \
+        -b37 \
+        -o HG003_subset.yak \
+         <(zcat HG003_HiSeq30x_5M_reads_R*.fastq.gz) \
+         <(zcat HG003_HiSeq30x_5M_reads_R*.fastq.gz)
+    ``` 
+
+    Notice that for paired-end reads we have to stream both reads to yak twice!
+
+If you haven't already, execute your yak command in slurm
+
+!!! terminal "code"
+
+    ```bash
+    nano yak.sl 
+    ```  
+
+
+#### Closing remarks on yak
+
+* If you have Illumina data for an entire trio (which we do) all you have to do is make yak dbs for each sample separately.
+* You don't need to homopolymer compress yak dbs
+* There is no need to create separate dbs for assembly and for QC
+* yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is.
 
 ## Hi-C
 Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
