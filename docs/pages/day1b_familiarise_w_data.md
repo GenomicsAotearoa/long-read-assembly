@@ -330,7 +330,7 @@ Yak (Yet-Another Kmer Analyzer) is the kmer counter that we need for Hifiasm ass
 
 Yak won't work on our Jupyter instances, so create a slurm script that has 32 cores and 96GB of memory. That way it will work on our subset data and it will also work on full size data -- you'd just have to extend the time variable in slurm.
 
-??? clipboard-question "Click below for the answer"
+??? clipboard-question "Click here for the answer"
 
     Here is one way to call yak in a `yak.sl` script...
 
@@ -364,7 +364,7 @@ If you haven't already, execute your yak command in slurm (takes about 2 minutes
 !!! terminal "code"
 
     ```bash
-    nano yak.sl 
+    sbatch yak.sl 
     ```  
 
 When you are done you get out a non-human readable file. It doesn't need to be tarred or gzipped, and nothing else needs to be done in order to use it.
@@ -382,7 +382,7 @@ Hi-C is a proximity ligation method. It takes intact chromatin and locks it in p
 
 Given that Hi-C ligates molecules that are proximate (nearby) to each other, it can be used for spatial genomics applications. In assembly, we take advantage of the fact that most nearby molecules are on the same strand (or haplotype) of DNA. 
 
-??? question "What are the advantage of trio phasing over Hi-C?"
+??? question "What are the advantages of trio phasing over Hi-C?"
 
     Trio data is great for phasing because you can assign haplotypes to maternal and paternal bins. This has the added benefit of assigning all maternal contigs to the same assembly. Hi-C ensure that an entire chromosome is phased into one haplotype, but across chromosomes the assignment is random. 
 
@@ -400,14 +400,14 @@ Given that Hi-C ligates molecules that are proximate (nearby) to each other, it 
 ### Other (Phasing) Datatypes
 We should also mention that there are other datatypes that can be used for phasing, though they are less common.
 
-**Pore-C**
-Pore-C is a variant of Hi-C which retains the chromatin conformation capture aspect, but the sequencing is done on ONT. This allows long reads sequencing of concatemers. Where Hi-C typically has at most one "contact" per read, Pore-C can have many contacts per read. The libraries also do not need to be amplified, so Pore-C reads can carry base modification calls. 
+**Pore-C**<br>
+Pore-C is a variant of Hi-C which retains the chromatin conformation capture aspect, but the sequencing is done on ONT. This allows long-read sequencing of concatemers. Where Hi-C typically has at most one "contact" per read, Pore-C can have many contacts per read. The libraries also do not need to be amplified, so Pore-C reads can carry base modification calls. 
 
-**StrandSeq**
-StrandSeq is a technique that creates sparse Illumina datasets that are both cell- and strand-specific. Cell specificity is achieved by putting one cell per well into 384 well plates (often multiple). Strand specificity is achieved through selective fragmentation of nascent strands. (During DNA replication, BrdU is incorporated exclusively into nascent DNA strands. In the library preparation the BrdU strand is fragmented and only the other strand amplifies.) This strand specificity gives another way to identify haplotype-specific kmers and use them during assembly phasing.
+**StrandSeq**<br>
+StrandSeq is a technique that creates sparse Illumina datasets that are both cell- and strand-specific. Cell specificity is achieved by putting one cell per well into 384-well plates (often multiple). Strand specificity is achieved through selective fragmentation of nascent strands. (During DNA replication, BrdU is incorporated exclusively into nascent DNA strands. In the library preparation the BrdU strand is fragmented and only the other strand amplifies.) This strand specificity gives another way to identify haplotype-specific kmers and use them during assembly phasing.
 
 !!! quote-right "If you are interested in these phasing approaches, you can read more about them in the following articles:"
 
-    - Lorig-Roach, Ryan, et al. "Phased nanopore assembly with Shasta and modular graph phasing with GFAse." bioRxiv (2023): 2023-02.
+    - Lorig-Roach, Ryan, et al. "Phased nanopore assembly with Shasta and modular graph phasing with GFAse." *bioRxiv* (2023): 2023-02.
     
-    - Porubsky, David, et al. "Fully phased human genome assembly without parental data using single-cell strand sequencing and long reads." Nature biotechnology 39.3 (2021): 302-308.
+    - Porubsky, David, et al. "Fully phased human genome assembly without parental data using single-cell strand sequencing and long reads." *Nature biotechnology* 39.3 (2021): 302-308.

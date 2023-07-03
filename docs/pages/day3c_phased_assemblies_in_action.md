@@ -48,19 +48,19 @@ software can&rsquo;t distinguish between repeat copies.
     certain density of representative sequences is enforced in any given
     window, whether the neighboring windows are dependent on eachother, etc.
     In general, the representative sequences are found by sliding along the
-    sequence and selecting a representative subsequence in the given window    
+    sequence and selecting a representative subsequence in the given window.
     
-    Many other tools use sketching in some way, here are a few examples    
+    Many other tools use sketching in some way, here are a few examples:
 
-    - <a href="https://github.com/marbl/Mash">Mash</a>(<a href="https://doi.org/10.1186/s13059-016-0997-x">Ondov <em>et al.</em> 2016</a>)
-    - <a href="https://github.com/marbl/MashMap">MashMap</a>(<a href="https://doi.org/10.1101/2023.05.16.540882">Kille <em>et al.</em> 2023</a>)
-    -  <a href="https://github.com/maickrau/MBG">MBG</a>(<a href="https://doi.org/10.1093/bioinformatics/btab004">Rautiainen &amp; Marschall 2021</a>)
+    - <a href="https://github.com/marbl/Mash">Mash</a> (<a href="https://doi.org/10.1186/s13059-016-0997-x">Ondov <em>et al.</em> 2016</a>)
+    - <a href="https://github.com/marbl/MashMap">MashMap</a> (<a href="https://doi.org/10.1101/2023.05.16.540882">Kille <em>et al.</em> 2023</a>)
+    -  <a href="https://github.com/maickrau/MBG">MBG</a> (<a href="https://doi.org/10.1093/bioinformatics/btab004">Rautiainen &amp; Marschall 2021</a>)
                 <strong>
                     &lt;-- Used in
                     <a href="https://github.com/marbl/verkko">Verkko</a></strong>
                     (<a href="https://doi.org/10.1038/s41587-023-01662-6">Rautiainen <em>et al.</em> 2023</a>)!
  
-    - <a href="https://github.com/chhylp123/hifiasm">hifiasm</a>(<a href="https://doi.org/10.1038/s41587-022-01261-x">Cheng <em>et al.</em> 2022</a>)
+    - <a href="https://github.com/chhylp123/hifiasm">hifiasm</a> (<a href="https://doi.org/10.1038/s41587-022-01261-x">Cheng <em>et al.</em> 2022</a>)
 
 
 We're going to run ModDotPlot on part of the Y chromosome from our
@@ -392,7 +392,7 @@ files for our contigs of interest.
 
 On sequences of this size, ModDotPlot is relatively quick. It has a reasonable
 memory footprint for sequences <10 Mbp, but memory usage can exceed 20 GB for
-large sequences (>100 Mbp). Let'ss create a script to submit with
+large sequences (>100 Mbp). Let's create a script to submit with
 `sbatch`. Paste the following into `moddotplot.sh`
 
 !!! terminal "code"
@@ -464,5 +464,5 @@ TRI files show everything above (or below, depending on how you look at it) the
 diagonal of the dotplot, rotated such that the diagonal is along the X-axis of
 the plot. Go ahead a view these files now.
 
-**What do you observe?**
+!!! question "What do you observe?"
 
