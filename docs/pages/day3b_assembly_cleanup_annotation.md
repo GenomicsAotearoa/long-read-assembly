@@ -251,7 +251,7 @@ your assembly.
     href="https://www.ebi.ac.uk/interpro/about/interproscan/">InterProScan</a>
     can give you functional annotations relatively quickly. If you are able to
     share your data with NCBI and your assembly is the best assembly (or if the
-    community agrees it is otherwise preferred), they NCBI annotation team will
+    community agrees it is otherwise preferred), the NCBI annotation team will
     annotate it for you using their automated pipeline. <a
     href="https://gff3toolkit.readthedocs.io/">GFF3 Toolkit</a> can be useful
     when working with GFF3 files, and <a
@@ -311,7 +311,7 @@ your assembly.
 
 We will use Liftoff (doi:
 [10.1093/bioinformatics/btaa1016](https://doi.org/10.1093/bioinformatics/btaa1016))
-lift over the annotations from the T2T-CHM13 reference assembly to our assembly
+to lift over the annotations from the T2T-CHM13 reference assembly to our assembly
 of HG002.
 
 **Create directory**
@@ -387,7 +387,9 @@ First create a shell script `liftoff.sh` with the following content:
 
     `-db` specifies the location of the SQLite database of features extracted by Liftoff from the GFF file with the input annotations for the reference. 
     
-    `-o` specifies the location of the GFF file with the output annotations for the target. The two positional parameters at the end are respectively the target assembly (our HG002 assembly) and the reference assembly (T2T-CHM13). Run the following command to see all the options described in more detail:
+    `-o` specifies the location of the GFF file with the output annotations for the target.
+
+    The two positional parameters at the end are respectively the target assembly (our HG002 assembly) and the reference assembly (T2T-CHM13). Run the following command to see all the options described in more detail:
 
     `liftoff -h`
 
@@ -459,7 +461,7 @@ them.
 <!-- END OF ANNOTATION SECTION -->
 
 ## Long Read/Contig Mapping
-We are ready to map long reads and assembly contigs to genomes. For this we need a set of tools that are differenct from what you might be used to using for Illumina data. You might be asking "what's the matter with bwa-mem for long reads?" It is [slow](https://lh3.github.io/2018/04/02/minimap2-and-the-future-of-bwa#:~:text=For%20long%20reads%2C%20minimap2%20is,a%20typical%20long%2Dread%20mapper.) and probably inaccurate for this application. So let's jump in to long read mappers and see what we can do with them.
+We are ready to map long reads and assembly contigs to genomes. For this we need a set of tools that are different from what you might be used to using for Illumina data. You might be asking "what's the matter with bwa-mem for long reads?" It is [slow](https://lh3.github.io/2018/04/02/minimap2-and-the-future-of-bwa#:~:text=For%20long%20reads%2C%20minimap2%20is,a%20typical%20long%2Dread%20mapper.) and probably inaccurate for this application. So let's jump in to long read mappers and see what we can do with them.
 
 ### Mashmap: Super Fast (Approximate) Mapping
 
@@ -590,7 +592,7 @@ And take a look at it (you can click on it in your file explorer).
 
 1. This could all be automated, of course. The T2T and HPRC consortiums have workflows that go through assemblies to determine T2T status at the chromosomal level, but those workflows are pretty similar to what we did above, actually. 
 
-2. Not having base-level information is actually ok for what we just did. If you would like base level information at only a few fold the run cost of mashmap (so still very fast), then you probably want to check out [wfmash](https://github.com/waveygang/wfmash/blob/master/README.md). It can be used for alignments of long reads (100kb+) or assemblies at very large scales.
+2. Not having base-level information is actually ok for what we just did. If you would like base level information at only a few fold of the run cost of mashmap (so still very fast), then you probably want to check out [wfmash](https://github.com/waveygang/wfmash/blob/master/README.md). It can be used for alignments of long reads (100kb+) or assemblies at very large scales.
 
 ## Minimap2: 
 If you are mapping long read data and you'd like to have base-level alignment, minimap2 is probably your first stop. 
@@ -658,7 +660,7 @@ And paste in the following
     ## minimap parameters appropriate for nanopore
     in_args="-y -x map-ont --MD --eqx --cs -Y -L -p0.1 -a -k 17 -K 10g"
     
-    #do the mapping with methylation tags by dumping the Mm/Ml tags to a fastq header
+    #do the mapping with methylation tags by dumping the Mm/Ml tags to the fastq headers
     samtools fastq \
         -TMm,Ml /nesi/nobackup/nesi02659/LRA/resources/ont_ul/03_08_22_R941_HG002_2_Guppy_6.1.2_5mc_cg_prom_sup.bam \
         | minimap2 -t 24 ${in_args} verkko_trio_diploid.fa.mmi - \
@@ -674,7 +676,7 @@ And paste in the following
     ```bash
     sbatch ont_mm2.sl
     ```
-This should only take 3 hours or so, but we have some pre-baked results for you already. We will use these results in the next section.
+This should take only 3 hours or so, but we have some pre-baked results for you already. We will use these results in the next section.
 
 
 ??? clipboard-question "Why did we align to the diploid version of our assembly ?" 
@@ -683,7 +685,7 @@ This should only take 3 hours or so, but we have some pre-baked results for you 
 
 ### Visualize The Alignments In IGV
 
-**Before switching over to your virtual desktop link the prerun alignments to your working directory**
+**Before switching over to your virtual desktop, link the prerun alignments to your working directory**
 
 !!! terminal "code"
 

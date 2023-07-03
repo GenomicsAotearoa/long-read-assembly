@@ -30,7 +30,7 @@ In this section, we will learn about both technologies and then create plots sho
 
 
 ## PacBio Hifi: Illumina-Like Quality With Long Reads
-**What is PacBio HiFi**
+**What is PacBio HiFi**<br>
 PacBio's high fidelity (or HiFi) reads are long (~15kb) and accurate (~99.9%). PacBio produces such high quality reads (with their single-molecule real-time, or SMRT, sequencing) by reading the same sequence over and over again in order to create a circular consensus sequence (or CCS) as shown below. 
 
 **PacBio's CCS Process**
