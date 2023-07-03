@@ -369,7 +369,7 @@ If you haven't already, execute your yak script using slurm (takes about 2 minut
     sbatch yak.sl 
     ```  
 
-When you are done you get out a non-human readable file. It doesn't need to be tarred or gzipped, and nothing else needs to be done in order to use it.
+When you are done you get out a non-human readable file. It doesn't need to be compressed or decompressed, and nothing else needs to be done in order to use it.
 
 **Closing remarks on yak**
 
