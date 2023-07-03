@@ -4,18 +4,18 @@ Now that we have understood our data types (day 1) and put them through an assem
 
 !!! question "Food for thought"
 
-    - What do you think a 'good' de novo assembly looks like?
+    - What do you think a 'good' *de novo* assembly looks like?
     - What are some qualities of an assembly that you might be interested in measuring?
 
 
 ## Contiguity (assembly statistics using gfastats)
 Recall that the sequences in our assembly are referred to as *contigs*.
 
-Normally, when we receive a hodgepodge of things with different values of the same variable, such as our contigs of varying lengths, we are inclined to use descriptive statistics such as average or median to try to get a grasp on how our data looks. However, it can be hard to compare average contig length between assemblies&mdash;if they have the same total size and same number of contigs, it's still the same average, even if it's five contigs of 100 bp, or one 460 bp contig and four 10 bp ones! This matters for assembly because ideally we want *fewer* contigs that are *larger*. 
+Normally, when we receive a hodgepodge of things with different values of the same variable, such as our contigs of varying lengths, we are inclined to use descriptive statistics such as average or median to try to get a grasp on how our data looks. However, it can be hard to compare average contig length between assemblies&mdash;if they have the same total size and same number of contigs, it's still the same average, even if it's five contigs of 100bp, or one 460 bp contig and four 10bp ones! This matters for assembly because ideally we want *fewer* contigs that are *larger*. 
 
 Median comes closer to reaching what we're trying to measure, but it can be skewed by having many very small contigs, so instead a popular metric for assessing assemblies is *N50*.
 
-The N50 is similar to the median in that one must first sort the numbers, but then insted of taking the middle value, the N50 value is the *length of the first contig that is equal to or greater than half of the assembly sum*. But that can be hard to understand verbally, so let's look at it visually:
+The N50 is similar to the median in that one must first sort the numbers, but then instead of taking the middle value, the N50 value is the *length of the first contig that is equal to or greater than half of the assembly sum*. But that can be hard to understand verbally, so let's look at it visually:
 
 ![N50 schematic](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/N50.png)
 *Image adapted from <a href='https://www.molecularecologist.com/2017/03/29/whats-n50/'>Elin Videvall at The Molecular Ecologist</a>.* 
@@ -24,7 +24,7 @@ The N50 can be interpreted as such: given an N50 value, 50% of the sequence in t
 
 Another statistic that is often reported with N50 is the *L50*, which is the rank of the contig that gives the N50 value. For instance, in the above image, the L50 would be 3, because it would be the third largest contig that gives the N50 value. L50 is useful for contextualizing the N50, because it gives an idea of how many contigs make up that half of your assembly. 
 
-??? clipboard-question "N50 or NG50 ?"
+??? clipboard-question "N50 or NG50?"
         
     Another measurement you might see is NG50. This is the N50 value, just calculated using a given genome size instead of the sum of the contigs.
 
@@ -39,7 +39,7 @@ auN tries to capture the nature of this curve, instead of a value from an arbitr
 
 **Run gfastats on a FASTA**
 
-Let's get some basic statistics for an assembly using a tool called **gfastats**, which will output metrics such as N50, auN, total size, etc. We can try it out on a verkko trio assembly of HG002 that's already been downloaded onto NeSI.
+Let's get some basic statistics for an assembly using a tool called **gfastats**, which will output metrics such as N50, auN, total size, etc. We can try it out on a Verkko trio assembly of HG002 that's already been downloaded onto NeSI.
 
 !!! terminal "code"
 
@@ -99,7 +99,7 @@ Let's get some basic statistics for an assembly using a tool called **gfastats**
 
 **Run gfastats on a GFA**
 
-Remember that the file we initially got was an assembly *graph*&mdash;what if we wanted to know some graph-specitic stats about our assembly, such as number of nodes or disconnected components? We can also assess that using gfastats. 
+Remember that the file we initially got was an assembly *graph*&mdash;what if we wanted to know some graph-specific stats about our assembly, such as number of nodes or disconnected components? We can also assess that using gfastats. 
 
 !!! terminal "code"
 
@@ -153,7 +153,7 @@ Remember that the file we initially got was an assembly *graph*&mdash;what if we
          # bubbles: 8
          # circular segments: 11
          ```
-??? clipboard-question "What's the `--discover-paths` flag for ?"
+??? clipboard-question "What's the `--discover-paths` flag for?"
         
     gfastats tries to clearly distinguish contigs from segments, so it will not pick up on contigs in a GFA without paths defined. To get the contig stats as well as graph stats from these GFAs, you'll need to add the `--discover-paths` flag. 
 
@@ -219,11 +219,11 @@ Now that we know how to get the statistics for one assembly, let's get them for 
 
 !!! info "Output explained"
 
-    ... where the first column is the stats from the HiFi-only assembly graph, and the second column is the stats from the HiFi+ONT assembly graph. Notice how the HiFi-only graphhas way more nodes than the HiFi+ONT one, like we'd seen in Bandage. Stats-wise, this results in the HiFi-only graph having a N50 value of 223 Kbp while the HiFi+ONT one is 10.8 Mbp, a whole order of magnitude larger. For the HiFi-only graph, though, there's a bigger difference between its N50 value and its auN value: 223 Kbp vs. 638 Kbp, while the HiFi+ONT stats have a smaller difference of 10.8 Mbp vs. 11.4 Mbp. This might be due to the HiFi-only graph having on average shorter segments and more of the shorter ones, since it doesn't have the ONT data to resolve the segments into larger ones. 
+    ... where the first column is the stats from the HiFi-only assembly graph, and the second column is the stats from the HiFi+ONT assembly graph. Notice how the HiFi-only graph has way more nodes than the HiFi+ONT one, like we'd seen in Bandage. Stats-wise, this results in the HiFi-only graph having a N50 value of 223 Kbp while the HiFi+ONT one is 10.8 Mbp, a whole order of magnitude larger. For the HiFi-only graph, though, there's a bigger difference between its N50 value and its auN value: 223 Kbp vs. 638 Kbp, while the HiFi+ONT stats have a smaller difference of 10.8 Mbp vs. 11.4 Mbp. This might be due to the HiFi-only graph having on average shorter segments and more of the shorter ones, since it doesn't have the ONT data to resolve the segments into larger ones. 
     
 ## Correctness (QV using Merqury)
 
-Correctness refers to the base pair accuracy, and can be measured by comparing one's assembly to a gold standard reference genome. This approach is limited by 1) an assumption about the quality of the reference itself and the closeness between it and the assembly being compared, and 2) the need for a reference genome at all, which many species do not have (yet). To avoid this, we can use **Merqury**: a reference-free suite of tools for assessing assembly quality (particularly w.r.t. error rate) using *k*-mers and the read set that generated that assembly. If an assembly is made up from the same sequences that were in the sequencing reads, then we would not expect any sequences (*k*-mers) in the assembly that aren't present in the read set -- but we do find those sometimes, and those are what Merqury flags as error *k*-mers. **It uses the following formula to calculate QV value, which typically results in QVs of 50-60**: 
+Correctness refers to the base pair accuracy, and can be measured by comparing one's assembly to a gold standard reference genome. This approach is limited by 1) an assumption about the quality of the reference itself and the closeness between it and the assembly being compared, and 2) the need for a reference genome at all, which many species do not have (yet). To avoid this, we can use **Merqury**: a reference-free suite of tools for assessing assembly quality (particularly w.r.t. error rate) using *k*-mers and the read set that generated that assembly. If an assembly is made up from the same sequences that were in the sequencing reads, then we would not expect any sequences (*k*-mers) in the assembly that aren't present in the read set&mdash;but we do find those sometimes, and those are what Merqury flags as error *k*-mers. **It uses the following formula to calculate QV value, which typically results in QVs of 50-60**: 
 
 <center>
 ![QV formula](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/merqury_qvformula.png)
@@ -242,7 +242,7 @@ Merqury operates using *k*-mer databases like the ones we generated using meryl,
 
 **Running Meryl and GenomeScope on the *E. coli* verkko assembly**
 
-Let's try this out on the *E. coli* Verkko assembly. First we need a meryl database, so let's generate that 
+Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl database, so let's generate that 
 
 !!! terminal "code"
 
@@ -261,9 +261,9 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a meryl datab
 
 ??? clipboard-question "`--wrap` ???"
    
-    Previously, we used the `sbatch` command to submit a slurm script to the cluster and the slurm job handler. The `sbatch` command can actually take a lot of parameters like the ones we included in the beginning of our script, and one of those parameters is `--wrap` which kind of wraps whatever command you give it in a slurm wrapper so that the cluster can schedule it as if it was a slurm script. 
+    Previously, we used the `sbatch` command to submit a slurm script to the cluster and the slurm job handler. The `sbatch` command can actually take a lot of parameters like the ones we included in the beginning of our script, and one of those parameters is `--wrap` which kind of wraps whatever command you give it in a Slurm wrapper so that the cluster can schedule it as if it was a Slurm script. 
     
-    Take note that running a process in this manner is not reproducible. Unless you have access to the `history` logs, other researchers are not able to know what parameters you have used. Therefore, it is advisable to write it out in a SLURM script as below:
+    Take note that running a process in this manner is not reproducible. Unless you have access to the `history` logs, other researchers are not able to know what parameters you have used. Therefore, it is advisable to write it out in a Slurm script as below:
 
     !!! terminal "code"
 
@@ -287,15 +287,15 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a meryl datab
         ``` 
 
 
-That shouldn't take too long to run. Now we have a meryl DB for our HiFi reads. If we're curious about the distribution of our *k*-mers, we can use meryl generate a histogram of the counts to show us how often a *k*-mer occurs only once in the reads, twice, etc. 
+That shouldn't take too long to run. Now we have a Meryl DB for our HiFi reads. If we're curious about the distribution of our *k*-mers, we can use Meryl generate a histogram of the counts to show us how often a *k*-mer occurs only once in the reads, twice, etc. 
 
 
 ??? question "How would you go about trying to do this with meryl ?"
     
     When you want to use a tool to do something (and you are decently confident that the tool can actually do it), then a good point to start is just querying the tool's manual or help dialogue. Try out `meryl --help` and see if there's a function that looks like it could generate the histogram we want. <del>spoiler alert: it's `meryl histogram read-db.meryl`</del>
->
 
-If you tried to run that command with the output straight to standard out (*i.e.*, your terminal screen), you'll see it's rather overwhelming and puts you all the way at the high, high coverage *k*-mer counts, which are only one occurance. Let's look at just the first 100 lines instead.
+
+If you tried to run that command with the output straight to standard out (*i.e.*, your terminal screen), you'll see it's rather overwhelming and puts you all the way at the high, high coverage *k*-mer counts, which are only one occurrence. Let's look at just the first 100 lines instead.
 
 !!! terminal "code"
     
@@ -334,16 +334,16 @@ This is more manageable, and you can even kind of see the histogram forming from
     
     ![xbAnaTube1 bandage 1](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/bandage_xbAnaTube1_bad.png)
     
-    The above is the hifiasm unitig graph for the assembly done without good HiFi coverage.
+    The above is the Hifiasm unitig graph for the assembly done without good HiFi coverage.
     
     ![xbAnaTube1 bandage 2](https://raw.githubusercontent.com/human-pangenomics/hprc-tutorials/GA-workshop/assembly/genomics_aotearoa/images/qc/bandage_xbAnaTube1_good.png)
     
-    The above is the hifiasm unitig graph for the assembly done with good (~56X) HiFi coverage.
+    The above is the Hifiasm unitig graph for the assembly done with good (~56X) HiFi coverage.
 
 **OK cool, now back to Merqury**
 
 
-Use your text editor of choice to make a slurm script (`run_merqury.sl`) to run the actual merqury program with the following contents:
+Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run the actual Merqury program with the following contents:
 
 !!! terminal "code"
 
@@ -378,12 +378,12 @@ Use your text editor of choice to make a slurm script (`run_merqury.sl`) to run 
     ```
 
 
-??? clipboard-question "What's that export command doing there ?"
+??? clipboard-question "What's that `export` command doing there?"
 
     Merqury as a package ships with a lot of scripts, especially for plotting. The `merqury.sh` command that we're using is calling those scripts, but we need to tell it where we installed Merqury. 
 
 
-To find out the QV, we want the file named `output.qv`. Take a look at it and try to interpret the QV value you find (third column). If we recall the Phred scale system, this would mean that this QV value is great! Which is not surprising, considering we used HiFi data. **It's worth noting, though, that we are using HiFi *k*-mers to evaluate sequences derived from those same HiFi reads.** This does a good job of showing whether the assembly worked with that data well, but what if the HiFi data itself is missing parts of the genome, such as due to bias (*e.g.*, GA dropout)? That's why it's important to use orthogonal datasets made using different sequencing technology, when possible. For instance, we can use an Illumina-based meryl database to evaluate a HiFi assembly. For non-human vertebrates, this often results in the QV dropping from 50-60 to 35-45, depending on the genome in question. 
+To find out the QV, we want the file named `output.qv`. Take a look at it and try to interpret the QV value you find (third column). If we recall the Phred scale system, this would mean that this QV value is great! Which is not surprising, considering we used HiFi data. **It's worth noting, though, that we are using HiFi *k*-mers to evaluate sequences derived from those same HiFi reads.** This does a good job of showing whether the assembly worked with that data well, but what if the HiFi data itself is missing parts of the genome, such as due to bias (*e.g.*, GA dropout)? That's why it's important to use orthogonal datasets made using different sequencing technology, when possible. For instance, we can use an Illumina-based Meryl database to evaluate a HiFi assembly. For non-human vertebrates, this often results in the QV dropping from 50-60 to 35-45, depending on the genome in question. 
 
 !!! terminal "code"
 
@@ -464,7 +464,7 @@ Another way to assess an assembly is via **completeness**, particularly with reg
 
 A perfect asesmbly would have %MMC be zero, while a higher fraction indicates the assembly has collapsed some of these multi-copy genes. Additionally, you can look at the presence (or absence!) of expected single-copy genes in order to check gene completeness of the assembly. 
 
-The output will be a tab-delimed list of metrics and the value of that metric for the reference and for your given assembly. The line **full_sgl** gives the number of single-copy genes present in the reference and your assembly -- if these numbers are off-balanced, then you might have false duplications, which are also pointed out on the **full_dup** line. For the multi-copy genes, you can look at **dup_cnt** to see the number of multi-copy genes in the reference and see how many of those genes are still multi-copy in your assembly. You can then use these values to calculate %MMC via the formula `1 - (dup_cnt asm / dup_cnt ref)`. 
+The output will be a tab-delimed list of metrics and the value of that metric for the reference and for your given assembly. The line **full_sgl** gives the number of single-copy genes present in the reference and your assembly&mdash;if these numbers are off-balanced, then you might have false duplications, which are also pointed out on the **full_dup** line. For the multi-copy genes, you can look at **dup_cnt** to see the number of multi-copy genes in the reference and see how many of those genes are still multi-copy in your assembly. You can then use these values to calculate %MMC via the formula `1 - (dup_cnt asm / dup_cnt ref)`. 
 
 Let's try running asmgene on `haplotype1` and `haplotype2` from the pre-baked Verkko trio assemblies. 
 
@@ -521,4 +521,4 @@ Now that we have our files, we're ready to go. Make a script with the following 
 
 !!! tip "Tip"
 
-    Another popular tool for checking genome completeness using gene content is the software Benchmarking Universal Single-Copy Orthologs (BUSCO). This approach uses a set of evolutionarily conserved genes that are expected to be present at single copy for a given taxa, so one could check their genome to see if, for instance, it has all the genes predicted to be necessary for *Aves* or *Vertebrata*. This approach is useful if your *de novo* genome assembly is for a species that does not have a reference genome yet. And it's even faster now with the recently developed tool *minibusco*!
+    Another popular tool for checking genome completeness using gene content is the software Benchmarking Universal Single-Copy Orthologs (BUSCO). This approach uses a set of evolutionarily conserved genes that are expected to be present at single copy for a given taxa, so one could check their genome to see if, for instance, it has all the genes predicted to be necessary for *Aves* or *Vertebrata*. This approach is useful if your *de novo* genome assembly is for a species that does not have a reference genome yet. And it's even faster now with the recently developed tool *compleasm*!
