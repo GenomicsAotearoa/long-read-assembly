@@ -39,3 +39,13 @@
     - Lorig-Roach, Ryan, et al. "Phased nanopore assembly with Shasta and modular graph phasing with GFAse." *bioRxiv* (2023): 2023-02.
 
     - Porubsky, David, et al. "Fully phased human genome assembly without parental data using single-cell strand sequencing and long reads." *Nature biotechnology* 39.3 (2021): 302-308.
+
+    - Garg, Shilpa. "Towards routine chromosome-scale haplotype-resolved reconstruction in cancer genomics." *Nature Communications* 14.1 (2023): 1358.
+
+    - Lorig-Roach, Ryan, et al. "Phased nanopore assembly with Shasta and modular graph phasing with GFAse." *bioRxiv* (2023): 2023-02.
+
+    - Porubsky, David, et al. "Fully phased human genome assembly without parental data using single-cell strand sequencing and long reads." *Nature biotechnology* 39.3 (2021): 302-308.
+
+    - Rautiainen, Mikko, et al. "Telomere-to-telomere assembly of diploid chromosomes with Verkko." *Nature Biotechnology* (2023): 1-9.
+
+    - Rhie, Arang, et al. "Merqury: reference-free quality, completeness, and phasing assessment for genome assemblies." *Genome biology* 21.1 (2020): 1-27.
