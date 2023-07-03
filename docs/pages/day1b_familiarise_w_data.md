@@ -362,11 +362,11 @@ Yak won't work on our Jupyter instances, so create a slurm script that has 32 co
 
     Notice that for paired-end reads we have to stream both reads to yak twice!
 
-If you haven't already, execute your yak command in slurm (takes about 2 minutes). 
+If you haven't already, execute your yak script using slurm (takes about 2 minutes). 
 !!! terminal "code"
 
     ```bash
-    nano yak.sl 
+    sbatch yak.sl 
     ```  
 
 When you are done you get out a non-human readable file. It doesn't need to be tarred or gzipped, and nothing else needs to be done in order to use it.
