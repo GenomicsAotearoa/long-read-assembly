@@ -235,48 +235,48 @@ We see a lot of *k*-mers missing and the histogram (frequency column) has a ton 
 
     **Here is what the Slurm script would look like:**
     
-        (Don't run this, it is slow! We have made these for you already.)
-    
-        !!! terminal "code"
-    
-            ```bash
-            #!/bin/bash -e
-            
-            #SBATCH --account       nesi02659
-            #SBATCH --job-name      meryl_run
-            #SBATCH --cpus-per-task 32
-            #SBATCH --time          12:00:00
-            #SBATCH --mem           96G
-            #SBATCH --partition     milan
-            #SBATCH --output        slurmlogs/%x.%j.out
-            #SBATCH --error         slurmlogs/%x.%j.err
-            
-            
-            module purge
-            module load Merqury/1.3-Miniconda3
-            
-            ## Create mat/pat/child DBs
-            meryl count compress k=30 \
-                threads=32 memory=96 \
-                maternal.*fastq.gz \
-                output maternal_compress.k30.meryl
-            
-            meryl count compress k=30 \
-                threads=32 memory=96 \
-                paternal.*fastq.gz \
-                output paternal_compress.k30.meryl
-            
-            meryl count compress k=30 \
-                threads=32 memory=96    \
-                child.*fastq.gz output    \
-                child_compress.k30.meryl
-            
-            ## Create the hapmer DBs
-            $MERQURY/trio/hapmers.sh \
-              maternal_compress.k30.meryl \
-              paternal_compress.k30.meryl \
-                 child_compress.k30.meryl
-            ```
+    (Don't run this, it is slow! We have made these for you already.)
+
+    !!! terminal "code"
+
+        ```bash
+        #!/bin/bash -e
+        
+        #SBATCH --account       nesi02659
+        #SBATCH --job-name      meryl_run
+        #SBATCH --cpus-per-task 32
+        #SBATCH --time          12:00:00
+        #SBATCH --mem           96G
+        #SBATCH --partition     milan
+        #SBATCH --output        slurmlogs/%x.%j.out
+        #SBATCH --error         slurmlogs/%x.%j.err
+        
+        
+        module purge
+        module load Merqury/1.3-Miniconda3
+        
+        ## Create mat/pat/child DBs
+        meryl count compress k=30 \
+            threads=32 memory=96 \
+            maternal.*fastq.gz \
+            output maternal_compress.k30.meryl
+        
+        meryl count compress k=30 \
+            threads=32 memory=96 \
+            paternal.*fastq.gz \
+            output paternal_compress.k30.meryl
+        
+        meryl count compress k=30 \
+            threads=32 memory=96    \
+            child.*fastq.gz output    \
+            child_compress.k30.meryl
+        
+        ## Create the hapmer DBs
+        $MERQURY/trio/hapmers.sh \
+          maternal_compress.k30.meryl \
+          paternal_compress.k30.meryl \
+             child_compress.k30.meryl
+        ```
 
 
 **Closing notes**
