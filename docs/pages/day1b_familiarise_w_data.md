@@ -40,7 +40,7 @@ Next, downsample the ONT UL reads, too.
     ```
 
 **Now let's compare the data**<br>
-We are going to use a tool called NanoComp. This tool can take in multiple fastqs (or bams) and will create summary statistics and nice plots that show things like read length and quality scores. NanoComp has nano in the name, and has some ONT-specific functionality, but it can be used with PacBio data just fine.
+We are going to use a tool called NanoComp. This tool can take in multiple FASTQs (or BAMs) and will create summary statistics and nice plots that show things like read length and quality scores. NanoComp has nano in the name, and has some ONT-specific functionality, but it can be used with PacBio data just fine.
 
 !!! terminal "code"
 
@@ -51,7 +51,7 @@ We are going to use a tool called NanoComp. This tool can take in multiple fastq
         --names PacBio_HiFi ONT_UL \
         --outdir nanocomp_hifi_vs_ul
     ```
-Once the run is complete (~2 minutes), navigate in your file browser to the folder that NanoComp just created and then click on the NanoComp-report.html file (near the bottom of the folder's contents) to open it. Take a look at the plots for log-transformed read lengths and basecall quality scores. (Note that you may have to click **Trust HTML** at the top of the page for the charts to display.)
+Once the run is complete (~2 minutes), navigate in your file browser to the folder that NanoComp just created and then click on the `NanoComp-report.html` file (near the bottom of the folder's contents) to open it. Take a look at the plots for log-transformed read lengths and basecall quality scores. (Note that you may have to click **Trust HTML** at the top of the page for the charts to display.)
 
 ??? clipboard-question "What is the range of Q-scores seen in HiFi data?"
     
@@ -60,7 +60,7 @@ Once the run is complete (~2 minutes), navigate in your file browser to the fold
 
 ??? clipboard-question "What percent of UL reads are over 100kb?"
 
-    This depends on the dataset but it is very common to see 30% of reads being over 100kb. The 100kb number gets passed around a lot because reads that are much longer than HiFi are when UL distinguishes itself
+    This depends on the dataset but it is very common to see 30% of reads being over 100kb. The 100kb number gets passed around a lot because reads that are much longer than HiFi are when UL distinguishes itself.
 
 
 ## Cleaning Data For Assembly
@@ -124,7 +124,7 @@ Now we can quickly check how many reads are retained.
         --outdir nanocomp_ul_vs_ul_50kb
     ```
 
-??? clipboard-question "When we filter for reads over 50kb, how many reads and total basepairs of DNA are filtered out?"
+??? clipboard-question "When we filter for reads over 50kb, how many reads and total base pairs of DNA are filtered out?"
 
     Over half of the reads are filtered out, but only about 25% of the data (see "Total bases") is filtered. This makes sense as the long reads contribute more bp per read.
 
@@ -136,28 +136,28 @@ Now we can quickly check how many reads are retained.
 Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies (in the case of human assemblies). 
 
 ### Trio Data
-At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with kmer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about kmer DBs.
+At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with *k*-mer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about *k*-mer DBs.
 
 #### Meryl
-[Meryl](https://github.com/marbl/meryl) is a kmer counter that dates back to Celera. It creates kmer DBs, but it is also a toolset that you can use for finding kmers and manipulating kmer count sets. Meryl is to kmers what BedTools is to genomic regions.
+[Meryl](https://github.com/marbl/meryl) is a *k*-mer counter that dates back to Celera. It creates *k*-mer DBs, but it is also a toolset that you can use for finding *k*-mers and manipulating *k*-mer count sets. Meryl is to *k*-mers what BedTools is to genomic regions.
 
 Today we want to use Meryl in the context of creating databases from PCR-free Illumina readsets. These can be used both during the assembly process and during the post-assembly QC. 
 
 **Some background on assembly phasing with trios**
 
-Verkko takes as an input what are called hapmer DBs. These are constructed from the kmers that a child inherits from one parent and not the other. These kmers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific kmers and paternal-specific kmers and use those to determine which haplotype to assign to each sequence.
+Verkko takes as an input what are called hapmer DBs. These are constructed from the *k*-mers that a child inherits from one parent and not the other. These *k*-mers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific *k*-mers and paternal-specific *k*-mers and use those to determine which haplotype to assign to each sequence.
 
 <p align="center">
     <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/meryl_venn.png?raw=true" width="350"/>
 </p>
 
-In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand side (in the purple in red box). The paternal hapmer kmers/DB are on the right-hand side (in the purple in blue box). 
+In the Venn diagram above, the maternal hapmer *k*-mers/DB are on the left-hand side (in the purple in red box). The paternal hapmer *k*-mers/DB are on the right-hand side (in the purple in blue box). 
 
 !!! question "Wait, what is phasing?"
 
     Phasing is the process of saying two things are on the same haplotype.
 
-    One way you will hear us talk about phasing in this workshop is in the context of ultra long reads. In this case we may have two heterozygous regions separated by a homozougous region. If we can find a long read that maps to the top sequences in both, then we could say that these sequences come from the same haplotype. That is phasing.
+    One way you will hear us talk about phasing in this workshop is in the context of ultra long reads. In this case we may have two heterozygous regions separated by a homozygous region. If we can find a long read that maps to the top sequences in both, then we could say that these sequences come from the same haplotype. That is phasing.
 
     <p align="center">
         <img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/ont_phasing.png?raw=true" width="550"/>
@@ -192,7 +192,7 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
         | pigz > HG003_HiSeq30x_5M_reads_R1.fastq.gz &
     ```    
 
-**Create a kmer DB from an Illumina read set**
+**Create a *k*-mer DB from an Illumina read set**
 
 !!! terminal "code"
 
@@ -208,9 +208,9 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
         output paternal_5M_compress.k30.meryl
     ```
 
-This should be pretty fast because we are just using a small amount of data to get a feel for the program. The output of Meryl is a folder that contains 64 index files and 64 data files. If you try and look at the data files you'll see that they aren't human readable. In order to look at the actual kmers, you have to use meryl to print them.
+This should be pretty fast because we are just using a small amount of data to get a feel for the program. The output of Meryl is a folder that contains 64 index files and 64 data files. If you try and look at the data files you'll see that they aren't human readable. In order to look at the actual *k*-mers, you have to use meryl to print them.
 
-**Look at the kmers**
+**Look at the *k*-mers**
 
 !!! terminal "code"
 
@@ -220,7 +220,7 @@ This should be pretty fast because we are just using a small amount of data to g
         paternal_5M_compress.k30.meryl \
         | head
     ```
-The first column is the kmer and the second column is the count of that kmer in the dataset.
+The first column is the *k*-mer and the second column is the count of that *k*-mer in the dataset.
 
 **Take a look at some statistics for the DB**
 
@@ -232,11 +232,11 @@ The first column is the kmer and the second column is the count of that kmer in 
         | head -n 20
     ```
 
-We see a lot of kmers missing and the histogram (frequency column) has a ton of counts at 1. This makes sense for a heavily downsampled dataset. Great. We just got a feel for how to use Meryl in general on subset data. Now let's actually take a look at how to create Meryl DBs for Verkko assemblies.
+We see a lot of *k*-mers missing and the histogram (frequency column) has a ton of counts at 1. This makes sense for a heavily downsampled dataset. Great. We just got a feel for how to use Meryl in general on subset data. Now let's actually take a look at how to create Meryl DBs for Verkko assemblies.
 
 #### How would we run Meryl for Verkko?
 
-**Here is what the slurm script would look like:**
+**Here is what the Slurm script would look like:**
 
 (Don't run this, it is slow! We have made these for you already.)
 
@@ -285,7 +285,7 @@ We see a lot of kmers missing and the histogram (frequency column) has a ton of 
 
 **Meryl DBs for Assembly and QC**
 
-It should be noted that Meryl DBs used for assembly with Verkko and for base-level QC with Merqury are created differently. Here are the current recommendations for kmer size and compression:
+It should be noted that Meryl DBs used for assembly with Verkko and for base-level QC with Merqury are created differently. Here are the current recommendations for *k*-mer size and compression:
 
 * Verkko: use `k=30` and the `compress` command
 * Merqury: use `k=21` and do not include the `compress` command
@@ -297,10 +297,10 @@ It should be noted that Meryl DBs used for assembly with Verkko and for base-lev
 
 ??? question "Why does Merqury use `k=21` ?"
 
-    Larger K sizes give more conservative results, but this comes at a cost since you get lower effective coverage. For non-human species, if you know your genome size you can [estimate an optimal K using Meryl itself](https://github.com/marbl/merqury/wiki/1.-Prepare-meryl-dbs#1-get-the-right-k-size). If you are wondering, Verkko uses k=30 in order to be "conservative". And at the time of writing this document, different species typically stick with k=30. Though this hasn't been tested, so it may change in the future.
+    Larger K sizes give more conservative results, but this comes at a cost since you get lower effective coverage. For non-human species, if you know your genome size you can [estimate an optimal K using Meryl itself](https://github.com/marbl/merqury/wiki/1.-Prepare-meryl-dbs#1-get-the-right-k-size). If you are wondering, Verkko uses k=30 in order to be "conservative". And at the time of writing this document, different species typically stick with `k=30`. Though this hasn't been tested, so it may change in the future.
 
 
-??? question "Do Meryl DBs have to be created from Illumina data? Could HiFi data be used an an input to Meryl ?"
+??? question "Do Meryl DBs have to be created from Illumina data? Could HiFi data be used an an input to Meryl?"
     
     They don't! You can create a Meryl DB from 10X data or HiFi data, for instance. The one caveat is that you want your input data to have a low error rate. So UL ONT data wouldn't work.
 
@@ -311,10 +311,10 @@ Here is an example of something you could do with Meryl:
 
 !!! quote ""
 
-    * You can create a kmer DB from an assembly
-    * You could then print all kmers that are only present once (using `meryl print equal-to 1`) 
+    * You can create a *k*-mer DB from an assembly
+    * You could then print all *k*-mers that are only present once (using `meryl print equal-to 1`) 
     * Then write those out to a bed file with `meryl-lookup`. 
-    Now you have "painted" all of the locations in the assembly with unique kmers. That can be a handy thing to have lying around.
+    Now you have "painted" all of the locations in the assembly with unique *k*-mers. That can be a handy thing to have lying around.
 
 ## Hi-C
 Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
@@ -322,29 +322,29 @@ Hi-C is a proximity ligation method. It takes intact chromatin and locks it in p
 
 Given that Hi-C ligates molecules that are proximate (nearby) to each other, it can be used for spatial genomics applications. In assembly, we take advantage of the fact that most nearby molecules are on the same strand (or haplotype) of DNA. 
 
-??? question "What are the advantage of trio phasing over Hi-C ?"
+??? question "What are the advantage of trio phasing over Hi-C?"
 
     Trio data is great for phasing because you can assign haplotypes to maternal and paternal bins. This has the added benefit of assigning all maternal contigs to the same assembly. Hi-C ensure that an entire chromosome is phased into one haplotype, but across chromosomes the assignment is random. 
 
 
-??? question "So why wouldn't you always use trio data for phasing ?"
+??? question "So why wouldn't you always use trio data for phasing?"
 
     It can be hard to get trio data. If a sample has already been collected it may be hard to go back and identify the parents and collect sample from them. In non-human samples, trios can also be difficult particularly with samples taken from the wild. 
 
 
-??? question "Are there any difficulties in preparing Hi-C data ?"
+??? question "Are there any difficulties in preparing Hi-C data?"
 
     Yes! As you can see in the cartoon above Hi-C relies on having intact chromatin as an input, which means it needs whole, non-lysed cells. This means that cell lines are an excellent input source, but frozen blood is less good, for instance.
 
 
-## Other Datatypes
-We should also mention that there are other datatypes that can be used for phasing, though they are less common.
+## Other Data types
+We should also mention that there are other data types that can be used for phasing, though they are less common.
 
 ### Pore-C
 Pore-C is a variant of Hi-C which retains the chromatin conformation capture aspect, but the sequencing is done on ONT. This allows long reads sequencing of concatemers. Where Hi-C typically has at most one "contact" per read, Pore-C can have many contacts per read. The libraries also do not need to be amplified, so Pore-C reads can carry base modification calls. 
 
 ### StrandSeq
-StrandSeq is a technique that creates sparse Illumina datasets that are both cell- and strand-specific. Cell specificity is achieved by putting one cell per well into 384 well plates (often multiple). Strand specificity is achieved through selective fragmentation of nascent strands. (During DNA replication, BrdU is incorporated exclusively into nascent DNA strands. In the library preparation the BrdU strand is fragmented and only the other strand amplifies.) This strand specificity gives another way to identify haplotype-specific kmers and use them during assembly phasing.
+StrandSeq is a technique that creates sparse Illumina datasets that are both cell- and strand-specific. Cell specificity is achieved by putting one cell per well into 384 well plates (often multiple). Strand specificity is achieved through selective fragmentation of nascent strands. (During DNA replication, BrdU is incorporated exclusively into nascent DNA strands. In the library preparation the BrdU strand is fragmented and only the other strand amplifies.) This strand specificity gives another way to identify haplotype-specific *k*-mers and use them during assembly phasing.
 
 !!! quote-right "If you are interested in these phasing approaches, you can read more about them in the following articles:"
 
