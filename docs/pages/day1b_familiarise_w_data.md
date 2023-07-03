@@ -137,12 +137,12 @@ Now that we've introduced the data that creates the graphs, it's time to talk ab
 
 At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with kmer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about kmer DBs.
 
-### Meryl
+### Trio data: Meryl
 [Meryl](https://github.com/marbl/meryl) is a kmer counter that dates back to Celera. It creates kmer DBs, but it is also a toolset that you can use for finding kmers and manipulating kmer count sets. Meryl is to kmers what BedTools is to genomic regions.
 
 Today we want to use Meryl in the context of creating databases from PCR-free Illumina readsets. These can be used both during the assembly process and during the post-assembly QC. 
 
-**Some background on assembly phasing with trios**
+#### Helpful Background
 
 Verkko takes as an input what are called hapmer DBs. These are constructed from the kmers that a child inherits from one parent and not the other. These kmers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific kmers and paternal-specific kmers and use those to determine which haplotype to assign to each sequence.
 
@@ -169,7 +169,7 @@ In the venn diagram above, the maternal hapmer kmers/DB are on the left-hand sid
     </p>
 
 
-#### Let's start by just familiarizing ourselves with Meryl's functionality...
+#### Using Meryl
 
 **Make sure you are in the right directory**
 
@@ -231,56 +231,55 @@ The first column is the kmer and the second column is the count of that kmer in 
 
 We see a lot of kmers missing and the histogram (frequency column) has a ton of counts at 1. This makes sense for a heavily downsampled dataset. Great. We just got a feel for how to use Meryl in general on subset data. Now let's actually take a look at how to create Meryl DBs for Verkko assemblies.
 
-#### How would we run Meryl for Verkko?
+??? clipboard-question "How would we run Meryl for Verkko?"
 
-**Here is what the slurm script would look like:**
+    Here is what the slurm script would look like...
 
-(Don't run this, it is slow! We have made these for you already.)
+    (Don't run this, it is slow! We have made these for you already.)
 
-!!! terminal "code"
+    !!! terminal "code"
 
-    ```bash
-    #!/bin/bash -e
-    
-    #SBATCH --account       nesi02659
-    #SBATCH --job-name      meryl_run
-    #SBATCH --cpus-per-task 32
-    #SBATCH --time          12:00:00
-    #SBATCH --mem           96G
-    #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/%x.%j.out
-    #SBATCH --error         slurmlogs/%x.%j.err
-    
-    
-    module purge
-    module load Merqury/1.3-Miniconda3
-    
-    ## Create mat/pat/child DBs
-    meryl count compress k=30 \
-        threads=32 memory=96 \
-        maternal.*fastq.gz \
-        output maternal_compress.k30.meryl
-    
-    meryl count compress k=30 \
-        threads=32 memory=96 \
-        paternal.*fastq.gz \
-        output paternal_compress.k30.meryl
-    
-    meryl count compress k=30 \
-        threads=32 memory=96    \
-        child.*fastq.gz output    \
-        child_compress.k30.meryl
-    
-    ## Create the hapmer DBs
-    $MERQURY/trio/hapmers.sh \
-      maternal_compress.k30.meryl \
-      paternal_compress.k30.meryl \
-         child_compress.k30.meryl
-    ```
+        ```bash
+        #!/bin/bash -e
+        
+        #SBATCH --account       nesi02659
+        #SBATCH --job-name      meryl_run
+        #SBATCH --cpus-per-task 32
+        #SBATCH --time          12:00:00
+        #SBATCH --mem           96G
+        #SBATCH --partition     milan
+        #SBATCH --output        slurmlogs/%x.%j.out
+        #SBATCH --error         slurmlogs/%x.%j.err
+        
+        
+        module purge
+        module load Merqury/1.3-Miniconda3
+        
+        ## Create mat/pat/child DBs
+        meryl count compress k=30 \
+            threads=32 memory=96 \
+            maternal.*fastq.gz \
+            output maternal_compress.k30.meryl
+        
+        meryl count compress k=30 \
+            threads=32 memory=96 \
+            paternal.*fastq.gz \
+            output paternal_compress.k30.meryl
+        
+        meryl count compress k=30 \
+            threads=32 memory=96    \
+            child.*fastq.gz output    \
+            child_compress.k30.meryl
+        
+        ## Create the hapmer DBs
+        $MERQURY/trio/hapmers.sh \
+          maternal_compress.k30.meryl \
+          paternal_compress.k30.meryl \
+             child_compress.k30.meryl
+        ```
 
-#### Closing notes
 
-**Meryl DBs for Assembly and QC**
+**Closing notes**
 
 It should be noted that Meryl DBs used for assembly with Verkko and for base-level QC with Merqury are created differently. Here are the current recommendations for kmer size and compression:
 
@@ -333,7 +332,7 @@ Yak won't work on our Jupyter instances, so create a slurm script that has 32 co
 
 ??? clipboard-question "Click below for the answer"
 
-    nano yak.sl 
+    Here is one way to call yak in a `yak.sl` script...
 
     ```bash
     #!/bin/bash -e
@@ -361,14 +360,14 @@ Yak won't work on our Jupyter instances, so create a slurm script that has 32 co
 
     Notice that for paired-end reads we have to stream both reads to yak twice!
 
-If you haven't already, execute your yak command in slurm
-
+If you haven't already, execute your yak command in slurm (takes about 2 minutes). 
 !!! terminal "code"
 
     ```bash
     nano yak.sl 
     ```  
 
+When you are done you get out a non-human readable file. It doesn't need to be tarred or gzipped, and nothing else needs to be done in order to use it.
 
 #### Closing remarks on yak
 
