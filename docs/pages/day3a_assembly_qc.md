@@ -106,7 +106,8 @@ Remember that the file we initially got was an assembly *graph*&mdash;what if we
 !!! terminal "code"
 
     ```bash
-    gfastats --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa .
+    gfastats --discover-paths unitig-normal-connected-tip.gfa
     ```
     ??? success "Output"
 
