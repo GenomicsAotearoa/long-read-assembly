@@ -347,6 +347,7 @@ This is more manageable, and you can even kind of see the histogram forming from
 
 **OK cool, now back to Merqury**
 
+Let's use Merqury on that database we just made to get the QV and some plots.
 
 Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run the actual Merqury program with the following contents:
 
@@ -387,6 +388,8 @@ Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run 
 
 
 To find out the QV, we want the file named `output.qv`. Take a look at it and try to interpret the QV value you find (third column). If we recall the Phred scale system, this would mean that this QV value is great! Which is not surprising, considering we used HiFi data. **It's worth noting, though, that we are using HiFi *k*-mers to evaluate sequences derived from those same HiFi reads.** This does a good job of showing whether the assembly worked with that data well, but what if the HiFi data itself is missing parts of the genome, such as due to bias (*e.g.*, GA dropout)? That's why it's important to use orthogonal datasets made using different sequencing technology, when possible. For instance, we can use an Illumina-based Meryl database to evaluate a HiFi assembly. For non-human vertebrates, this often results in the QV dropping from 50-60 to 35-45, depending on the genome in question. 
+
+So we just ran Merqury on our E. coli assembly, and evaluated it using the HiFi reads that we used for that assembly. Merqury can also utilize trio data (using those hapmer DBs we talked about before) to evaluate the phasing of an assembly, so let's try that with our HG002 trio data. 
 
 !!! terminal "code"
 
