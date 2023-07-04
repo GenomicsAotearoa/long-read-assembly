@@ -406,8 +406,16 @@ To find out the QV, we want the file named `output.qv`. Take a look at it and tr
     export MERQURY=/opt/nesi/CS400_centos7_bdw/Merqury/1.3-Miniconda3/merqury
     
     ## create trio merqury dir and use it
+    cd ~/lra/day3_assembly_qc
     mkdir merqury_trio
     cd merqury_trio
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.*.fasta .
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/maternal.k30.hapmer.meryl .
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/paternal.k30.hapmer.meryl .
+
+    ## let's run the program in a results directory to make things a little neater
+    mkdir results
+    cd results
     
     ## run merqury
     merqury.sh \
