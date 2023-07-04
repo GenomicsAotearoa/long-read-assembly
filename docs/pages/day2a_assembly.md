@@ -321,7 +321,7 @@ Open the logs and scroll through them
 !!! terminal "code"
 
     ```bash
-    less asm/.snakemake/log/*.log
+    less assembly/.snakemake/log/*.log
     ```
 You can see all of the Snakemake jobs, in order, that were run. Even for this tiny dataset there are many. Since there are a lot of jobs, there are a lot of outputs, and these are organized (roughly) by Snakemake rule. Take a look at the output folder in order to familiarize yourself with the layout.
 
