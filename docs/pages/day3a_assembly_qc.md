@@ -432,6 +432,20 @@ So we just ran Merqury on our E. coli assembly, and evaluated it using the HiFi 
     cd -/lra
     ```
 
+Now we know what a nice trio-phased assembly looks like in Merqury, but what do the other options (Hi-C phasing or no phasing at all) look like? Let's look at an example from the zebra finch (*Taeniopygia guttata*), where the Vertebrate Genomes Project (VGP) has used hifiasm on the same HiFi dataset with different phasing approaches and evaluated the resulting assemblies with trio data in order to benchmark the different methods. 
+
+![bTaeGut2 examples](https://github.com/GenomicsAotearoa/long-read-assembly/blob/main/docs/images/qc/merqury_bTaeGut2_blobs.png?raw=true)
+
+On the left, we have the blob plot for the trio assembly, which looks nicely phased as we expect -- all the contigs exhibit hapmers from only one parent (which you can tell because all blobs are along the x- or y- axis), and on top of that all the contigs from one assembly show only one parent's hapmers (*i.e.*, hap1's red blobs all show only bTaeGut3 hapmers). In the middle, we have a blob plot for a primary/alternate set of assemblies generated without any phasing data. You'll notice that a lot of the primary assembly blobs are not on the axes, meaning they have hapmers from both parents. 
+
+
+??? question "Why are the alternate contigs all in phase?"
+    
+    It starts to make sense if you think about what the alternae assembly is meant to represent: the haplotigs. These are the alternate alleles for the heterozygous loci, so it would track that only one parent's hapmers are represented -- the alternate assembly is a collection of the "other side of the bubble"s when looking at the assembly graph. 
+
+
+The right plot is a blob plot from the Hi-C-phased assembly. Notably, most of the contigs are able to be properly phased, since they are almost all on the x- or -y axis. 
+
 **Switch and Hamming errors using yak**
 
 Two more types of errors we use to assess assemblies are switch errors and Hamming errors. Hamming errors represent the percentage of SNPs wrongly phased (compared to ground truth), while switch errors represent the percentage of *adjacent* SNP pairs wrongly phased. See the following graphic:
