@@ -125,51 +125,45 @@ This tool is a python script that calls a Docker/Singularity container. This was
     
     --------------------------------------------------------------------
     ```
-Now perform a full run
 
-!!! terminal "code"
+??? success "Here's how you would run your actual data"
+    !!! terminal "code"
 
-    ```bash
-    cp /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta .
+        ```bash
+        cp /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta .
 
-    nano fcs_full.sl
-    ```
-And paste in the following
+        nano fcs_full.sl
+        ```
+    And paste in the following
 
-!!! terminal "code"
+    !!! terminal "code"
 
-     ```bash
-     #!/bin/bash -e
-     
-     #SBATCH --account       nesi02659
-     #SBATCH --job-name      test_fcs
-     #SBATCH --cpus-per-task 24
-     #SBATCH --time          03:00:00
-     #SBATCH --mem           460G
-     #SBATCH --partition     milan
-     #SBATCH --output        slurmlogs/%x.%j.log
-     #SBATCH --error         slurmlogs/%x.%j.err
-     
-     ## load modules
-     module purge
-     module load Python/3.8.2-gimkl-2020a
-     module load Singularity/3.11.3
-     export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
-     
-     python3 /home/juklucas/day3_qc/fcs/fcs.py \
-         screen genome \
-         --fasta ./assembly.haplotype1.fasta \
-         --out-dir ./asm_fcs_output \
-         --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
-         --tax-id 9606 
-     ```
-Now execute the job
-
-!!! terminal "code"
-
-    ```bash
-    sbatch fcs_full.sl
-    ```
+         ```bash
+         #!/bin/bash -e
+         
+         #SBATCH --account       nesi02659
+         #SBATCH --job-name      test_fcs
+         #SBATCH --cpus-per-task 24
+         #SBATCH --time          03:00:00
+         #SBATCH --mem           500G
+         #SBATCH --partition     milan
+         #SBATCH --output        slurmlogs/%x.%j.log
+         #SBATCH --error         slurmlogs/%x.%j.err
+         
+         ## load modules
+         module purge
+         module load Python/3.8.2-gimkl-2020a
+         module load Singularity/3.11.3
+         export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
+         
+         python3 /home/juklucas/day3_qc/fcs/fcs.py \
+             screen genome \
+             --fasta ./assembly.haplotype1.fasta \
+             --out-dir ./asm_fcs_output \
+             --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
+             --tax-id 9606 
+         ```
+    Then you would just run the slurm script. Don't do this now. The results are boring for this assembly and the run takes 500GB of memory! (This is required to load the contamination database into memory -- if you don't give fcs enough memory it will take much much longer.)
 
 ## Genome Annotation
 
