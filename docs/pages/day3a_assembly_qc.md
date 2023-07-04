@@ -37,7 +37,7 @@ Given how the N50 value can be so affected by addition or removal of small conti
 
 auN tries to capture the nature of this curve, instead of a value from an arbitrary point on it. On the above example, each step on the curve represents a contig (length on the y-axis), so the black curve is the most contiguous as it has one contig that covers over 40% of the assembly. Despite that, this assembly would have the same N50 value (on the x-axis) as multiple other assemblies that are more fragmented in the same area. 
 
-**Run gfastats on a FASTA**
+### Run gfastats on a FASTA
 
 Let's get some basic statistics for an assembly using a tool called **gfastats**, which will output metrics such as N50, auN, total size, etc. We can try it out on a Verkko trio assembly of HG002 that's already been downloaded onto NeSI.
 
@@ -97,7 +97,7 @@ Let's get some basic statistics for an assembly using a tool called **gfastats**
         ```
 
 
-**Run gfastats on a GFA**
+### Run gfastats on a GFA
 
 Remember that the file we initially got was an assembly *graph*&mdash;what if we wanted to know some graph-specific stats about our assembly, such as number of nodes or disconnected components? We can also assess that using gfastats. 
 
@@ -160,7 +160,7 @@ Remember that the file we initially got was an assembly *graph*&mdash;what if we
 
 Check out the graph-specific statistics at the end of the output. 
 
-**Compare two graphs' stats**
+### Compare two graphs' stats
 
 Now that we know how to get the statistics for one assembly, let's get them for two so we can actually compare them. We already compared a Verkko HiFi-only and HiFi+ONT graph visually, so let's do it with assembly stats this time. We're going to use a one-liner to put the assembly stats side-by-side, because it can be kind of cumbersome to scroll up and down between two separate command line runs and their outputs.
 
@@ -247,7 +247,7 @@ $$
 
 Merqury operates using *k*-mer databases like the ones we generated using meryl, so that's what we'll do now. 
 
-**Running Meryl and GenomeScope on the *E. coli* Verkko assembly**
+### Running Meryl and GenomeScope on the *E. coli* Verkko assembly
 
 Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl database, so let's generate that.
 
@@ -345,7 +345,7 @@ This is more manageable, and you can even kind of see the histogram forming from
     
     The above is the Hifiasm unitig graph for the assembly done with good (~56X) HiFi coverage.
 
-**OK cool, now back to Merqury**
+### Using Merqury in solo mode
 
 Let's use Merqury on that database we just made to get the QV and some plots.
 
@@ -388,6 +388,8 @@ Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run 
 
 
 To find out the QV, we want the file named `output.qv`. Take a look at it and try to interpret the QV value you find (third column). If we recall the Phred scale system, this would mean that this QV value is great! Which is not surprising, considering we used HiFi data. **It's worth noting, though, that we are using HiFi *k*-mers to evaluate sequences derived from those same HiFi reads.** This does a good job of showing whether the assembly worked with that data well, but what if the HiFi data itself is missing parts of the genome, such as due to bias (*e.g.*, GA dropout)? That's why it's important to use orthogonal datasets made using different sequencing technology, when possible. For instance, we can use an Illumina-based Meryl database to evaluate a HiFi assembly. For non-human vertebrates, this often results in the QV dropping from 50-60 to 35-45, depending on the genome in question. 
+
+### Using Merqury in trio mode
 
 So we just ran Merqury on our E. coli assembly, and evaluated it using the HiFi reads that we used for that assembly. Merqury can also utilize trio data (using those hapmer DBs we talked about before) to evaluate the phasing of an assembly, so let's try that with our HG002 trio data. 
 
@@ -444,6 +446,8 @@ A useful output from Merqury for evaluating phasing is the blob plot:
 
 In this plot, each blob is a contig, and its x,y position represents parental hapmer content, while color represents assembly-of-origin.
 
+### What do different phasing approaches look like in Merqury?
+
 Now we know what a nice trio-phased assembly looks like in Merqury, but what do the other options (Hi-C phasing or no phasing at all) look like? Let's look at an example from the zebra finch (*Taeniopygia guttata*), where the Vertebrate Genomes Project (VGP) has used hifiasm on the same HiFi dataset with different phasing approaches and evaluated the resulting assemblies with trio data in order to benchmark the different methods. 
 
 ![bTaeGut2 examples](https://github.com/GenomicsAotearoa/long-read-assembly/blob/main/docs/images/qc/merqury_bTaeGut2_blobs.png?raw=true)
@@ -458,7 +462,7 @@ On the left, we have the blob plot for the trio assembly, which looks nicely pha
 
 The right plot is a blob plot from the Hi-C-phased assembly. Notably, most of the contigs are able to be properly phased, since they are almost all on the x- or -y axis. 
 
-**Switch and Hamming errors using yak**
+### Switch and Hamming errors using yak
 
 Two more types of errors we use to assess assemblies are switch errors and Hamming errors. Hamming errors represent the percentage of SNPs wrongly phased (compared to ground truth), while switch errors represent the percentage of *adjacent* SNP pairs wrongly phased. See the following graphic:
 
