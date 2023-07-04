@@ -371,6 +371,80 @@ Open the `assembly/5-untip/unitig-normal-connected-tip.gfa` file in Bandage. Now
 
     Verkko for it's part, is more conservative. Once Verkko gets to a bubble that it doesn't know how to phase it just stops and you get a break in your assembly.
 
+## Running on Full Data Sets
+
+We won't be running the full datasets during the workshop, but you are encouraged to do so yourself. To help facilitate that we've downloaded the full datasets to NeSi for you.
+
+**Raw Data**
+
+```
+/nesi/nobackup/nesi02659/LRA/resources/  
+                                ├── deepconsensus/  # HiFi
+                                ├── ont_ul/         
+                                ├── ilmn/           # Maternal/Paternal/Child
+                                └── hic/
+```
+
+**And we've run these assemblies for you**
+```
+/nesi/nobackup/nesi02659/LRA/resources/assemblies/  
+                                            ├── verkko/
+                                                    ├── trio/ # full verkko folder available!
+                                                    └── hic/
+                                            └── hifiasm/
+                                                    ├── trio/
+                                                    └── hic/
+```
+
+We will be taking advantage of these pre-baked assemblies in the remainder of the workshop.
+
+??? question "How would you run Verkko/Hifiasm on full datasets?"
+  
+
+    **Verkko with trio data**
+
+    ```
+    verkko -d asm \
+      --hifi hifi/*.fastq.gz \
+      --nano  ont/*.fastq.gz \
+      --hap-kmers maternal_compress.k30.hapmer.meryl \
+                  paternal_compress.k30.hapmer.meryl \
+                  trio
+    ```
+    
+    **Verkko with Hi-C data**
+
+    ```
+    verkko -d asm \
+      --hifi hifi/*.fastq.gz \
+      --nano ont/*.fastq.gz \
+      --hic1 hic/*R1*fastq.gz  \
+      --hic2 hic/*R2*fastq.gz
+    ```
+
+    **Hifiasm with trio data**
+
+    ```
+     hifiasm \
+        -o sample_name \
+        -t32 \
+        --ul ul.fq.gz \
+        -1 pat.yak \
+        -2 mat.yak \
+        HiFi-reads.fq.gz
+    ```
+
+    **Hifiasm with Hi-C data**
+
+    ```
+    hifiasm \
+        -o sample_name \
+        -t32 \
+        --h1 read1.fq.gz \
+        --h2 read2.fq.gz \
+        --ul ul.fq.gz \
+        HiFi-reads.fq.gz
+    ```
 
 ## Comparison of Computational Cost
 
