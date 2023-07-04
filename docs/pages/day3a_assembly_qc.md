@@ -50,7 +50,9 @@ Let's get some basic statistics for an assembly using a tool called **gfastats**
     cd day3_assembly_qc/gfastats
     ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.*.fasta .
     ls -la          # you should see a bunch of "files" that are actually symlinks pointing to their actual content
-    ## ready to roll!
+    ```
+    Now we're ready to roll!
+    ```
     module purge
     module load gfastats
     gfastats assembly.haplotype1.fasta
