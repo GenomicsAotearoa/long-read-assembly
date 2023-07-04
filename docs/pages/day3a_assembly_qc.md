@@ -1,4 +1,4 @@
-<img width="1177" alt="image" src="https://github.com/GenomicsAotearoa/long-read-assembly/assets/48773001/ca2c5d1c-a5ed-4576-9d2d-9d62cd0db441">![image](https://github.com/GenomicsAotearoa/long-read-assembly/assets/48773001/5c3861b4-eab0-4068-ab1c-366d2a24a9c7)# 5. Assembly Quality Control (QC)
+# 5. Assembly Quality Control (QC)
 
 Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": **contiguity**, **correctness**, and **completeness**.
 
