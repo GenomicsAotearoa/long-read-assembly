@@ -256,6 +256,7 @@ We see a lot of *k*-mers missing and the histogram (frequency column) has a ton 
         
         module purge
         module load Merqury/1.3-Miniconda3
+        export MERQURY=$(dirname $(which merqury.sh))
         
         ## Create mat/pat/child DBs
         meryl count compress k=30 \
