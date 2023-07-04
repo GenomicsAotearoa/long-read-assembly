@@ -276,12 +276,10 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl datab
 
         ```bash
         #!/bin/bash -e
-        #SBATCH --account=nesi02659
         #SBATCH --job-name=meryl
         #SBATCH --time=00:15:00
         #SBATCH --cpus-per-task=8
         #SBATCH --mem=24G
-        #SBATCH --partition=milan
         
         # Modules
         module purge
@@ -357,12 +355,10 @@ Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run 
     ```bash
     #!/bin/bash -e
     
-    #SBATCH --account       nesi02659
     #SBATCH --job-name      merqury1
     #SBATCH --cpus-per-task 8
     #SBATCH --time          00:15:00
     #SBATCH --mem           40G
-    #SBATCH --partition     milan
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
     
@@ -397,12 +393,10 @@ To find out the QV, we want the file named `output.qv`. Take a look at it and tr
     ```bash
     #!/bin/bash -e
     
-    #SBATCH --account       nesi02659
     #SBATCH --job-name      merqury2
     #SBATCH --cpus-per-task 8
     #SBATCH --time          02:00:00
     #SBATCH --mem           40G
-    #SBATCH --partition     milan
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
     
@@ -440,12 +434,10 @@ As the image illustrates, switch errors occur when an assembly *switches* betwee
     ```bash
     #!/bin/bash -e
     
-    #SBATCH --account       nesi02659
     #SBATCH --job-name      yaktrioeval
     #SBATCH --cpus-per-task 32
     #SBATCH --time          01:00:00
     #SBATCH --mem           256G
-    #SBATCH --partition     milan 
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
 
@@ -504,12 +496,10 @@ Now that we have our files, we're ready to go. Make a script with the following 
     ```bash
     #!/bin/bash -e
     
-    #SBATCH --account       nesi02659
     #SBATCH --job-name      asmgene
     #SBATCH --cpus-per-task 32
     #SBATCH --time          05:00:00
     #SBATCH --mem           256G
-    #SBATCH --partition     milan
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
     
