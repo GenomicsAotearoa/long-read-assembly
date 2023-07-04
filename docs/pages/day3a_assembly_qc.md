@@ -1,4 +1,4 @@
-# 5. Assembly Quality Control (QC)
+<img width="1177" alt="image" src="https://github.com/GenomicsAotearoa/long-read-assembly/assets/48773001/ca2c5d1c-a5ed-4576-9d2d-9d62cd0db441">![image](https://github.com/GenomicsAotearoa/long-read-assembly/assets/48773001/5c3861b4-eab0-4068-ab1c-366d2a24a9c7)# 5. Assembly Quality Control (QC)
 
 Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": **contiguity**, **correctness**, and **completeness**.
 
@@ -431,6 +431,18 @@ So we just ran Merqury on our E. coli assembly, and evaluated it using the HiFi 
     
     cd -/lra
     ```
+
+There will be lots of outputs, but let's look at two now to get an idea for how the sequences have been partitioned between our assemblies, and whether that's consistent with information we know from trio sequencing. First let's look at the spectra-asm plot:
+
+![verkko trio spectra](https://raw.githubusercontent.com/GenomicsAotearoa/long-read-assembly/main/docs/images/qc/verkkotrio.spectra-asm.fl.png)
+
+Merqury's spectra plots take the kmer spectrum (like you'd seen in GenomeScope) and color the kmers according to where the kmer is found: the reads *only*, one of the assemblies, or both of the assemblies.
+
+A useful output from Merqury for evaluating phasing is the blob plot:
+
+![verkko trio blob](https://raw.githubusercontent.com/GenomicsAotearoa/long-read-assembly/main/docs/images/qc/verkkotrio.hapmers.blob.png)
+
+In this plot, each blob is a contig, and its x,y position represents parental hapmer content, while color represents assembly-of-origin.
 
 Now we know what a nice trio-phased assembly looks like in Merqury, but what do the other options (Hi-C phasing or no phasing at all) look like? Let's look at an example from the zebra finch (*Taeniopygia guttata*), where the Vertebrate Genomes Project (VGP) has used hifiasm on the same HiFi dataset with different phasing approaches and evaluated the resulting assemblies with trio data in order to benchmark the different methods. 
 
