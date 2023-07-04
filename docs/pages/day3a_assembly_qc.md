@@ -448,7 +448,15 @@ As the image illustrates, switch errors occur when an assembly *switches* betwee
     #SBATCH --partition     milan 
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
-    
+
+    ## change to qc dir, link things
+    cd ~/lra/day3_assembly_qc
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/yak .
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/hic .
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/trio .
+    mkdir -p qc_yak
+    cd qc_yak
+
     ## load modules
     module purge
     module load yak
@@ -456,12 +464,12 @@ As the image illustrates, switch errors occur when an assembly *switches* betwee
     ## run yak
     yak trioeval -t 32 \
         ../yak/pat.HG003.yak ../yak/mat.HG004.yak \
-        ../assemblies/hifiasm/full/hic/HG002.hap1.fa.gz \
+        ../hic/HG002.hap1.fa.gz \
         > hifiasm.hic.hap1.trioeval
     
     yak trioeval -t 32 \
         ../yak/pat.HG003.yak ../yak/mat.HG004.yak \
-        ../assemblies/hifiasm/full/trio/HG002.mat.fa.gz \
+        ../trio/HG002.mat.fa.gz \
         > hifiasm.trio.mat.trioeval
     ```
 
