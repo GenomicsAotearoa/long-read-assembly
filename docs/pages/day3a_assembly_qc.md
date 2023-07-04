@@ -262,7 +262,7 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl datab
     ln -s ../../day2_assembly/hifi.fastq.gz .
     module purge
     module load Merqury
-    sbatch --account nesi02659 --job-name=meryl --time=00:15:00 --cpus-per-task 8--mem=24G -p milan --wrap="meryl count k=30 memory=24 threads=8 hifi.fastq.gz output read-db.meryl"
+    sbatch --account nesi02659 --job-name=meryl --time=00:15:00 --cpus-per-task 8 --mem=24G -p milan --wrap="meryl count k=30 memory=24 threads=8 hifi.fastq.gz output read-db.meryl"
     ```
 
 
