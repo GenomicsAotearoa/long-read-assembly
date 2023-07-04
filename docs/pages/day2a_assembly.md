@@ -241,27 +241,12 @@ We are going to take a look at the assembly GFA file in a browser called Bandage
     ```
 You can see that this dataset is for *E. coli* and there is both HiFi and ONT data included.
 
-We could follow what we did with Hifiasm and just run Verkko in our notebook environment like so:
-
-!!! terminal "code"
-
-    ```bash
-    module purge
-    module load verkko/1.3.1-Miniconda3
-    
-    verkko \
-        -d asm \
-        --hifi ./hifi.fastq.gz \
-        --nano ./ont.fastq.gz
-    ```
-However, depending on how you created your notebook environment this command may crash it. That's ok, it gives us an opportunity to test running Verkko with Slurm.
 
 **Create Slurm script for test Verkko run**
 
-Start your favourite text editor
-
 !!! terminal "code"
-
+    
+    Start your favourite text editor
     ```bash
     nano verkko_test.sl
     ```
