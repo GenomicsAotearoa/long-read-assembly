@@ -24,7 +24,7 @@ The N50 can be interpreted as such: given an N50 value, 50% of the sequence in t
 
 Another statistic that is often reported with N50 is the *L50*, which is the rank of the contig that gives the N50 value. For instance, in the above image, the L50 would be 3, because it would be the third largest contig that gives the N50 value. L50 is useful for contextualizing the N50, because it gives an idea of how many contigs make up that half of your assembly. 
 
-??? clipboard-question "N50 or NG50?"
+??? note "N50 or NG50?"
         
     Another measurement you might see is NG50. This is the N50 value, just calculated using a given genome size instead of the sum of the contigs.
 
@@ -153,7 +153,7 @@ Remember that the file we initially got was an assembly *graph*&mdash;what if we
          # bubbles: 8
          # circular segments: 11
          ```
-??? clipboard-question "What's the `--discover-paths` flag for?"
+??? note "What's the `--discover-paths` flag for?"
         
     gfastats tries to clearly distinguish contigs from segments, so it will not pick up on contigs in a GFA without paths defined. To get the contig stats as well as graph stats from these GFAs, you'll need to add the `--discover-paths` flag. 
 
@@ -266,7 +266,7 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl datab
     ```
 
 
-??? clipboard-question "`--wrap` ???"
+??? note "`--wrap` ???"
    
     Previously, we used the `sbatch` command to submit a slurm script to the cluster and the slurm job handler. The `sbatch` command can actually take a lot of parameters like the ones we included in the beginning of our script, and one of those parameters is `--wrap` which kind of wraps whatever command you give it in a Slurm wrapper so that the cluster can schedule it as if it was a Slurm script. 
     
@@ -297,7 +297,7 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl datab
 That shouldn't take too long to run. Now we have a Meryl DB for our HiFi reads. If we're curious about the distribution of our *k*-mers, we can use Meryl generate a histogram of the counts to show us how often a *k*-mer occurs only once in the reads, twice, etc. 
 
 
-??? question "How would you go about trying to do this with meryl ?"
+??? question "How would you go about trying to do this with meryl?"
     
     When you want to use a tool to do something (and you are decently confident that the tool can actually do it), then a good point to start is just querying the tool's manual or help dialogue. Try out `meryl --help` and see if there's a function that looks like it could generate the histogram we want. <del>spoiler alert: it's `meryl histogram read-db.meryl`</del>
 
@@ -385,7 +385,7 @@ Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run 
     ```
 
 
-??? clipboard-question "What's that `export` command doing there?"
+??? note "What's that `export` command doing there?"
 
     Merqury as a package ships with a lot of scripts, especially for plotting. The `merqury.sh` command that we're using is calling those scripts, but we need to tell it where we installed Merqury. 
 
