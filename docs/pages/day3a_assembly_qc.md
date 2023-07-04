@@ -170,7 +170,10 @@ Now that we know how to get the statistics for one assembly, let's get them for 
 !!! terminal "code"
 
     ```bash
-    paste <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/1-buildGraph/hifi-resolved.gfa) <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa | cut -f 2)
+    paste \
+    <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/1-buildGraph/hifi-resolved.gfa) \
+    <(gfastats -t --discover-paths /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/5-untip/unitig-normal-connected-tip.gfa \
+    | cut -f 2)
     ```
     !!! info ""
     
