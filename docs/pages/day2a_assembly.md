@@ -453,19 +453,19 @@ you do not need to try to do this on your own machine. The goal is to develop
 an intution for what the graph visualization is telling you.
 
 * Overall feel for graphs and bandage
-  * graphs: nodes, edges, and paths
-    * simple examples: cycle & hairpin
-  * bandage UI
-  * loading CSVs and launching from CLI
+    * graphs: nodes, edges, and paths
+        * simple examples: cycle & hairpin
+    * bandage UI
+    * loading CSVs and launching from CLI
 * How does a typical human assembly look?
-  * ~23 chunks
-  * zippers: het-hom-het-etc.
-  * non-zippers (rDNA tangles, sex chrs, breaks)
+    * ~23 chunks
+    * zippers: het-hom-het-etc.
+    * non-zippers (rDNA tangles, sex chrs, breaks)
 * Complex examples
-  * hom with short hets w/o markers
-  * long hom with long hets
-  * &ldquo;scaffold&rdquo; from graph structure
-  * complete fail
+    * hom with short hets w/o markers
+    * long hom with long hets
+    * &ldquo;scaffold&rdquo; from graph structure
+    * complete fail
 
 ## Comparison of Computational Cost
 
