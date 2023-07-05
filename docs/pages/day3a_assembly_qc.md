@@ -1,4 +1,4 @@
-# 5. Assembly Quality Control (QC)
+![image](https://github.com/GenomicsAotearoa/long-read-assembly/assets/48773001/cdb75fd4-e18c-4ec8-aa61-808f7a748c24)# 5. Assembly Quality Control (QC)
 
 Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": **contiguity**, **correctness**, and **completeness**.
 
@@ -526,6 +526,8 @@ As the image illustrates, switch errors occur when an assembly *switches* betwee
 ## Completeness (asmgene)
 
 Another way to assess an assembly is via **completeness**, particularly with regard to expected gene content. If you have a reference genome that's been annotated with coding sequences, then you can use the tool *asmgene* to align multi-copy genes to your assembly and see if they remain multi-copy, or if the assembler has created a misassembly. asmgene works by aligning annotated transcripts to the reference genome, and record hits if the transcript is mapped at or over 99% identity over 99% or greater of the transcript length. If the transcript only has one hit, then it is single-copy (SC), otherwise it's multi-copy (MC). The same is then done for your assembly, and the fraction of missing multi-copy (%MMC) gene content is computed. 
+
+![asmgene](https://github.com/GenomicsAotearoa/long-read-assembly/blob/main/docs/images/qc/asmgene.png?raw=true)
 
 A perfect asesmbly would have %MMC be zero, while a higher fraction indicates the assembly has collapsed some of these multi-copy genes. Additionally, you can look at the presence (or absence!) of expected single-copy genes in order to check gene completeness of the assembly. 
 
