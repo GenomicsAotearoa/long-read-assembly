@@ -220,6 +220,21 @@ looking at long alignments only.
         !!! quote "According to the MashMap README"
 
             The output is space-delimited with each line consisting of query name, length, 0-based start, end, strand, target name, length, start, end, and mapping nucleotide identity.
+        
+        Re-written as a numbered list:
+
+        !!! rectangle-list "MashMap output columns"
+
+            1. query name
+            2. length
+            3. 0-based start
+            4. end
+            5. strand
+            6. target name
+            7. length
+            8. start
+            9. end
+            10. mapping nucleotide identity
 
 
 **View the output file**
