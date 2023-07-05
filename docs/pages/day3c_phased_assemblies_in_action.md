@@ -232,7 +232,7 @@ especially if the contig was determined to be paternal using trio markers (as
 these were). One thing that may help is seeing what percentage of the contig is
 covered by each alignment:
 
-!!! terminal "cdoe"
+!!! terminal "code"
 
     ```bash
     awk 'BEGIN{FS=" "; OFS="\t"; print "Contig", "Length", "Percent Identity", "Percent Aligned"}{print $1, $2, $10 "%", ($4-$3)/$2*100 "%"}' \

@@ -402,15 +402,16 @@ First create a shell script `liftoff.sh` with the following content:
     ~36 GB, but it failed when I gave it only 36 GB previously.
 -->
 
-This will probably take ~1 hour with 8 CPUs and 48 GB of memory. If you would
-like, you can submit it as a job; however, we will pull pre-baked results for
-the next step. To submit it as a job with `sbatch`, you would do the following:
+This will probably take ~1 hour with 8 CPUs and 48 GB of memory. You could
+submit it as a job; however, we will pull pre-baked results for the next step.
 
-!!! terminal "code"
+??? info "How to submit Liftoff with `sbatch`"
 
-    ```bash
-    sbatch -J liftoff -N1 -n1 -c8 --mem=48G -t 0-02:00 -A nesi02659 -o %x.%j.log liftoff.sh
-    ```
+    !!! terminal "code"
+
+        ```bash
+        sbatch -J liftoff -N1 -n1 -c8 --mem=48G -t 0-02:00 -A nesi02659 -o %x.%j.log liftoff.sh
+        ```
 
 To skip the run-time, let&rsquo;s grab the pre-baked results:
 
