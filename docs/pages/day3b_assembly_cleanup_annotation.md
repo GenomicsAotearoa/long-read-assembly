@@ -16,8 +16,8 @@ When you upload your assembly to Genbank, the sequence is automatically screen f
 
     ```bash
     cd ~/lra
-    mkdir -p day3_qc/fcs/
-    cd day3_qc/fcs/
+    mkdir -p day3b_cleanup/fcs/
+    cd day3b_cleanup/fcs/
     ```
 
 **Download the Foreign Contamination Screen (FCS) tool from NCBI**
@@ -42,6 +42,8 @@ This tool is a python script that calls a Docker/Singularity container. This was
 
 **Now we can run the test data**
 
+Note that the test data is not human (this matters for the `--tax-id` parameter).
+
 !!! terminal "code"
 
     ```bash
@@ -52,7 +54,7 @@ This tool is a python script that calls a Docker/Singularity container. This was
         --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/test-only  \
         --tax-id 6973 
     ```
-??? success "Output"
+??? success "Here is what is printed to the screen"
 
     ```bash
     tax-id    : 6973
@@ -126,11 +128,15 @@ This tool is a python script that calls a Docker/Singularity container. This was
     --------------------------------------------------------------------
     ```
 
+There is a file created called something like `*fcs_gx_report.txt`. Open it in your terminal, or if it's easier you can view it on the [FCS GitHub](https://raw.githubusercontent.com/ncbi/fcs/main/examples/fcsgx_test.6973.fcs_gx_report.txt).
+
+
 ??? success "Here's how you would run your actual data"
     !!! terminal "code"
 
+        We will copy over our prebaked Hifiasm trio assembly (maternal haplotype) and create a slurm script...
         ```bash
-        cp /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta .
+        cp /nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/trio/HG002.mat.fa.gz .
 
         nano fcs_full.sl
         ```
@@ -141,29 +147,33 @@ This tool is a python script that calls a Docker/Singularity container. This was
          ```bash
          #!/bin/bash -e
          
-         #SBATCH --account       nesi02659
-         #SBATCH --job-name      test_fcs
-         #SBATCH --cpus-per-task 24
-         #SBATCH --time          03:00:00
-         #SBATCH --mem           500G
-         #SBATCH --partition     milan
-         #SBATCH --output        slurmlogs/%x.%j.log
-         #SBATCH --error         slurmlogs/%x.%j.err
-         
-         ## load modules
-         module purge
-         module load Python/3.8.2-gimkl-2020a
-         module load Singularity/3.11.3
-         export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
-         
-         python3 /home/juklucas/day3_qc/fcs/fcs.py \
-             screen genome \
-             --fasta ./assembly.haplotype1.fasta \
-             --out-dir ./asm_fcs_output \
-             --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
-             --tax-id 9606 
+        #SBATCH --account       nesi02659
+        #SBATCH --job-name      test_fcs
+        #SBATCH --cpus-per-task 24
+        #SBATCH --time          03:00:00
+        #SBATCH --mem           460G
+        #SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log
+        #SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err
+
+        ## load modules
+        module purge
+        module load Python/3.7.3-gimkl-2018b
+        module load Singularity/3.11.3
+        export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
+
+        python3 ./fcs.py \
+            screen genome \
+            --fasta ./HG002.mat.fa.gz \
+            --out-dir ./asm_fcs_output \
+            --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
+            --tax-id 9606 
          ```
     Then you would just run the slurm script. Don't do this now. The results are boring for this assembly and the run takes 500GB of memory! (This is required to load the contamination database into memory -- if you don't give fcs enough memory it will take much much longer.)
+
+    We've run this for you, and you can find the results here:
+    ```
+    /nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/trio/asm_fcs_output/
+    ```
 
 ## Genome Annotation
 
