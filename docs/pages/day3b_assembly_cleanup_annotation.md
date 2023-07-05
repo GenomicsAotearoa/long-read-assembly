@@ -144,9 +144,9 @@ There is a file created called something like `*fcs_gx_report.txt`. Open it in y
 
     !!! terminal "code"
 
-         ```bash
-         #!/bin/bash -e
-         
+        ```bash
+        #!/bin/bash -e
+
         #SBATCH --account       nesi02659
         #SBATCH --job-name      test_fcs
         #SBATCH --cpus-per-task 24
@@ -162,18 +162,18 @@ There is a file created called something like `*fcs_gx_report.txt`. Open it in y
         export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
 
         python3 ./fcs.py \
-            screen genome \
-            --fasta ./HG002.mat.fa.gz \
-            --out-dir ./asm_fcs_output \
-            --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
-            --tax-id 9606 
-         ```
-    Then you would just run the slurm script. Don't do this now. The results are boring for this assembly and the run takes 500GB of memory! (This is required to load the contamination database into memory -- if you don't give fcs enough memory it will take much much longer.)
+        screen genome \
+        --fasta ./HG002.mat.fa.gz \
+        --out-dir ./asm_fcs_output \
+        --gx-db /nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb \
+        --tax-id 9606 
+        ```
+        Then you would just run the slurm script. Don't do this now. The results are boring for this assembly and the run takes 500GB of memory! (This is required to load the contamination database into memory -- if you don't give fcs enough memory it will take much much longer.)
 
-    We've run this for you, and you can find the results here:
-    ```
-    /nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/trio/asm_fcs_output/
-    ```
+        We've run this for you, and you can find the results here:
+        ```
+        /nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/trio/asm_fcs_output/
+        ```
 
 ## Genome Annotation
 
