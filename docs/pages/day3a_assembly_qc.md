@@ -1,3 +1,5 @@
+# 5. Assembly QC
+
 Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": **contiguity**, **correctness**, and **completeness**.
 
 !!! question "Food for thought"
@@ -285,6 +287,7 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl datab
 
         ```bash
         #!/bin/bash -e
+        #SBATCH --account=nesi02659
         #SBATCH --job-name=meryl
         #SBATCH --time=00:15:00
         #SBATCH --cpus-per-task=8
@@ -365,7 +368,7 @@ Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run 
 
     ```bash
     #!/bin/bash -e
-    
+    #SBATCH --account       nesi02659
     #SBATCH --job-name      merqury1
     #SBATCH --cpus-per-task 8
     #SBATCH --time          00:15:00
@@ -408,7 +411,7 @@ So we just ran Merqury on our E. coli assembly, and evaluated it using the HiFi 
 
     ```bash
     #!/bin/bash -e
-    
+    #SBATCH --account       nesi02659
     #SBATCH --job-name      merqury2
     #SBATCH --cpus-per-task 8
     #SBATCH --time          02:00:00
@@ -488,7 +491,7 @@ As the image illustrates, switch errors occur when an assembly *switches* betwee
 
     ```bash
     #!/bin/bash -e
-    
+    #SBATCH --account       nesi02659
     #SBATCH --job-name      yaktrioeval
     #SBATCH --cpus-per-task 32
     #SBATCH --time          01:00:00
@@ -553,7 +556,7 @@ Now that we have our files, we're ready to go. Make a script with the following 
 
     ```bash
     #!/bin/bash -e
-    
+    #SBATCH --account       nesi02659
     #SBATCH --job-name      asmgene
     #SBATCH --cpus-per-task 32
     #SBATCH --time          05:00:00
