@@ -1,5 +1,3 @@
-![image](https://github.com/GenomicsAotearoa/long-read-assembly/assets/48773001/cdb75fd4-e18c-4ec8-aa61-808f7a748c24)# 5. Assembly Quality Control (QC)
-
 Now that we have understood our data types (day 1) and put them through an assembly algorithm (day 2), we have this file of A's, T's, C's, and G's that's supposed to be our assembly. This file is meant to represent a biological reality, so let's try to assess its quality through several lens, some biological and some more technical. One way to remember the ways we evaluate assemblies is by thinking about the "3C's": **contiguity**, **correctness**, and **completeness**.
 
 !!! question "Food for thought"
@@ -587,4 +585,4 @@ Now that we have our files, we're ready to go. Make a script with the following 
 
 !!! tip "Tip"
 
-    Another popular tool for checking genome completeness using gene content is the software Benchmarking Universal Single-Copy Orthologs (BUSCO). This approach uses a set of evolutionarily conserved genes that are expected to be present at single copy for a given taxa, so one could check their genome to see if, for instance, it has all the genes predicted to be necessary for *Aves* or *Vertebrata*. This approach is useful if your *de novo* genome assembly is for a species that does not have a reference genome yet. And it's even faster now with the recently developed tool *compleasm*!
+    Another popular tool for checking genome completeness using gene content is the software Benchmarking Universal Single-Copy Orthologs (BUSCO). This approach uses a set of evolutionarily conserved genes that are expected to be present at single copy for a given taxa, so one could check their genome to see if, for instance, it has all the genes predicted to be necessary for *Aves* or *Vertebrata*. This approach is useful if your *de novo* genome assembly is for a species that does not have a reference genome yet. And it's even faster now with the recently developed tool *minibusco*!
