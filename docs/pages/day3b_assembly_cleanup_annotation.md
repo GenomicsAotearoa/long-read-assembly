@@ -730,10 +730,7 @@ Zoom in on a random region that is a few hundred basepairs in size. You can see 
 
 If you are familiar with ONT data already you know that ONT and PacBio have the ability to detect base modifications without any additional steps like bisulfite conversion. What we are adding here is the ability to look at methylation in the context of a sample's own assembly. Maybe that wouldn't matter if you are looking at regions of the genome which are structurally consistent across samples&mdash;like promoters for well known genes. 
 
-Now let's take a look at a region where it matters that we are using a matched data and sample:
-Navigate to  `mat-0000038:51,448,000 - 51,510,000`. This is the biggest contig that maps to chrX and we chose a region that is usually where the centromere is on chrX. 
-
-You will notice that most of the view has very high levels of methylation, but there are some regions where the methylation drops to near zero. These are called the centromere dip regions.
+Take a look around `mat-0000038` (this is the biggest contig that maps to chrX). 
 
 
 ??? clipboard-question "Why did we choose to show you an example in chrX ?"
