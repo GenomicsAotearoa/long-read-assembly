@@ -215,6 +215,12 @@ looking at long alignments only.
     keeping only alignments that are 1 Mbp or longer. This also has the
     consequence of ignoring contigs that are shorter than 1 Mbp.
 
+    ??? info "Wait, what are each of the columns again?"
+    
+        !!! quote "According to the MashMap README"
+
+            The output is space-delimited with each line consisting of query name, length, 0-based start, end, strand, target name, length, start, end, and mapping nucleotide identity.
+
 
 **View the output file**
 
@@ -230,9 +236,7 @@ Now that we&rsquo;ve culled the alignments, viewing them should be much easier:
 
 ??? success "Answer"
     
-    ```bash
-    pat-0000724, pat-0000725,  and pat-0000727 are probably chrY.
-    ```
+    `pat-0000724`, `pat-0000725`,  and `pat-0000727` are probably chrY.
 
 Others may be as well, but it is difficult to tell without a more refined
 investigation, and this is sufficient for our purposes.
