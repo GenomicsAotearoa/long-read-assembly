@@ -361,11 +361,10 @@ large sequences (>100 Mbp). Let's create a script to submit with
     #SBATCH --account       nesi02659
     #SBATCH --job-name      moddotplot
     #SBATCH --cpus-per-task 4
-    #SBATCH --time          00:05:00
+    #SBATCH --time          00:10:00
     #SBATCH --mem           8G
     #SBATCH --partition     milan
-    #SBATCH --output        slurmlogs/%x.%j.out
-    #SBATCH --error         slurmlogs/%x.%j.err
+    #SBATCH --output        slurmlogs/%x.%j.log
     
     module purge
     module load ModDotPlot/2023-06-gimkl-2022a-Python-3.11.3
@@ -414,7 +413,7 @@ First, take a look at the log file:
 !!! terminal "code"
 
     ```bash
-    less -S moddotplot.*.log
+    less -S slurmlogs/moddotplot.*.log
     ```
 
 Then note that for every run, we created `_HIST.png` and `_TRI.png` files. The
