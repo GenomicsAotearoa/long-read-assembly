@@ -443,6 +443,8 @@ So we just ran Merqury on our E. coli assembly, and evaluated it using the HiFi 
     cd -/lra
     ```
 
+You can also look in this folder for the merqury outputs if there isn't enough time to run the actual program: `/nesi/nobackup/nesi02659/LRA/resources/merqury`
+
 There will be lots of outputs, but let's look at two now to get an idea for how the sequences have been partitioned between our assemblies, and whether that's consistent with information we know from trio sequencing. First let's look at the spectra-asm plot:
 
 ![verkko trio spectra](https://raw.githubusercontent.com/GenomicsAotearoa/long-read-assembly/main/docs/images/qc/verkkotrio.spectra-asm.fl.png)
