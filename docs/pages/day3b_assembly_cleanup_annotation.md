@@ -401,6 +401,7 @@ First create a shell script `liftoff.sh` with the following content:
     Expect this to take just over 1 hour w/ 8 cpus. MaxRSS was reported as
     ~36 GB, but it failed when I gave it only 36 GB previously.
 -->
+
 This will probably take ~1 hour with 8 CPUs and 48 GB of memory. If you would
 like, you can submit it as a job; however, we will pull pre-baked results for
 the next step. To submit it as a job with `sbatch`, you would do the following:
@@ -416,8 +417,8 @@ To skip the run-time, let&rsquo;s grab the pre-baked results:
 !!! terminal "code"
 
     ```shell
-	ln -s /nesi/nobackup/nesi02659/LRA/resources/liftoff/asm.hap1.annotations.gff
-	```
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/liftoff/asm.hap1.annotations.gff
+    ```
 
 **Look at the output GFF3 file**
 
