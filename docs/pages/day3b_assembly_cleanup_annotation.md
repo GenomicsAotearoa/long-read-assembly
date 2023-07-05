@@ -629,8 +629,8 @@ Today we are going to use minimap2 to align ONT reads that have 5mC information 
 
     ```bash
     cd ~/lra
-    mkdir -p lra/day3b_annotation/minimap2
-    cd lra/day3b_annotation/minimap2
+    mkdir -p day3b_annotation/minimap2
+    cd day3b_annotation/minimap2
     ```
 
 **Copy over our Verkko trio assembly**
