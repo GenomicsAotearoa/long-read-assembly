@@ -602,6 +602,7 @@ And take a look at it (you can click on it in your file explorer).
     
     Run the `telo` tool from seqtk to identify (human) telomeric ends:
     ```
+    module load seqtk
     seqtk telo assembly.haplotype1.fasta > telos.bed
     ```
     
