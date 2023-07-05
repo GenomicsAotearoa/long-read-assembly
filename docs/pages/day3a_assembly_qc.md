@@ -286,6 +286,7 @@ Let's try this out on the *E. coli* Verkko assembly. First we need a Meryl datab
         #SBATCH --time=00:15:00
         #SBATCH --cpus-per-task=8
         #SBATCH --mem=24G
+        #SBATCH --partition=milan
         
         # Modules
         module purge
@@ -368,6 +369,7 @@ Use your text editor of choice to make a Slurm script (`run_merqury.sl`) to run 
     #SBATCH --mem           40G
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
+    #SBATCH --partition     milan
     
     ## load modules
     module purge
@@ -410,6 +412,7 @@ So we just ran Merqury on our E. coli assembly, and evaluated it using the HiFi 
     #SBATCH --mem           40G
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
+    #SBATCH --partition     milan
     
     ## load modules
     module purge
@@ -487,6 +490,7 @@ As the image illustrates, switch errors occur when an assembly *switches* betwee
     #SBATCH --mem           256G
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
+    #SBATCH --partition     milan
 
     ## change to qc dir, link things
     cd ~/lra/day3_assembly_qc
@@ -549,6 +553,7 @@ Now that we have our files, we're ready to go. Make a script with the following 
     #SBATCH --mem           256G
     #SBATCH --output        slurmlogs/%x.%j.log
     #SBATCH --error         slurmlogs/%x.%j.err
+    #SBATCH --partition     milan
     
     ## load modules
     module purge
