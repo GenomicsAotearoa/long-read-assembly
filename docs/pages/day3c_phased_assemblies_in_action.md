@@ -94,7 +94,7 @@ can map against the human CHM13-T2T reference.
 !!! terminal "code"
 
     ```bash
-    ln -s /nesi/nobackup/nesi02659/LRA/resources/resources/chm13/chm13v2.0.fa chm13.fa
+    ln -s /nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa chm13.fa
     ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype2.fasta hg002.hap2.fa
     ln -s /nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype2.fasta.fai hg002.hap2.fa.fai
     ```
@@ -109,12 +109,14 @@ we&rsquo;ll save some time and work with only that haplotype.
 
 We&rsquo;ll do the alignments with [MashMap](https://github.com/marbl/MashMap)
 ([Kille _et al._ 2023](https://doi.org/10.1101/2023.05.16.540882)). This should
-take ~25 minutes with 4 CPUs and should use <4 GB RAM. This command is the same
-as the one you ran earlier, except that this time it is on haplotype2 and the
+take ~25 minutes with 4 CPUs and should use &lt;4 GB RAM. With 16 CPUs, it
+should take ~4 minutes and will use &lt;8 GB RAM. This command is the same as
+the one you ran earlier, except that this time it is on haplotype2 and the
 percent identity threshold is lower, which should help us recruit alignments in
-the satellites on chrY.
+the satellites on chrY. We&rsquo;ll use pre-computed results to avoid needing
+to wait for the job to complete, but this is what the command would look like:
 
-!!! terminal "code"
+!!! terminal "view, but do not run this code"
 
     ```bash
     module purge
@@ -127,14 +129,7 @@ the satellites on chrY.
         -o hg2hap2-x-chm13.ssv
     ```
 
-<!--
-**Grab the MashMap alignments from earlier**
-```
-ln -s ../day3b_annotation/mashmap/asm-to-chm13.mashmap.out hg2hap2-x-chm13.ssv
-```
--->
-
-??? question "What if I want to run it faster ?"
+??? question "How would I submit this as a job?"
     
     Submit it as a job with `sbatch`. First copy the command into a
     script named `mashmap.sh` and change the number of threads to 16:
@@ -164,13 +159,19 @@ ln -s ../day3b_annotation/mashmap/asm-to-chm13.mashmap.out hg2hap2-x-chm13.ssv
         -o hg2hap2-x-chm13.ssv
     ```
 
-
-    Then submit the job with
+    Then submit the job with the following command:
     
     !!! terminal "code"
         ```
         sbatch mashmap.sh
         ```
+
+**Get the pre-computed results**
+
+```bash
+cp /nesi/nobackup/nesi02659/LRA/resources/hap2-mashmap/hg2hap2-x-chm13.ssv ./
+cp /nesi/nobackup/nesi02659/LRA/resources/hap2-mashmap/mashmap.log ./
+```
 
 **View the output file**
 
@@ -182,6 +183,14 @@ ln -s ../day3b_annotation/mashmap/asm-to-chm13.mashmap.out hg2hap2-x-chm13.ssv
 
 There is more information present than we need, and we can simplify things by
 looking at long alignments only.
+
+??? info "Optionally, view the MashMap log file"
+
+    !!! terminal "code"
+
+        ```bash
+        less -S mashmap.log
+        ```
 
 **Subset the alignments**
 

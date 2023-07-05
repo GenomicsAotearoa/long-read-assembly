@@ -375,7 +375,7 @@ First create a shell script `liftoff.sh` with the following content:
         chm13.fa
     ```
 
-!!! info "What do each of these options do ?"
+??? info "What do each of these options do?"
 
     `-p` specifies the number of threads to use. 
 
