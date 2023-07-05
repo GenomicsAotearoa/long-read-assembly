@@ -8,7 +8,15 @@ Once you have a genome, and you think you want to hold onto it for a while and s
 * Lots of contigs for Epstein Barr Virus (EBV) or mitochondrial sequence
 * Adapters embedded in your contigs
 
-When you upload your assembly to Genbank, the sequence is automatically screen for contaminants and if anything is found you have to fix it and upload the fixed assembly. It's much better to take a look on your end. Luckily NCBI has released a version of their screening tool that can be run locally, so we will do that now.
+When you upload your assembly to Genbank, the sequence is automatically screen for contaminants and if anything is found you have to fix it and upload the fixed assembly. It's much better to take a look on your end. Luckily NCBI has released a toolkit that can be run locally. There are tools to look find/fix adapter sequences in your assembly (fcs-adapter) and for finding/fixing foreign genomic contamination (fcs-gx). We will be running fcs-gx, so let's look at the steps that fcs-gx runs.
+
+* Repeat and low-complexity sequence masking
+* Alignment to reference database using GX aligner
+* Alignment refinement with high-scoring taxa matches
+* Classifying sequences to assign taxonomic divisions
+* Generating contaminant cleaning actions
+
+With that understanding, we are ready to test it out for ourselves...
 
 **Make a directory**
 
