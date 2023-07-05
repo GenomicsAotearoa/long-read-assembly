@@ -132,7 +132,7 @@ to wait for the job to complete, but this is what the command would look like:
 ??? question "How would I submit this as a job?"
     
     Submit it as a job with `sbatch`. First copy the command into a
-    script named `mashmap.sh` and change the number of threads to 16:
+    script named `mashmap.sh`:
 
 
     ```bash
@@ -162,16 +162,19 @@ to wait for the job to complete, but this is what the command would look like:
     Then submit the job with the following command:
     
     !!! terminal "code"
-        ```
+
+        ```bash
         sbatch mashmap.sh
         ```
 
 **Get the pre-computed results**
 
-```bash
-cp /nesi/nobackup/nesi02659/LRA/resources/hap2-mashmap/hg2hap2-x-chm13.ssv ./
-cp /nesi/nobackup/nesi02659/LRA/resources/hap2-mashmap/mashmap.log ./
-```
+!!! terminal "code"
+
+    ```bash
+    cp /nesi/nobackup/nesi02659/LRA/resources/hap2-mashmap/hg2hap2-x-chm13.ssv ./
+    cp /nesi/nobackup/nesi02659/LRA/resources/hap2-mashmap/mashmap.log ./
+    ```
 
 **View the output file**
 
@@ -334,9 +337,11 @@ files for our contigs of interest.
 !!! terminal "code"
 
     ```bash
+    module load SAMtools/1.16.1-GCC-11.3.0
+
     for CTG in pat-000072{4,5,7}
     do
-        samtools faidx ${CTG} hg002.hap2.fa > hg002.hap2.${CTG}.fa
+        samtools faidx hg002.hap2.fa ${CTG} > hg002.hap2.${CTG}.fa
         samtools faidx hg002.hap2.${CTG}.fa
     done
     ```
@@ -373,33 +378,34 @@ large sequences (>100 Mbp). Let's create a script to submit with
             -o mdp_hg002-${CTG}
     done
     ```
-    Then submit with `sbatch`:
+
+Then submit with `sbatch`:
+
+!!! terminal "code"
 
     ```bash
     sbatch moddotplot.sh
     ```
 
-    ??? clipboard-question "What do these parameters do ?"
+??? clipboard-question "What do these parameters do ?"
     
-        You can `moddotplot -h` to find out (and enjoy some excellent ASCII art). Here are the options we used:
+    You can run `moddotplot -h` to find out (and enjoy some excellent ASCII art).
+    Here are the options we used:
+
+    ```
+    Required input:
+      -i INPUT [INPUT ...], --input INPUT [INPUT ...]
+                            Path to input fasta file(s)
     
-        ```bash
-        Required input:
-          -i INPUT [INPUT ...], --input INPUT [INPUT ...]
-                                Path to input fasta file(s)
-        
-        Mod.Plot distance matrix commands:
-          -k KMER, --kmer KMER  k-mer length. Must be < 32 (default: 21)
-        
-          -id IDENTITY, --identity IDENTITY
-                                Identity cutoff threshold. (default: 80)
-        
-          -o OUTPUT, --output OUTPUT
-                                Name for bed file and plots. Will be set to input fasta file name if not provided. (default: None)
-        ```
-
-
-
+    Mod.Plot distance matrix commands:
+      -k KMER, --kmer KMER  k-mer length. Must be < 32 (default: 21)
+    
+      -id IDENTITY, --identity IDENTITY
+                            Identity cutoff threshold. (default: 80)
+    
+      -o OUTPUT, --output OUTPUT
+                            Name for bed file and plots. Will be set to input fasta file name if not provided. (default: None)
+    ```
 
 **Inspect the output files**
 
