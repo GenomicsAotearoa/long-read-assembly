@@ -36,7 +36,7 @@ This tool is a python script that calls a Docker/Singularity container. This was
     ```bash
     module purge 
     module load Python/3.8.2-gimkl-2020a
-    module load Singularity/3,11,3
+    module load Singularity/3.11.3
     export FCS_DEFAULT_IMAGE=/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
     ```
 
