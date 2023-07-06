@@ -1,0 +1,1218 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Genomics Aotearoa">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/long-read-assembly/pages/day1b_familiarise_w_data/">
+      
+      
+        <link rel="prev" href="../day1a_read_inputs/">
+      
+      
+        <link rel="next" href="../day2a_assembly/">
+      
+      <link rel="icon" href="../../theme_figures/nesi_ga.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>3. Familiarize Ourselves With The Data - Long-read Assembly</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#3-familiarize-ourselves-with-the-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Long-read Assembly" class="md-header__button md-logo" aria-label="Long-read Assembly" data-md-component="logo">
+      
+  <img src="../../theme_figures/threelogo_fav.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Long-read Assembly
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3. Familiarize Ourselves With The Data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+            
+              <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/long-read-assembly" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/long-read-assembly
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Long-read Assembly" class="md-nav__button md-logo" aria-label="Long-read Assembly" data-md-component="logo">
+      
+  <img src="../../theme_figures/threelogo_fav.png" alt="logo">
+
+    </a>
+    Long-read Assembly
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/long-read-assembly" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/long-read-assembly
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day0_intro/" class="md-nav__link">
+        1. Introduction - Long Read Assembly Workshop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day1a_read_inputs/" class="md-nav__link">
+        2. Sequence Data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          3. Familiarize Ourselves With The Data
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        3. Familiarize Ourselves With The Data
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cleaning-data-for-assembly" class="md-nav__link">
+    Cleaning Data For Assembly
+  </a>
+  
+    <nav class="md-nav" aria-label="Cleaning Data For Assembly">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pacbio-adapter-trimming" class="md-nav__link">
+    PacBio Adapter Trimming
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ont-read-length-filtering" class="md-nav__link">
+    ONT Read Length Filtering
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phasing-data" class="md-nav__link">
+    Phasing Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Phasing Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trio-data-meryl" class="md-nav__link">
+    Trio data: Meryl
+  </a>
+  
+    <nav class="md-nav" aria-label="Trio data: Meryl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helpful-background" class="md-nav__link">
+    Helpful Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-meryl" class="md-nav__link">
+    Using Meryl
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trio-data-yak" class="md-nav__link">
+    Trio data: Yak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hi-c" class="md-nav__link">
+    Hi-C
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-phasing-datatypes" class="md-nav__link">
+    Other (Phasing) Datatypes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day2a_assembly/" class="md-nav__link">
+        4. Assembly
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3a_assembly_qc/" class="md-nav__link">
+        5. Assembly QC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3b_assembly_cleanup_annotation/" class="md-nav__link">
+        6. Assembly Cleanup & Genome Annotation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3c_phased_assemblies_in_action/" class="md-nav__link">
+        7. Phased Assemblies in Action
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Supplementary
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Supplementary
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_1/" class="md-nav__link">
+        NeSI HPC Auth.Factors Setup & Jupyter Login
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_2/" class="md-nav__link">
+        NeSI File system, Working directory and Symlinks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_3/" class="md-nav__link">
+        Jupyter Virtual Desktop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_4/" class="md-nav__link">
+        Additional materials
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cleaning-data-for-assembly" class="md-nav__link">
+    Cleaning Data For Assembly
+  </a>
+  
+    <nav class="md-nav" aria-label="Cleaning Data For Assembly">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pacbio-adapter-trimming" class="md-nav__link">
+    PacBio Adapter Trimming
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ont-read-length-filtering" class="md-nav__link">
+    ONT Read Length Filtering
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phasing-data" class="md-nav__link">
+    Phasing Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Phasing Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#trio-data-meryl" class="md-nav__link">
+    Trio data: Meryl
+  </a>
+  
+    <nav class="md-nav" aria-label="Trio data: Meryl">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#helpful-background" class="md-nav__link">
+    Helpful Background
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-meryl" class="md-nav__link">
+    Using Meryl
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trio-data-yak" class="md-nav__link">
+    Trio data: Yak
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hi-c" class="md-nav__link">
+    Hi-C
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-phasing-datatypes" class="md-nav__link">
+    Other (Phasing) Datatypes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="3-familiarize-ourselves-with-the-data">3. Familiarize Ourselves With The Data<a class="headerlink" href="#3-familiarize-ourselves-with-the-data" title="Permanent link">&para;</a></h1>
+<p>Let's get our hands on some data so we can see with our own eyes what HiFi and UL data look like.</p>
+<p><strong>Create A Directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lra
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>day1_data
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>day1_data
+</code></pre></div>
+</div>
+<p><strong>Load modules</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>module<span class="w"> </span>load<span class="w"> </span>pigz/2.7
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>module<span class="w"> </span>load<span class="w"> </span>NanoComp/1.20.0-gimkl-2022a-Python-3.10.5
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>module<span class="w"> </span>load<span class="w"> </span>SAMtools/1.16.1-GCC-11.3.0
+</code></pre></div>
+</div>
+<p><strong>Subset Our Input Data</strong><br>
+In order to get a feel for the data, we only need a small portion of it. Pull the first few thousand reads of the HiFi reads and write them to new files.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>zcat<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/deepconsensus/m64011_190830_220126.Q20.fastq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">200000</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>pigz<span class="w"> </span>&gt;<span class="w"> </span>hifi_50k_reads.fq.gz<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+</div>
+<p>Next, downsample the ONT UL reads, too.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>samtools<span class="w"> </span>fastq<span class="w"> </span>-@4<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span>/nesi/nobackup/nesi02659/LRA/resources/ont_ul/03_08_22_R941_HG002_1_Guppy_6.1.2_5mc_cg_prom_sup.bam<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">20000</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>pigz<span class="w"> </span>&gt;<span class="w"> </span>ont_ul_5k_reads.fq.gz<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+</div>
+<p><strong>Now let's compare the data</strong><br>
+We are going to use a tool called NanoComp. This tool can take in multiple FASTQs (or BAMs) and will create summary statistics and nice plots that show things like read length and quality scores. NanoComp has nano in the name, and has some ONT-specific functionality, but it can be used with PacBio data just fine.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>NanoComp<span class="w"> </span>--fastq<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span>hifi_50k_reads.fq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span>ont_ul_5k_reads.fq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span>--names<span class="w"> </span>PacBio_HiFi<span class="w"> </span>ONT_UL<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span>--outdir<span class="w"> </span>nanocomp_hifi_vs_ul
+</code></pre></div>
+</div>
+<p>Once the run is complete (~2 minutes), navigate in your file browser to the folder that NanoComp just created and then click on the <code>NanoComp-report.html</code> file (near the bottom of the folder's contents) to open it. Take a look at the plots for log-transformed read lengths and basecall quality scores. (Note that you may have to click <strong>Trust HTML</strong> at the top of the page for the charts to display.)</p>
+<details class="clipboard-question">
+<summary>What is the range of Q-scores seen in HiFi data?</summary>
+<p>The mean and median Q-scores are around 33 and 34, but there is a spread. The CCS process actually produces different data based on a number of different factors, including the number of times a molecule is read (also called subread passes). Raw CCS data is usually filtered for &gt;Q20 reads at which point it is by convention called HiFi. (Note that some people use CCS data below Q20!)</p>
+</details>
+<details class="clipboard-question">
+<summary>What percent of UL reads are over 100kb?</summary>
+<p>This depends on the dataset but it is very common to see 30% of reads being over 100kb. The 100kb number gets passed around a lot because reads that are much longer than HiFi are when UL distinguishes itself.</p>
+</details>
+<h2 id="cleaning-data-for-assembly">Cleaning Data For Assembly<a class="headerlink" href="#cleaning-data-for-assembly" title="Permanent link">&para;</a></h2>
+<h3 id="pacbio-adapter-trimming">PacBio Adapter Trimming<a class="headerlink" href="#pacbio-adapter-trimming" title="Permanent link">&para;</a></h3>
+<p>PacBio's CCS software attempts to identify adapters and remove them. This process is getting better all the time, but some datasets (especially older ones) can have adapters remaining. If this is the case, adapters can find their way into the assemblies. </p>
+<p>Run CutAdapt to check for adapter sequences in the downsampled data that we are currently using. (The results will print to stdout on your terminal screen.)</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>module load cutadapt/4.1-gimkl-2022a-Python-3.10.5
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>cutadapt \
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    -b &quot;AAAAAAAAAAAAAAAAAATTAACGGAGGAGGAGGA;min_overlap=35&quot; \
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    -b &quot;ATCTCTCTCTTTTCCTCCTCCTCCGTTGTTGTTGTTGAGAGAGAT;min_overlap=45&quot; \
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    --discard-trimmed \
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    -o /dev/null \
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    hifi_50k_reads.fq.gz \
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    -j 0 \
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    --revcomp \
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    -e 0.05
+</code></pre></div>
+</div>
+<p>Notice that we are writing output to <code>/dev/null</code>. We are working on a subset of these reads so the runtime is reasonable. There is no need to hold onto the reads that we are filtering on, it is just a subset of the data.</p>
+<details class="clipboard-question">
+<summary>What do you think the two sequences that we are filtering out are? (hint: you can Google them)</summary>
+<p>The first sequence is the primer and the second sequence is the hairpin adapter. You can see the hairpin by looking at the 5' and 3' ends and checking that they are reverse complements.</p>
+</details>
+<details class="clipboard-question">
+<summary>Why can we get away with throwing away entire reads that contain adapter sequences?</summary>
+<p>As you can see from the summary statistics from CutAdapt, not many reads in this dataset have adapters/primers. There is some concern about bias&mdash;where we remove certain sequences from the genome assembly process. We've taken the filtered reads and aligned them to the genome and they didn't look like they were piling up in any one area.</p>
+</details>
+<details class="clipboard-question">
+<summary>What would happen if we left adapter sequences in the reads?</summary>
+<p>If there are enough adapters present, you can get entire contigs comprised of adapters. This is not the worst, actually, because they are easy to identify and remove wholesale. It is trickier (and this happens more often) when adapter sequences end up embedded in the final assemblies. If/when you upload assemblies to repositories like Genbank they check for these adapters and force you to mask them out with N's. This is confusing to users because it is common to use N's to signify gaps in scaffolded assemblies. So users don't know if they are looking at a scaffolded assembly or masked out sequence.</p>
+</details>
+<h3 id="ont-read-length-filtering">ONT Read Length Filtering<a class="headerlink" href="#ont-read-length-filtering" title="Permanent link">&para;</a></h3>
+<p>Hifiasm is often run with ONT data filtered to be over 50kb in length, so let's filter that data now to see how much of the data remains. </p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>module<span class="w"> </span>load<span class="w"> </span>SeqKit/2.4.0
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>seqkit<span class="w"> </span>seq<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span>-m<span class="w"> </span><span class="m">50000</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span>ont_ul_5k_reads.fq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>pigz<span class="w"> </span>&gt;<span class="w"> </span>ont_ul_5k_reads.50kb.fq.gz<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+</div>
+<p>Now we can quickly check how many reads are retained.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>NanoComp<span class="w"> </span>--fastq<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span>ont_ul_5k_reads.fq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span>ont_ul_5k_reads.50kb.fq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span>--names<span class="w"> </span>ONT_UL<span class="w"> </span>ONT_UL_50kb<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span>--outdir<span class="w"> </span>nanocomp_ul_vs_ul_50kb
+</code></pre></div>
+</div>
+<details class="clipboard-question">
+<summary>When we filter for reads over 50kb, how many reads and total base pairs of DNA are filtered out?</summary>
+<p>Over half of the reads are filtered out, but only about 25% of the data (see "Total bases") is filtered. This makes sense as the long reads contribute more bp per read.</p>
+</details>
+<details class="clipboard-question">
+<summary>Verkko is typically run without having filtered by size, why do you think that is?</summary>
+<p>Based on the answer to the last question, filtering an ultralong readset for &gt;50kb reads does not reduce the overall size of the dataset very much. </p>
+</details>
+<h2 id="phasing-data">Phasing Data<a class="headerlink" href="#phasing-data" title="Permanent link">&para;</a></h2>
+<p>Now that we've introduced the data that creates the graphs, it's time to talk about data types that can phase them in order to produce fully phased diploid assemblies. </p>
+<p>At the moment the easiest and most effective way to phase human assemblies is with trio information. Meaning you sequence a sample, and then you also sequence its parents. You then look at which parts of the genome the sample inherited from one parent and not the other. This is done with kmer databases (DBs). In our case, we will use both Meryl (for Verkko) and yak (for hifiasm) so let's take a moment to learn about kmer DBs.</p>
+<h3 id="trio-data-meryl">Trio data: Meryl<a class="headerlink" href="#trio-data-meryl" title="Permanent link">&para;</a></h3>
+<p><a href="https://github.com/marbl/meryl">Meryl</a> is a kmer counter that dates back to Celera. It creates kmer DBs, but it is also a toolset that you can use for finding kmers and manipulating kmer count sets. Meryl is to kmers what BedTools is to genomic regions.</p>
+<p>Today we want to use Meryl in the context of creating databases from PCR-free Illumina readsets. These can be used both during the assembly process and during the post-assembly QC. </p>
+<h4 id="helpful-background">Helpful Background<a class="headerlink" href="#helpful-background" title="Permanent link">&para;</a></h4>
+<p>Meryl can be used to create hapmer DBs (haplotype + k-mer), which can be used as input for tools like Verkko and Merqury. Hapmer DBs are constructed from the <em>k</em>-mers that a child inherits from one parent and not the other. These <em>k</em>-mers are useful for phasing assemblies because if an assembler has two very similar sequences, it can look for maternal-specific <em>k</em>-mers and paternal-specific <em>k</em>-mers and use those to determine which haplotype to assign to each sequence.</p>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/meryl_venn.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/meryl_venn.png?raw=true" width="350"/></a>
+</p>
+
+<p>In the Venn diagram above, the maternal hapmer <em>k</em>-mers/DB are on the left-hand side (in the purple in red box). The paternal hapmer <em>k</em>-mers/DB are on the right-hand side (in the purple in blue box). </p>
+<div class="admonition question">
+<p class="admonition-title">Wait, what is phasing?</p>
+<p>Phasing is the process of saying two things are on the same haplotype (<i>i.e.</i>, saying two blocks of sequence came from the maternal haplotype, or vice versa)</p>
+<p>One way you will hear us talk about phasing in this workshop is in the context of ultra long reads. In this case, we may have two heterozygous regions separated by a homozygous region. When an assembler is walking this graph, if there is no external information about haplotype, then the assembler doesn't have a way of knowing that certain blocks of sequence came from the same sequence. For example, in the bottom image, the assembler might walk from the top left block, into the homozygous block, and then down to the <i>bottom right</i> block, switching between the two haplotypes.</p>
+<p>However, if we can find a long read that maps to the top sequences in both, then we could say that these sequences come from the same haplotype. That is phasing.</p>
+<p><p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/ont_phasing.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/ont_phasing.png?raw=true" width="550"/></a>
+</p></p>
+<p>We can play a similar trick with parental data. If we find paternal markers in both sequences in the top, then we can say that they both come from the paternal haplotype. This is also phasing. </p>
+<p><p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/trio_phasing2.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/trio_phasing2.png?raw=true" width="550"/></a>
+</p></p>
+</div>
+<h4 id="using-meryl">Using Meryl<a class="headerlink" href="#using-meryl" title="Permanent link">&para;</a></h4>
+<p><strong>Make sure you are in the right directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>day1_data
+</code></pre></div>
+</div>
+<p><strong>Now create a small file to work with</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>zcat<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/ilmn/pat/HG003_HiSeq30x_subsampled_R1.fastq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">20000000</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>pigz<span class="w"> </span>&gt;<span class="w"> </span>HG003_HiSeq30x_5M_reads_R1.fastq.gz<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+</div>
+<p><strong>Create a <em>k</em>-mer DB from an Illumina read set</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>module<span class="w"> </span>load<span class="w"> </span>Merqury/1.3-Miniconda3
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>meryl<span class="w"> </span>count<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span>compress<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="nv">k</span><span class="o">=</span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="nv">threads</span><span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="nv">memory</span><span class="o">=</span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span>HG003_HiSeq30x_5M_reads_R1.fastq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span>output<span class="w"> </span>paternal_5M_compress.k30.meryl
+</code></pre></div>
+</div>
+<p>This should be pretty fast because we are just using a small amount of data to get a feel for the program. The output of Meryl is a folder that contains 64 index files and 64 data files. If you try and look at the data files you'll see that they aren't human readable. In order to look at the actual <em>k</em>-mers, you have to use meryl to print them.</p>
+<p><strong>Look at the <em>k</em>-mers</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>meryl<span class="w"> </span>print<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span>greater-than<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span>paternal_5M_compress.k30.meryl<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>head
+</code></pre></div>
+</div>
+<p>The first column is the <em>k</em>-mer and the second column is the count of that <em>k</em>-mer in the dataset.</p>
+<p><strong>Take a look at some statistics for the DB</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>meryl<span class="w"> </span>statistics<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span>paternal_5M_compress.k30.meryl<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">20</span>
+</code></pre></div>
+</div>
+<p>We see a lot of <em>k</em>-mers missing and the histogram (frequency column) has a ton of counts at 1. This makes sense for a heavily downsampled dataset. Great. We just got a feel for how to use Meryl in general on subset data. Now let's actually take a look at how to create Meryl DBs for Verkko assemblies.</p>
+<details class="clipboard-question">
+<summary>How would we run Meryl for Verkko?</summary>
+<p><strong>Here is what the Slurm script would look like:</strong></p>
+<p>(Don't run this, it is slow! We have made these for you already.)</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="c1">#SBATCH --account       nesi02659</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1">#SBATCH --job-name      meryl_run</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1">#SBATCH --cpus-per-task 32</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1">#SBATCH --time          12:00:00</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1">#SBATCH --mem           96G</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="c1">#SBATCH --partition     milan</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="c1">#SBATCH --output        slurmlogs/%x.%j.out</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c1">#SBATCH --error         slurmlogs/%x.%j.err</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>module<span class="w"> </span>purge
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>module<span class="w"> </span>load<span class="w"> </span>Merqury/1.3-Miniconda3
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">MERQURY</span><span class="o">=</span><span class="k">$(</span>dirname<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>merqury.sh<span class="k">))</span>
+<a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>
+<a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="c1">## Create mat/pat/child DBs</span>
+<a id="__codelineno-13-18" name="__codelineno-13-18" href="#__codelineno-13-18"></a>meryl<span class="w"> </span>count<span class="w"> </span>compress<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-19" name="__codelineno-13-19" href="#__codelineno-13-19"></a><span class="w">    </span><span class="nv">threads</span><span class="o">=</span><span class="m">32</span><span class="w"> </span><span class="nv">memory</span><span class="o">=</span><span class="m">96</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-20" name="__codelineno-13-20" href="#__codelineno-13-20"></a><span class="w">    </span>maternal.*fastq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-21" name="__codelineno-13-21" href="#__codelineno-13-21"></a><span class="w">    </span>output<span class="w"> </span>maternal_compress.k30.meryl
+<a id="__codelineno-13-22" name="__codelineno-13-22" href="#__codelineno-13-22"></a>
+<a id="__codelineno-13-23" name="__codelineno-13-23" href="#__codelineno-13-23"></a>meryl<span class="w"> </span>count<span class="w"> </span>compress<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-24" name="__codelineno-13-24" href="#__codelineno-13-24"></a><span class="w">    </span><span class="nv">threads</span><span class="o">=</span><span class="m">32</span><span class="w"> </span><span class="nv">memory</span><span class="o">=</span><span class="m">96</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-25" name="__codelineno-13-25" href="#__codelineno-13-25"></a><span class="w">    </span>paternal.*fastq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-26" name="__codelineno-13-26" href="#__codelineno-13-26"></a><span class="w">    </span>output<span class="w"> </span>paternal_compress.k30.meryl
+<a id="__codelineno-13-27" name="__codelineno-13-27" href="#__codelineno-13-27"></a>
+<a id="__codelineno-13-28" name="__codelineno-13-28" href="#__codelineno-13-28"></a>meryl<span class="w"> </span>count<span class="w"> </span>compress<span class="w"> </span><span class="nv">k</span><span class="o">=</span><span class="m">30</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-29" name="__codelineno-13-29" href="#__codelineno-13-29"></a><span class="w">    </span><span class="nv">threads</span><span class="o">=</span><span class="m">32</span><span class="w"> </span><span class="nv">memory</span><span class="o">=</span><span class="m">96</span><span class="w">    </span><span class="se">\</span>
+<a id="__codelineno-13-30" name="__codelineno-13-30" href="#__codelineno-13-30"></a><span class="w">    </span>child.*fastq.gz<span class="w"> </span>output<span class="w">    </span><span class="se">\</span>
+<a id="__codelineno-13-31" name="__codelineno-13-31" href="#__codelineno-13-31"></a><span class="w">    </span>child_compress.k30.meryl
+<a id="__codelineno-13-32" name="__codelineno-13-32" href="#__codelineno-13-32"></a>
+<a id="__codelineno-13-33" name="__codelineno-13-33" href="#__codelineno-13-33"></a><span class="c1">## Create the hapmer DBs</span>
+<a id="__codelineno-13-34" name="__codelineno-13-34" href="#__codelineno-13-34"></a><span class="nv">$MERQURY</span>/trio/hapmers.sh<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-35" name="__codelineno-13-35" href="#__codelineno-13-35"></a><span class="w">  </span>maternal_compress.k30.meryl<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-36" name="__codelineno-13-36" href="#__codelineno-13-36"></a><span class="w">  </span>paternal_compress.k30.meryl<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-13-37" name="__codelineno-13-37" href="#__codelineno-13-37"></a><span class="w">     </span>child_compress.k30.meryl
+</code></pre></div>
+</div>
+</details>
+<p><strong>Closing notes</strong></p>
+<p>It should be noted that Meryl DBs used for assembly with Verkko and for base-level QC with Merqury are created differently. Here are the current recommendations for <em>k</em>-mer size and compression:</p>
+<ul>
+<li>Verkko: use <code>k=30</code> and the <code>compress</code> command</li>
+<li>Merqury: use <code>k=21</code> and do not include the <code>compress</code> command</li>
+</ul>
+<details class="question">
+<summary>Why does Verkko use compressed Meryl DBs while Merqury does not?</summary>
+<p>The biggest error type from long read sequencing comes from homopolymer repeats. So assembly graphs are typically constructed from homopolymer compressed data. After the assembly graph is created the homopolymers are added back in. Verkko compresses the HiFi reads for you, but you need to give it homopolymer compressed Meryl DBs so they play nicely together. Merqury on the other hand is used to assess the quality of the resultant assembly, so you want to keep those homopolymers in order to find errors in them.</p>
+</details>
+<details class="question">
+<summary>Why does Merqury use <code>k=21</code> ?</summary>
+<p>Larger K sizes give more conservative results, but this comes at a cost since you get lower effective coverage. For non-human species, if you know your genome size you can <a href="https://github.com/marbl/merqury/wiki/1.-Prepare-meryl-dbs#1-get-the-right-k-size">estimate an optimal K using Meryl itself</a>. If you are wondering, Verkko uses k=30 in order to be "conservative". And at the time of writing this document, different species typically stick with <code>k=30</code>. Though this hasn't been tested, so it may change in the future.</p>
+</details>
+<details class="question">
+<summary>Do Meryl DBs have to be created from Illumina data? Could HiFi data be used an an input to Meryl?</summary>
+<p>They don't! You can create a Meryl DB from 10X data or HiFi data, for instance. The one caveat is that you want your input data to have a low error rate. So UL ONT data wouldn't work.</p>
+</details>
+<p><strong>Other things you could do with Meryl</strong></p>
+<p>Here is an example of something you could do with Meryl:</p>
+<div class="admonition quote">
+<ul>
+<li>You can create a <em>k</em>-mer DB from an assembly</li>
+<li>You could then print all <em>k</em>-mers that are only present once (using <code>meryl print equal-to 1</code>) </li>
+<li>Then write those out to a bed file with <code>meryl-lookup</code>. 
+Now you have "painted" all of the locations in the assembly with unique <em>k</em>-mers. That can be a handy thing to have lying around.</li>
+</ul>
+</div>
+<h3 id="trio-data-yak">Trio data: Yak<a class="headerlink" href="#trio-data-yak" title="Permanent link">&para;</a></h3>
+<p>Yak (Yet-Another Kmer Analyzer) is the kmer counter that we need for Hifiasm assemblies and to QC assemblies made with either assembler so let's learn about how to make yak dbs. </p>
+<p><strong>In the Meryl section we subset R1, now subset R2 as well</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>zcat<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/ilmn/pat/HG003_HiSeq30x_subsampled_R2.fastq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-n<span class="w"> </span><span class="m">20000000</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>pigz<span class="w"> </span>&gt;<span class="w"> </span>HG003_HiSeq30x_5M_reads_R2.fastq.gz<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+</div>
+<p><strong>Look up yak's github and figure out how to make a count/kmer db for this data</strong></p>
+<p>Yak won't work on our Jupyter instances, so create a slurm script that has 32 cores and 96GB of memory. That way it will work on our subset data and it will also work on full size data -- you'd just have to extend the time variable in slurm.</p>
+<details class="clipboard-question">
+<summary>Click here for the answer</summary>
+<p>Here is one way to call yak in a <code>yak.sl</code> script...</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1">#SBATCH --account       nesi02659</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1">#SBATCH --job-name      yak_run</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1">#SBATCH --cpus-per-task 32</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1">#SBATCH --time          00:10:00</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1">#SBATCH --mem           96G</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1">#SBATCH --partition     milan</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="c1">#SBATCH --output        slurmlogs/%x.%j.out</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1">#SBATCH --error         slurmlogs/%x.%j.err</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>module<span class="w"> </span>purge
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>module<span class="w"> </span>load<span class="w"> </span>yak/0.1
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>yak<span class="w"> </span>count<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">    </span>-t32<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">    </span>-b37<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">    </span>-o<span class="w"> </span>HG003_subset.yak<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">     </span>&lt;<span class="o">(</span>zcat<span class="w"> </span>HG003_HiSeq30x_5M_reads_R*.fastq.gz<span class="o">)</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="w">     </span>&lt;<span class="o">(</span>zcat<span class="w"> </span>HG003_HiSeq30x_5M_reads_R*.fastq.gz<span class="o">)</span>
+</code></pre></div>
+<p>Notice that for paired-end reads we have to stream both reads to yak twice!</p>
+</details>
+<p>If you haven't already, execute your yak script using slurm (takes about 2 minutes). </p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>sbatch<span class="w"> </span>yak.sl<span class="w"> </span>
+</code></pre></div>
+</div>
+<p>When you are done you get out a non-human readable file. It doesn't need to be compressed or decompressed, and nothing else needs to be done in order to use it.</p>
+<p><strong>Closing remarks on yak</strong></p>
+<ul>
+<li>If you have Illumina data for an entire trio (which we do), then you can use yak to make yak DBs for each parent separately to use hifiasm for trio assembly or yak trioeval for quality control (more on that later)</li>
+<li>You don't need to homopolymer compress yak dbs</li>
+<li>There is no need to create separate dbs for assembly and for QC</li>
+<li>yak can perform a variety of assembly QC tasks (as we will see) but it isn't really designed to play around with kmers like Meryl is</li>
+</ul>
+<h3 id="hi-c">Hi-C<a class="headerlink" href="#hi-c" title="Permanent link">&para;</a></h3>
+<p>Hi-C is a proximity ligation method. It takes intact chromatin and locks it in place, cuts up the DNA, ligates strands that are nearby and then makes libraries from them. It's easiest to just take a look at a cartoon of the process.
+<a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/hi-c-flow-2.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="Hi-C Library Flow" src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/sequencing/hi-c-flow-2.png?raw=true" /></a></p>
+<p>Given that Hi-C ligates molecules that are proximate (nearby) to each other, it can be used for spatial genomics applications. In assembly, we take advantage of the fact that most nearby molecules are on the same strand (or haplotype) of DNA. </p>
+<details class="question">
+<summary>What are the advantages of trio phasing over Hi-C?</summary>
+<p>Trio data is great for phasing because you can assign haplotypes to maternal and paternal bins. This has the added benefit of assigning all maternal contigs to the same assembly. Hi-C ensure that an entire chromosome is phased into one haplotype, but across chromosomes the assignment is random. </p>
+</details>
+<details class="question">
+<summary>So why wouldn't you always use trio data for phasing?</summary>
+<p>It can be hard to get trio data. If a sample has already been collected it may be hard to go back and identify the parents and collect sample from them. In non-human samples, trios can also be difficult particularly with samples taken from the wild. </p>
+</details>
+<details class="question">
+<summary>Are there any difficulties in preparing Hi-C data?</summary>
+<p>Yes! As you can see in the cartoon above Hi-C relies on having intact chromatin as an input, which means it needs whole, non-lysed cells. This means that cell lines are an excellent input source, but frozen blood is less good, for instance.</p>
+</details>
+<h3 id="other-phasing-datatypes">Other (Phasing) Datatypes<a class="headerlink" href="#other-phasing-datatypes" title="Permanent link">&para;</a></h3>
+<p>We should also mention that there are other datatypes that can be used for phasing, though they are less common.</p>
+<p><strong>Pore-C</strong><br>
+Pore-C is a variant of Hi-C which retains the chromatin conformation capture aspect, but the sequencing is done on ONT. This allows long-read sequencing of concatemers. Where Hi-C typically has at most one "contact" per read, Pore-C can have many contacts per read. The libraries also do not need to be amplified, so Pore-C reads can carry base modification calls. </p>
+<p><strong>StrandSeq</strong><br>
+StrandSeq is a technique that creates sparse Illumina datasets that are both cell- and strand-specific. Cell specificity is achieved by putting one cell per well into 384-well plates (often multiple). Strand specificity is achieved through selective fragmentation of nascent strands. (During DNA replication, BrdU is incorporated exclusively into nascent DNA strands. In the library preparation the BrdU strand is fragmented and only the other strand amplifies.) This strand specificity gives another way to identify haplotype-specific kmers and use them during assembly phasing.</p>
+<div class="admonition quote-right">
+<p class="admonition-title">If you are interested in these phasing approaches, you can read more about them in the following articles:</p>
+<ul>
+<li>
+<p>Lorig-Roach, Ryan, et al. "Phased nanopore assembly with Shasta and modular graph phasing with GFAse." <em>bioRxiv</em> (2023): 2023-02.</p>
+</li>
+<li>
+<p>Porubsky, David, et al. "Fully phased human genome assembly without parental data using single-cell strand sequencing and long reads." <em>Nature biotechnology</em> 39.3 (2021): 302-308.</p>
+</li>
+</ul>
+</div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../day1a_read_inputs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 2. Sequence Data" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                2. Sequence Data
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../day2a_assembly/" class="md-footer__link md-footer__link--next" aria-label="Next: 4. Assembly" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                4. Assembly
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Long-read Assembly workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+      
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

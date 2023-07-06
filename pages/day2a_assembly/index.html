@@ -1,0 +1,1468 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Genomics Aotearoa">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/long-read-assembly/pages/day2a_assembly/">
+      
+      
+        <link rel="prev" href="../day1b_familiarise_w_data/">
+      
+      
+        <link rel="next" href="../day3a_assembly_qc/">
+      
+      <link rel="icon" href="../../theme_figures/nesi_ga.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>4. Assembly - Long-read Assembly</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4-assembly" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Long-read Assembly" class="md-header__button md-logo" aria-label="Long-read Assembly" data-md-component="logo">
+      
+  <img src="../../theme_figures/threelogo_fav.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Long-read Assembly
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. Assembly
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+            
+              <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/long-read-assembly" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/long-read-assembly
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Long-read Assembly" class="md-nav__button md-logo" aria-label="Long-read Assembly" data-md-component="logo">
+      
+  <img src="../../theme_figures/threelogo_fav.png" alt="logo">
+
+    </a>
+    Long-read Assembly
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/long-read-assembly" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/long-read-assembly
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day0_intro/" class="md-nav__link">
+        1. Introduction - Long Read Assembly Workshop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day1a_read_inputs/" class="md-nav__link">
+        2. Sequence Data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day1b_familiarise_w_data/" class="md-nav__link">
+        3. Familiarize Ourselves With The Data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          4. Assembly
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        4. Assembly
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#theoretical-walkthrough-of-the-assembly-process" class="md-nav__link">
+    Theoretical Walkthrough Of The Assembly Process
+  </a>
+  
+    <nav class="md-nav" aria-label="Theoretical Walkthrough Of The Assembly Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verkko" class="md-nav__link">
+    Verkko
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-with-test-data" class="md-nav__link">
+    Exploring With Test Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring With Test Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run-hifiasm-with-test-data" class="md-nav__link">
+    Run Hifiasm With Test Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#introduction-to-gfa-files" class="md-nav__link">
+    Introduction To GFA Files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-hifiasm-test-assembly-gfa-in-bandage" class="md-nav__link">
+    View Hifiasm Test Assembly GFA in Bandage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-verkko-with-test-data" class="md-nav__link">
+    Run Verkko With Test Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-on-full-data-sets" class="md-nav__link">
+    Running on Full Data Sets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-graph-sense" class="md-nav__link">
+    Building Graph Sense
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-of-computational-cost" class="md-nav__link">
+    Comparison of Computational Cost
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison of Computational Cost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hifiasm" class="md-nav__link">
+    Hifiasm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verkko_1" class="md-nav__link">
+    Verkko
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-of-outputs" class="md-nav__link">
+    Comparison of Outputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison of Outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verrkos-approach" class="md-nav__link">
+    Verrko's Approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hifiasms-approach" class="md-nav__link">
+    Hifiasm's Approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-should-i-choose" class="md-nav__link">
+    How Should I Choose?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-much-input-data-do-i-need" class="md-nav__link">
+    How Much Input Data Do I Need?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3a_assembly_qc/" class="md-nav__link">
+        5. Assembly QC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3b_assembly_cleanup_annotation/" class="md-nav__link">
+        6. Assembly Cleanup & Genome Annotation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3c_phased_assemblies_in_action/" class="md-nav__link">
+        7. Phased Assemblies in Action
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Supplementary
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Supplementary
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_1/" class="md-nav__link">
+        NeSI HPC Auth.Factors Setup & Jupyter Login
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_2/" class="md-nav__link">
+        NeSI File system, Working directory and Symlinks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_3/" class="md-nav__link">
+        Jupyter Virtual Desktop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_4/" class="md-nav__link">
+        Additional materials
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#theoretical-walkthrough-of-the-assembly-process" class="md-nav__link">
+    Theoretical Walkthrough Of The Assembly Process
+  </a>
+  
+    <nav class="md-nav" aria-label="Theoretical Walkthrough Of The Assembly Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verkko" class="md-nav__link">
+    Verkko
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-with-test-data" class="md-nav__link">
+    Exploring With Test Data
+  </a>
+  
+    <nav class="md-nav" aria-label="Exploring With Test Data">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run-hifiasm-with-test-data" class="md-nav__link">
+    Run Hifiasm With Test Data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#introduction-to-gfa-files" class="md-nav__link">
+    Introduction To GFA Files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-hifiasm-test-assembly-gfa-in-bandage" class="md-nav__link">
+    View Hifiasm Test Assembly GFA in Bandage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-verkko-with-test-data" class="md-nav__link">
+    Run Verkko With Test Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-on-full-data-sets" class="md-nav__link">
+    Running on Full Data Sets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#building-graph-sense" class="md-nav__link">
+    Building Graph Sense
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-of-computational-cost" class="md-nav__link">
+    Comparison of Computational Cost
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison of Computational Cost">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hifiasm" class="md-nav__link">
+    Hifiasm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verkko_1" class="md-nav__link">
+    Verkko
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-of-outputs" class="md-nav__link">
+    Comparison of Outputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison of Outputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verrkos-approach" class="md-nav__link">
+    Verrko's Approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hifiasms-approach" class="md-nav__link">
+    Hifiasm's Approach
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-should-i-choose" class="md-nav__link">
+    How Should I Choose?
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-much-input-data-do-i-need" class="md-nav__link">
+    How Much Input Data Do I Need?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="4-assembly">4. Assembly<a class="headerlink" href="#4-assembly" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">Here is a rundown of what we will do today:</p>
+<ul>
+<li>Learn about how Verkko creates assemblies</li>
+<li>Run Hifiasm with test data (HiFi only)</li>
+<li>Run Verkko with test data (HiFi + ONT)</li>
+<li>See how to run both with full datasets</li>
+<li>Compare the two assemblers</li>
+<li>Talk about how much data we need </li>
+</ul>
+</div>
+<p>At the end of the day you will hopefully have a feel for how to actually run each assembler, what data to give them, and when to choose one over the other.</p>
+<h2 id="theoretical-walkthrough-of-the-assembly-process">Theoretical Walkthrough Of The Assembly Process<a class="headerlink" href="#theoretical-walkthrough-of-the-assembly-process" title="Permanent link">&para;</a></h2>
+<h3 id="verkko">Verkko<a class="headerlink" href="#verkko" title="Permanent link">&para;</a></h3>
+<p>In this section we will go over the rough outline of Verkko's approach to assembly. Hopefully this will help put the data types from yesterday in context. Knowing how each data type is used also helps you to make better decisions when planning your sequencing runs.</p>
+<p>Both Verkko and Hifiasm can use a variety of data sources:</p>
+<div class="admonition quote">
+<ul>
+<li>PacBio HiFi: &gt;10kbp, around 99.9% accuracy</li>
+<li>Oxford Nanopore Ultralong: &gt;100kb, around 97% accuracy</li>
+<li>Phasing data from Hi-C or trio Illumina data</li>
+</ul>
+</div>
+<p>PacBio HiFi data is required for both assemblers. Other data types are optional&mdash;but they lead to much better assemblies. So let's jump ahead a bit and take a peek at how Verkko creates assemblies using figure 1 from the recent Verkko paper (Rautiainen, Mikko, et al.). It's ok if this is a bit confusing, you don't need to know the inner workings of Verkko in order to make great assemblies.</p>
+<p><strong>PacBio HiFi is used to create the initial graph</strong> </p>
+<p>Verkko's first theoretical task is to create an assembly graph from HiFi data, but it has to prepare the HiFi reads first. HiFi data is less accurate in homopolymer repeats and microsatellites, so before creating an assembly graph, the reads are "compressed" in these regions:</p>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_hifi_repeat_compr.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_hifi_repeat_compr.png?raw=true" width="550"/></a>
+</p>
+
+<p>The reads are then error corrected. You don't have to worry about how this works (just know that it is very computationally intensive). Once that is done, a graph is created from the HiFi reads:</p>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_hifi_graph.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_hifi_graph.png?raw=true" width="550"/></a>
+</p>
+
+<p>If you aren't familiar with what an assembly graph is, that is also ok! The annoying thing is that there are different ways to make assembly graphs, but they all have the common feature of linking together reads by their overlaps. In this graph the boxes (also called nodes) represent sequences and the lines (also called edges) represent the relationship between those overlaps.</p>
+<p>Note that in the middle section the orange and blue lines represent the ONT reads aligned to the graph. </p>
+<p><strong>Oxford Nanopore Data (which is long) helps simplify the graph</strong></p>
+<p>Using these alignments, nodes that are linked (or phased) by a read are combined. This "simplifies" the graph -- in other words, you get nice long nodes where you previously had shorter nodes. (Long nodes are good, they mean you have longer sequences that are assembled.)</p>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_ont_resolved.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_ont_resolved.png?raw=true" width="550"/></a>
+</p>
+
+<p><strong>The graph can now be phased</strong></p>
+<p>In the case of trio Illumina data, Verkko looks at the nodes and counts the number of maternal-specific or paternal-specific sequences of DNA (from meryl hapmer DBs). If it finds that a node has, for instance, a bunch of maternal specific sequences/<em>k</em>-mers and almost no paternal specific sequences/<em>k</em>-mers then the assembler will assign that node to be maternal. Nodes that are the same haplotype but are separated by a homozygous region are then merged.</p>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_phasing.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_phasing.png?raw=true" width="550"/></a>
+</p>
+
+<p>Finally the assembly graph can be converted into two contigs which represent maternal and paternal haplotypes.</p>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_contigs.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_process_contigs.png?raw=true" width="550"/></a>
+</p>
+
+<p>Maternal and paternal contigs for the entire assembly are then put into one diploid FASTA as well as two haploid FASTAs.</p>
+<div class="admonition info">
+<p class="admonition-title">How does Hi-C phasing work?</p>
+<p>Like using trio data, Hi-C phasing aims to find nodes that are near to each other and come from the same haplotype. To achieve this, Hi-C data is aligned to the graph and reads that are linked across nodes can be used to phase the graph as shown in this figure modified from (Garg, Shilpa):
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/hic_phasing.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/hic_phasing.png?raw=true" width="450"/></a>
+</p>
+One key difference between trio phasing and Hi-C is that Hi-C data cannot say that a set of nodes all come from the sample's mother or father, only that they come from the same haplotype. </p>
+</div>
+<h2 id="exploring-with-test-data">Exploring With Test Data<a class="headerlink" href="#exploring-with-test-data" title="Permanent link">&para;</a></h2>
+<p>Running assemblers is very computationally intensive and the output files can be big. Let's not jump straight into assembling human genomes. Instead we can use the test data that both assemblers provide as a way to both ensure that we know how to run the tool (which is easy) and we can start to get a feel for the process and outputs in real life. </p>
+<h3 id="run-hifiasm-with-test-data">Run Hifiasm With Test Data<a class="headerlink" href="#run-hifiasm-with-test-data" title="Permanent link">&para;</a></h3>
+<p><strong>Create a directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lra
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>day2_assembly/hifiasm_test
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>day2_assembly/hifiasm_test
+</code></pre></div>
+</div>
+<p><strong>Now download Hifiasm's test data</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>wget<span class="w"> </span>https://github.com/chhylp123/hifiasm/releases/download/v0.7/chr11-2M.fa.gz
+</code></pre></div>
+</div>
+<p>This is HiFi data from about 2 million bases of chromosome 11. HiFi data is the only required data type for Hifiasm and Verkko. You can create assemblies from only HiFi data and you can add ONT and phasing later. Also notice that this data is in FASTA format! Presumably this is to make the file smaller since this is test data.</p>
+<p><strong>Now let's load the Hifiasm module</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>module<span class="w"> </span>purge
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>module<span class="w"> </span>load<span class="w"> </span>hifiasm
+</code></pre></div>
+</div>
+<p>And actually run the test data</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>hifiasm<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span>-o<span class="w"> </span><span class="nb">test</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span>-t4<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span>-f0<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span>chr11-2M.fa.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="m">2</span>&gt;<span class="w"> </span>test.log<span class="w"> </span><span class="p">&amp;</span>
+</code></pre></div>
+</div>
+<p>This should take around 3 minutes. Once the run is complete take a look at the top of the log:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>head<span class="w"> </span>-n<span class="w"> </span><span class="m">60</span><span class="w"> </span>test.log
+</code></pre></div>
+</div>
+<p>Now check the <a href="https://hifiasm.readthedocs.io/en/latest/interpreting-output.html#hifiasm-log-interpretation">Hifiasm log interpretation</a> section of the documentation to give that some context.</p>
+<details class="question">
+<summary>What does the histogram represent, and how many peaks do you expect?</summary>
+<p>The histogram represents the <em>k</em>-mer count in the HiFi reads. For humans we expect to see a large peak somewhere around our expected sequencing coverage: this represents homozygous <em>k</em>-mers. The smaller peak represents heterozygous <em>k</em>-mers.</p>
+</details>
+<p>Now <code>ls</code> the directory to see what outputs are present. What do you see? No FASTA files, but there are a lot of files that  end in <code>gfa</code>. If you haven't seen these before, then we get to introduce you to another file format! </p>
+<h3 id="introduction-to-gfa-files">Introduction To GFA Files<a class="headerlink" href="#introduction-to-gfa-files" title="Permanent link">&para;</a></h3>
+<p>GFA stands for <a href="http://gfa-spec.github.io/GFA-spec/GFA1.html">Graphical Fragment Alignment</a> and Hifiasm outputs assemblies in GFA files. GFAs aren't like bed or sam files which have one entry per line (or FASTA/Q that have 2/4 lines per entry). But this is bioinformatics, so you can rest assured that it is just a text file with a new file extension. It's easiest to just look at an example of a GFA file from the spec:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>H<span class="w">    </span>VN:Z:1.0
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>S<span class="w">   </span><span class="m">11</span><span class="w">  </span>ACCTT
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>S<span class="w">   </span><span class="m">12</span><span class="w">  </span>TCAAGG
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>S<span class="w">   </span><span class="m">13</span><span class="w">  </span>CTTGATT
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>L<span class="w">   </span><span class="m">11</span><span class="w">  </span>+<span class="w">   </span><span class="m">12</span><span class="w">  </span>-<span class="w">   </span>4M
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>L<span class="w">   </span><span class="m">12</span><span class="w">  </span>-<span class="w">   </span><span class="m">13</span><span class="w">  </span>+<span class="w">   </span>5M
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>L<span class="w">   </span><span class="m">11</span><span class="w">  </span>+<span class="w">   </span><span class="m">13</span><span class="w">  </span>+<span class="w">   </span>3M
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>P<span class="w">   </span><span class="m">14</span><span class="w">  </span><span class="m">11</span>+,12-,13+<span class="w"> </span>4M,5M
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Here we see the following line types</p>
+<ul>
+<li>H (Header): File header. You get the idea.<ul>
+<li>The example here the header is just saying that the file follows GFA 1.0 spec. </li>
+<li>Notice that this line follows a TAG:TYPE:VALUE convention. Type in this case is Z which corresponds to printable string. </li>
+</ul>
+</li>
+<li>S (Segment): A sequence of DNA<ul>
+<li>This is what we care about for the moment!</li>
+</ul>
+</li>
+<li>L (Link): Overlap between two segments<ul>
+<li>We can read the first Link line as saying that the end of Segment 11 (+) connects to the beginning of Segment 12 (-) and the overlap is 4 matching bases. In this case it would look like this:</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="w">    </span>ACCTT<span class="w">    </span><span class="o">(</span>Segment<span class="w"> </span><span class="m">11</span><span class="o">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">     </span><span class="o">||||</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">     </span>GGAACT<span class="w">  </span><span class="o">(</span>Segment<span class="w"> </span><span class="m">12</span><span class="w"> </span>--<span class="w"> </span>reversed<span class="o">)</span>
+</code></pre></div>
+<ul>
+<li>P (Path): Ordered list of segments (connected by links)</li>
+</ul>
+</div>
+<p><strong>So how do we get a FASTA from a GFA?</strong><br>
+To get a FASTA we just pull the S lines from a GFA and print them to a file:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>awk<span class="w"> </span><span class="s1">&#39;/^S/{print &quot;&gt;&quot;$2;print $3}&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span>test.bp.p_ctg.gfa<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span>&gt;<span class="w"> </span>test.p_ctg.fa<span class="w"> </span>
+</code></pre></div>
+</div>
+<div class="admonition info">
+<p class="admonition-title">You can read this awk command as:</p>
+<ol>
+<li>Give me all input lines that start with <code>S</code> </li>
+<li>Then print the second column of those lines (which is the sequence ID) </li>
+<li>Also print another line with the actual sequence</li>
+</ol>
+</div>
+<details class="question">
+<summary>Why does Hifiasm output GFAs and not FASTAs?</summary>
+<p>Hifiasm (and many other assemblers) use GFAs while they are actually assembling. The GFA represents/stores the assembly graph. Hifiasm probably doesn't output FASTAs just because everything in the FASTA is contained in the GFA, so why store it twice?</p>
+</details>
+<h3 id="view-hifiasm-test-assembly-gfa-in-bandage">View Hifiasm Test Assembly GFA in Bandage<a class="headerlink" href="#view-hifiasm-test-assembly-gfa-in-bandage" title="Permanent link">&para;</a></h3>
+<p>We are going to take a look at the assembly GFA file in a browser called Bandage. Bandage provides a way to visualize something called unitig graphs.</p>
+<div class="admonition jupyter">
+<p class="admonition-title">Start Bandage</p>
+<ol>
+<li>Open Jupyter Virtual Desktop <a href="../../supplementary/supplementary_3/">according to these instructions</a></li>
+<li>In the Virtual Desktop, click on the terminal emulator icon (in your toolbar at the bottom of your screen)</li>
+<li>Load the Bandage module with <code>module load Bandage</code></li>
+<li>Type <code>Bandage &amp;</code> to start Bandage
+   <a class="glightbox" href="../../theme_figures/bandage_vdt.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="image" src="../../theme_figures/bandage_vdt.png" width="600" /></a></li>
+</ol>
+<p><strong>Load a unitig GFA</strong></p>
+<ol>
+<li>Click the <em>File</em> dropdown then <em>Load Graph</em></li>
+<li>Navigate to our current folder (<code>day2_assembly/hifiasm_test</code>)</li>
+<li>Select the <code>test.bp.r_utg.noseq.gfa</code> file and press the <strong>Open</strong> icon</li>
+<li>Under <strong>Graph Drawing</strong> on the left-hand side click <strong>Draw Graph</strong></li>
+</ol>
+<p>Ok, so what are we looking at? The thick lines are nodes&mdash;which in this case represent sequences. Since we loaded the unitig graph the sequences are unitigs. A unitig is a high confidence contig. It is a place where the assembler says "I know exactly what is going on here". The ends of unitigs are where it gets messy. At the ends, an assembler has choices to make about which unitig(s) to connect to next.</p>
+<p><strong>Now load a contig GFA</strong><br>
+Open the <code>test.bp.p_ctg.noseq.gfa</code> file to see how boring it is.</p>
+<p>In general, when using Bandage people look at the unitig GFAs (not contig GFAs). An assembly is a hypothesis, and the contigs output by the assembler are its best guess at the correct haplotype sequence. The contigs don't show much information about the decisions being made, however. They are the output. We view unitig GFAs so we can see the data structure at the point that the assembler was making tough decisions. </p>
+<p><strong>Here are some things you can do with Bandage</strong></p>
+<ol>
+<li>Let's say you mapped a sample's ONT reads back onto that sample's <em>de novo</em> assembly and have identified a misjoin. You can open up bandage and find that  unitigs that went into the contig to see if it can be easily manually broken.</li>
+<li>If you have a phased diploid assembly with a large sequence that is missing, you can look at the unitig gfa, color the nodes by haplotype, and see which sequences are omitted. Those sequences can then be analyzed and manually added into the final assembly.</li>
+<li>You can label nodes with (HiFi) coverage and inspect regions with low quality too see if they have low coverage as well. If so, you might want to throw them out. (This does happen, in particular for small contigs that assemblers tend to output.)</li>
+</ol>
+</div>
+<h2 id="run-verkko-with-test-data">Run Verkko With Test Data<a class="headerlink" href="#run-verkko-with-test-data" title="Permanent link">&para;</a></h2>
+<p><strong>Create a directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>~/lra
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>day2_assembly/verkko_test
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">cd</span><span class="w"> </span>day2_assembly/verkko_test
+</code></pre></div>
+</div>
+<p><strong>Now download Verkko's test data</strong><br></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>curl<span class="w"> </span>-L<span class="w"> </span>https://obj.umiacs.umd.edu/sergek/shared/ecoli_hifi_subset24x.fastq.gz<span class="w"> </span>-o<span class="w"> </span>hifi.fastq.gz
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>curl<span class="w"> </span>-L<span class="w"> </span>https://obj.umiacs.umd.edu/sergek/shared/ecoli_ont_subset50x.fastq.gz<span class="w"> </span>-o<span class="w"> </span>ont.fastq.gz
+</code></pre></div>
+</div>
+<p>You can see that this dataset is for <em>E. coli</em> and there is both HiFi and ONT data included.</p>
+<p><strong>Create Slurm script for test Verkko run</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<p>Start your favourite text editor
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>nano<span class="w"> </span>verkko_test.sl
+</code></pre></div></p>
+<p>And then paste in the following</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="c1">#SBATCH --account       nesi02659</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1">#SBATCH --partition     milan</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1">#SBATCH --job-name      test_verkko</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="c1">#SBATCH --cpus-per-task 8</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1">#SBATCH --time          00:15:00</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="c1">#SBATCH --mem           24G</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1">#SBATCH --output        slurmlogs/%x.%j.log</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="c1">#SBATCH --error         slurmlogs/%x.%j.err</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="c1">## load modules</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>module<span class="w"> </span>purge
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>module<span class="w"> </span>load<span class="w"> </span>verkko/1.3.1-Miniconda3
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="c1">## run verkko</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>verkko<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">    </span>-d<span class="w"> </span>assembly<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="w">    </span>--hifi<span class="w"> </span>./hifi.fastq.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="w">    </span>--nano<span class="w"> </span>./ont.fastq.gz
+</code></pre></div>
+<p><strong>Run verkko test</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sbatch<span class="w"> </span>verkko_test.sl
+</code></pre></div></p>
+</div>
+<p>This should only take a few minutes to complete.</p>
+<p>You can keep track of the run with the <code>squeue</code> command.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>squeue<span class="w"> </span>--me
+</code></pre></div>
+</div>
+<p><strong>How does Verkko run?</strong></p>
+<p>It turns out that if you run Verkko more than once or twice you will have to know a bit about how it is constructed. Verkko is a program that reads in the parameters you gave it and figures out a few things about your verkko installation and then creates a configuration file (<code>verkko.yml</code>) and a shell script (<code>snakemake.sh</code>). The shell script is then automatically executed.</p>
+<p>Take a look at the shell script that was created for your run</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>cat<span class="w"> </span>assembly/snakemake.sh
+</code></pre></div>
+</div>
+<p>It is just a call to Snakemake!!! You can think of Verkko as a tool, but also as a pipeline because it is. This has some advantages. One is that if you know what Verkko is doing (which is somewhat achievable given that the Snakemake rules guide you through Verkko's logic), you can add to it, or even swap out how Verkko performs a given step for how you'd like to do it. It also means that you can restart a run at any given step (if you made a mistake or if the run failed). Lastly, and maybe most importantly, Snakemake supports Slurm as a backend. So if you have access to an HPC you could (and probably should) run Verkko and allow it to launch Slurm jobs for you. (This is in contrast to what we just did which was to run a Slurm job and just allow all jobs to run on the allocated resources that we requested for the entire run.)</p>
+<p><strong>Now take a look at the jobs that were run</strong></p>
+<p>You can view the stderr from the run in your Slurm logs, or in Snakemake's logs. Let's take a look at the top of the log:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>head<span class="w"> </span>-n<span class="w"> </span><span class="m">35</span><span class="w"> </span>assembly/.snakemake/log/*.log
+</code></pre></div>
+</div>
+<p>This shows a list of Snakemake jobs that will get executed for this dataset. There are a few things to note. The first is that for larger datasets some jobs will get executed many times (hence the count column). This dataset is small, so most jobs have <code>count=1</code>. The second thing to note is that these jobs are sorted alphabetically, so we can get a feel for scale, but it's a bit hard to figure out what Verkko is really doing.</p>
+<p>Open the logs and scroll through them</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>less<span class="w"> </span>assembly/.snakemake/log/*.log
+</code></pre></div>
+</div>
+<p>You can see all of the Snakemake jobs, in order, that were run. Even for this tiny dataset there are many. Since there are a lot of jobs, there are a lot of outputs, and these are organized (roughly) by Snakemake rule. Take a look at the output folder in order to familiarize yourself with the layout.</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>ls<span class="w"> </span>-lh<span class="w"> </span>assembly
+</code></pre></div>
+</div>
+<p><strong>Take a look at the initial HiFi graph</strong></p>
+<p>Open the <code>assembly/1-buildGraph/hifi-resolved.gfa</code> file in Bandage. You will see that it is already pretty good. There are only three nodes.</p>
+<p><strong>Now take a look at the ONT resolved graph</strong></p>
+<p>Open the <code>assembly/5-untip/unitig-normal-connected-tip.gfa</code> file in Bandage. Now our three nodes have been resolved into one. </p>
+<div class="admonition question">
+<p class="admonition-title">Do we need to phase?</p>
+<p>We just worked through test data that was HiFi only (Hifiasm) then HiFi + ONT UL (Verkko) so you'd be forgiven for thinking that for these assemblers you don't need phasing data. In truth, if the HiFi and ONT data could produce contigs that are chromosome-level in scale, then trios/Hi-C wouldn't be needed, but assemblers aren't there yet. </p>
+<p>Let's look at some example data from Hifiasm which was produced with only HiFi for the Eastern Narrow Mouth Toad (<em>Gastrophryne carolinensis</em>). Below is a Merqury kmer count plot for the primary haplotype from this assembly:</p>
+<p><strong>Hifiasm (primary) assembly without Purge Dups</strong></p>
+<p><p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/merqury_kmer_primary_only.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/merqury_kmer_primary_only.png?raw=true" width="300"/></a>
+</p>
+This is the primary assembly of a diploid, so we'd like to see the red section have two peaks -- one for heterozygous positions and one for homozygous positions. This is because the primary would ideally represent all of the homozygous regions as well as one set of alleles for heterozygous regions. We'd also like to see almost no blue section (since the blue section represents regions that are represented twice in the assembly), as these mean that a region is being represented twice. Unfortunately there are a lot of kmers seen twice in the assembly. When purge dups (a tool that looks for false duplications based on coverage information) is run, it gets better:</p>
+<p><strong>Hifiasm assembly with Purge Dups</strong></p>
+<p><p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/merqury_kmer_primary_only_purged.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/merqury_kmer_primary_only_purged.png?raw=true" width="300"/></a>
+</p>
+But you can see that even after purging duplications, there is a large blue area. Now look what happens when Hi-C phasing is used:</p>
+<p><strong>Hifiasm assembly (one haplotype) with HiC phasing</strong>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/merqury_kmer_hap1.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/merqury_kmer_hap1.png?raw=true" width="300"/></a>
+</p>  </p>
+<p>The blue section reduces in size drastically! So what is happening here?</p>
+<p>Without phasing data such as trio or Hi-C, Hifiasm will create an assembly graph as you'd expect. Then it will try and figure out what path to walk in order to create a primary and an alternate assembly. It does this by just picking one side of the bubbles it encounters when walking the graph and assigning those to the primary assembly. The other sides gets put in the alternate assembly. In very heterozygous genomes, or very heterozygous regions of a genome, the primary assembly can still retain haplotigs from the alternate allele because the regions may look very different (and therefore don't create a nice bubble in the graph), even though they are still just representing alternate alleles at the same locus. This can result in the same genomic region incorrectly being represented twice in the primary assembly, which we call a false duplication.</p>
+<p>Verkko for its part, is more conservative. Once Verkko gets to a bubble that it doesn't know how to phase it just stops and you get a break in your assembly.</p>
+</div>
+<h2 id="running-on-full-data-sets">Running on Full Data Sets<a class="headerlink" href="#running-on-full-data-sets" title="Permanent link">&para;</a></h2>
+<p>We won't be running the full datasets during the workshop, but you are encouraged to do so yourself. To help facilitate that we've downloaded the full datasets to NeSi for you.</p>
+<p><strong>Raw Data</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>/nesi/nobackup/nesi02659/LRA/resources/  
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>                                ├── deepconsensus/  # HiFi
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>                                ├── ont_ul/         
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>                                ├── ilmn/           # Maternal/Paternal/Child
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>                                └── hic/
+</code></pre></div>
+<p><strong>And we've run these assemblies for you</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>/nesi/nobackup/nesi02659/LRA/resources/assemblies/  
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>                                            ├── verkko/
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>                                                    ├── trio/ # full verkko folder available!
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>                                                    └── hic/
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>                                            └── hifiasm/
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>                                                    ├── trio/
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>                                                    └── hic/
+</code></pre></div></p>
+<p>We will be taking advantage of these pre-baked assemblies in the remainder of the workshop.</p>
+<details class="question">
+<summary>How would you run Verkko/Hifiasm on full datasets?</summary>
+<p><strong>Verkko with trio data</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>verkko -d asm \
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>  --hifi hifi/*.fastq.gz \
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>  --nano  ont/*.fastq.gz \
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>  --hap-kmers maternal_compress.k30.hapmer.meryl \
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>              paternal_compress.k30.hapmer.meryl \
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>              trio
+</code></pre></div>
+<p><strong>Verkko with Hi-C data</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>verkko -d asm \
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>  --hifi hifi/*.fastq.gz \
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>  --nano ont/*.fastq.gz \
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>  --hic1 hic/*R1*fastq.gz  \
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>  --hic2 hic/*R2*fastq.gz
+</code></pre></div>
+<p><strong>Hifiasm with trio data</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a> hifiasm \
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>    -o sample_name \
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>    -t32 \
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>    --ul ul.fq.gz \
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    -1 pat.yak \
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>    -2 mat.yak \
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>    HiFi-reads.fq.gz
+</code></pre></div>
+<p><strong>Hifiasm with Hi-C data</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>hifiasm \
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>    -o sample_name \
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    -t32 \
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    --h1 read1.fq.gz \
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>    --h2 read2.fq.gz \
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>    --ul ul.fq.gz \
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>    HiFi-reads.fq.gz
+</code></pre></div>
+</details>
+<h2 id="building-graph-sense">Building Graph Sense<a class="headerlink" href="#building-graph-sense" title="Permanent link">&para;</a></h2>
+<p>We&rsquo;re going to open Bandage and look around. This is a demonstration, so
+you do not need to try to do this on your own machine. The goal is to develop
+an intution for what the graph visualization is telling you.</p>
+<ul>
+<li>Overall feel for graphs and bandage<ul>
+<li>graphs: nodes, edges, and paths<ul>
+<li>simple examples: cycle &amp; hairpin</li>
+</ul>
+</li>
+<li>bandage UI</li>
+<li>loading CSVs and launching from CLI</li>
+</ul>
+</li>
+<li>How does a typical human assembly look?<ul>
+<li>~23 chunks</li>
+<li>zippers: het-hom-het-etc.</li>
+<li>non-zippers (rDNA tangles, sex chrs, breaks)</li>
+</ul>
+</li>
+<li>Complex examples<ul>
+<li>hom with short hets w/o markers</li>
+<li>long hom with long hets</li>
+<li>&ldquo;scaffold&rdquo; from graph structure</li>
+<li>complete fail</li>
+</ul>
+</li>
+</ul>
+<h2 id="comparison-of-computational-cost">Comparison of Computational Cost<a class="headerlink" href="#comparison-of-computational-cost" title="Permanent link">&para;</a></h2>
+<h3 id="hifiasm">Hifiasm<a class="headerlink" href="#hifiasm" title="Permanent link">&para;</a></h3>
+<p>Hifiasm is compiled into a single binary file, and, when executed, it manages all tasks and parallelism under one parent process. You can run it the same on a VM in the cloud or in an HPC. </p>
+<p>For a human sample with around 40X HiFi and 30X UL and either HiC or trio phasing Hifiasm can assemble with:</p>
+<ul>
+<li>64 cores</li>
+<li>240GB of memory (most samples will use less)</li>
+<li>Around 24 hours of total runtime</li>
+</ul>
+<p>So Hifiasm takes about 1500 CPU hours to assemble this sample. On a cluster you can just execute the run command. If you are on a cloud and would like to take advantage of pre-emptible instances, you can break the run command into three parts (each take around 8 hours).</p>
+<h3 id="verkko_1">Verkko<a class="headerlink" href="#verkko_1" title="Permanent link">&para;</a></h3>
+<p>Verkko is written as a shell wrapper around a Snakemake pipeline. This has the advantages of easily restarting after failures and increased potential for parallelism in an HPC environment with multiple nodes available, but it is hard to profile all the individual tasks. If the cluster is not too busy a human assembly can finish in around a day. Most of the compute is done in the overlap and graph aligner jobs. So we can break the runtimes into steps that revolve around the big jobs. That looks something like this:</p>
+<table>
+<thead>
+<tr>
+<th align="left"><sub><strong>Step</strong></sub></th>
+<th align="left"><sub><strong>CPUs</strong></sub></th>
+<th align="left"><sub><strong>Shards</strong></sub></th>
+<th align="left"><sub><strong>Time/Shard (est)</strong></sub></th>
+<th align="left"><sub><strong>Total CPU Hours</strong></sub></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><sub> pre overlap </sub></td>
+<td align="left"><sub> 24 </sub></td>
+<td align="left"><sub> 1 </sub></td>
+<td align="left"><sub> 3 </sub></td>
+<td align="left"><sub> 72 </sub></td>
+</tr>
+<tr>
+<td align="left"><sub> overlap </sub></td>
+<td align="left"><sub> 8 </sub></td>
+<td align="left"><sub> 600 </sub></td>
+<td align="left"><sub> 1 </sub></td>
+<td align="left"><sub> 4800 </sub></td>
+</tr>
+<tr>
+<td align="left"><sub> create graph </sub></td>
+<td align="left"><sub> 80 </sub></td>
+<td align="left"><sub> 1 </sub></td>
+<td align="left"><sub> 13 </sub></td>
+<td align="left"><sub> 1040 </sub></td>
+</tr>
+<tr>
+<td align="left"><sub> graph aligner </sub></td>
+<td align="left"><sub> 12 </sub></td>
+<td align="left"><sub> 100 </sub></td>
+<td align="left"><sub> 2 </sub></td>
+<td align="left"><sub> 2400 </sub></td>
+</tr>
+<tr>
+<td align="left"><sub> complete asm </sub></td>
+<td align="left"><sub> 64 </sub></td>
+<td align="left"><sub> 1 </sub></td>
+<td align="left"><sub> 12 </sub></td>
+<td align="left"><sub> 768 </sub></td>
+</tr>
+</tbody>
+</table>
+<p>This gives an estimate of around 9000 CPU hours for the same data as above. This is almost certainly an overestimate, but not by more than a factor of 2. </p>
+<p>Note that the runtime estimates for Hifiasm and Verkko don't consider the preparatory work of counting parental <em>k</em>-mers with yak or Meryl, which are necessary steps before running either in trio mode.</p>
+<h2 id="comparison-of-outputs">Comparison of Outputs<a class="headerlink" href="#comparison-of-outputs" title="Permanent link">&para;</a></h2>
+<p>Verkko and Hifiasm are both excellent assemblers. If you have a human sample with over 40X HiFi and over 15X ONT data over 100kb then the high level metrics that you will learn about tomorrow should be pretty comparable across the two assemblers. If you have a set of data that you spent a bunch of money on, and you are hoping to make a high-quality assembly, your best bet is to assemble with both and see which assembly is better. You could even stitch the good parts of each assembly together&mdash;though the people who have to do the actual work tend to flinch when they hear that.</p>
+<h3 id="verrkos-approach">Verrko's Approach<a class="headerlink" href="#verrkos-approach" title="Permanent link">&para;</a></h3>
+<p>As we saw previously, Verkko uses HiFi data to create a graph (in the case of Verkko it is a DeBruijn graph). ONT reads are aligned to the graph and the graph is then simplified. One thing that Verkko does is it outputs scaffolds&mdash;where Hifiasm only outputs contigs. With 40X+ HiFi, Verkko's scaffolding tends to add about 12 extra T2T chromosomes to a diploid human assembly. </p>
+<p>The way it is scaffolded comes from the graph (as shown below). One the left we see one haplotype and there is a tangle in the middle of the sequence. Verkko doesn't necessarily know how to walk through this tangle and it doesn't want to output incorrect sequence. So it just estimates the size of the nodes in the tangle and puts the corresponding number of N's into the final assembly. Similarly, on the right we have a gap in one haplotype. Verkko will infer the size of the missing sequence from the other haplotype and put that many N's into to top sequence.</p>
+<p align="center">
+    <a class="glightbox" href="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_grapholds.png?raw=true" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="https://github.com/human-pangenomics/hprc-tutorials/blob/GA-workshop/assembly/genomics_aotearoa/images/assembly/verkko_grapholds.png?raw=true" width="350"/></a>
+</p>
+
+<p>This has led some people (well at least one person) to call this approach grapholding. </p>
+<h3 id="hifiasms-approach">Hifiasm's Approach<a class="headerlink" href="#hifiasms-approach" title="Permanent link">&para;</a></h3>
+<p>Hifiasm creates string graphs from HiFi and ONT data separately (kind of) and then combines them. The argument here is that by creating a standalone ONT graph you don't risk losing information that may be missing in the HiFi-only graph. At the time moment (July 2023) Hifiasm does not include a scaffolding step. Though that will likely change in the coming months.</p>
+<h3 id="how-should-i-choose">How Should I Choose?<a class="headerlink" href="#how-should-i-choose" title="Permanent link">&para;</a></h3>
+<p><strong>It's not an easy choice, but here are some guidelines</strong></p>
+<ul>
+<li>If you can, use both</li>
+<li>If you have Hifi coverage under 40X: use Hifiasm<ul>
+<li>Verkko tends to perform less well at lower HiFi coverages</li>
+</ul>
+</li>
+<li>If you have to pay for compute time: use Hifiasm (see the previous section)<ul>
+<li>Verkko is more expensive to run. If you are on an HPC that may be ok. If you are paying Amazon for your compute then Verkko assemblies can cost upwards of $300 (USD).</li>
+</ul>
+</li>
+<li>If you want to assemble then fiddle with it to perfect the assembly: use both, then fix things with Verkko<ul>
+<li>Verkko allows you to see its inner workings. You can also make manual changes and then restart from that point in the assembly process. If you do things right, Verkko will take care of the rest. This was done, for instance, by the Verkko team on their version of the HG002 assembly: they manually resolved tangles in the graph.</li>
+</ul>
+</li>
+</ul>
+<h2 id="how-much-input-data-do-i-need">How Much Input Data Do I Need?<a class="headerlink" href="#how-much-input-data-do-i-need" title="Permanent link">&para;</a></h2>
+<p>Let's do some back of the envelope math to see how much is an ideal amount of data that would go into an assembly...</p>
+<p><strong>PacBio HiFi</strong></p>
+<p>Computing overlaps isn't so different from calling variants. For each haplotype we probably want around 10X coverage in order to calculate good overlaps. So that would give about 20X total. But HiFi coverage is variable, and there are some well know regions (such as GA repeats) that drop out of HiFi data. In order to get as many regions as possible above the threshold for assembly we increase the value to 40X.</p>
+<p><strong>ONT UL</strong></p>
+<p>The answer to this depends on who you ask. In the case of Verkko you are often just looking for one or a handful of reads to span a tricky region in the graph. The Verkko team has shown that coverages over 15X of 100kb+ reads don't add much in terms of contiguity. (Though for advanced applications such as using ONT to fill-in missing parts of the graph the math may be different.)</p>
+<p><strong>Trio and Hi-C</strong></p>
+<p>In general the better your graph, the easier it is to phase. If you have only a few big bubbles in the graph, it is a lot easier to find Illumina data that will map to them in a haplotype-specific way. This hasn't been tested rigorously, but people tend to talk about 30X for these datasets.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../day1b_familiarise_w_data/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 3. Familiarize Ourselves With The Data" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                3. Familiarize Ourselves With The Data
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../day3a_assembly_qc/" class="md-footer__link md-footer__link--next" aria-label="Next: 5. Assembly QC" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                5. Assembly QC
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Long-read Assembly workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+      
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

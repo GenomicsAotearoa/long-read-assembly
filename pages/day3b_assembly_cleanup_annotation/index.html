@@ -1,0 +1,1488 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Genomics Aotearoa">
+      
+      
+        <link rel="canonical" href="https://genomicsaotearoa.github.io/long-read-assembly/pages/day3b_assembly_cleanup_annotation/">
+      
+      
+        <link rel="prev" href="../day3a_assembly_qc/">
+      
+      
+        <link rel="next" href="../day3c_phased_assemblies_in_action/">
+      
+      <link rel="icon" href="../../theme_figures/nesi_ga.png">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.18">
+    
+    
+      
+        <title>6. Assembly Cleanup & Genome Annotation - Long-read Assembly</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.26e3688c.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Mukta";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#6-assembly-cleanup-genome-annotation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Long-read Assembly" class="md-header__button md-logo" aria-label="Long-read Assembly" data-md-component="logo">
+      
+  <img src="../../theme_figures/threelogo_fav.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Long-read Assembly
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6. Assembly Cleanup & Genome Annotation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+            
+              <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_3" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+            
+              <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+            
+            
+            
+            <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_3">
+            
+              <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_2" hidden>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+              </label>
+            
+          
+        </form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/GenomicsAotearoa/long-read-assembly" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/long-read-assembly
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Long-read Assembly" class="md-nav__button md-logo" aria-label="Long-read Assembly" data-md-component="logo">
+      
+  <img src="../../theme_figures/threelogo_fav.png" alt="logo">
+
+    </a>
+    Long-read Assembly
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/GenomicsAotearoa/long-read-assembly" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GenomicsAotearoa/long-read-assembly
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Pages
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Pages
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day0_intro/" class="md-nav__link">
+        1. Introduction - Long Read Assembly Workshop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day1a_read_inputs/" class="md-nav__link">
+        2. Sequence Data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day1b_familiarise_w_data/" class="md-nav__link">
+        3. Familiarize Ourselves With The Data
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day2a_assembly/" class="md-nav__link">
+        4. Assembly
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3a_assembly_qc/" class="md-nav__link">
+        5. Assembly QC
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          6. Assembly Cleanup & Genome Annotation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        6. Assembly Cleanup & Genome Annotation
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#assembly-cleanup" class="md-nav__link">
+    Assembly Cleanup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#genome-annotation" class="md-nav__link">
+    Genome Annotation
+  </a>
+  
+    <nav class="md-nav" aria-label="Genome Annotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#annotation-with-liftoff" class="md-nav__link">
+    Annotation with Liftoff
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#long-readcontig-mapping" class="md-nav__link">
+    Long Read/Contig Mapping
+  </a>
+  
+    <nav class="md-nav" aria-label="Long Read/Contig Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mashmap-super-fast-approximate-mapping" class="md-nav__link">
+    Mashmap: Super Fast (Approximate) Mapping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minimap2" class="md-nav__link">
+    Minimap2:
+  </a>
+  
+    <nav class="md-nav" aria-label="Minimap2:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualize-the-alignments-in-igv" class="md-nav__link">
+    Visualize The Alignments In IGV
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../day3c_phased_assemblies_in_action/" class="md-nav__link">
+        7. Phased Assemblies in Action
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Supplementary
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Supplementary
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_1/" class="md-nav__link">
+        NeSI HPC Auth.Factors Setup & Jupyter Login
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_2/" class="md-nav__link">
+        NeSI File system, Working directory and Symlinks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_3/" class="md-nav__link">
+        Jupyter Virtual Desktop
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supplementary/supplementary_4/" class="md-nav__link">
+        Additional materials
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#assembly-cleanup" class="md-nav__link">
+    Assembly Cleanup
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#genome-annotation" class="md-nav__link">
+    Genome Annotation
+  </a>
+  
+    <nav class="md-nav" aria-label="Genome Annotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#annotation-with-liftoff" class="md-nav__link">
+    Annotation with Liftoff
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#long-readcontig-mapping" class="md-nav__link">
+    Long Read/Contig Mapping
+  </a>
+  
+    <nav class="md-nav" aria-label="Long Read/Contig Mapping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mashmap-super-fast-approximate-mapping" class="md-nav__link">
+    Mashmap: Super Fast (Approximate) Mapping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#minimap2" class="md-nav__link">
+    Minimap2:
+  </a>
+  
+    <nav class="md-nav" aria-label="Minimap2:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#visualize-the-alignments-in-igv" class="md-nav__link">
+    Visualize The Alignments In IGV
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="6-assembly-cleanup-genome-annotation">6. Assembly Cleanup &amp; Genome Annotation<a class="headerlink" href="#6-assembly-cleanup-genome-annotation" title="Permanent link">&para;</a></h1>
+<h2 id="assembly-cleanup">Assembly Cleanup<a class="headerlink" href="#assembly-cleanup" title="Permanent link">&para;</a></h2>
+<p>Once you have a genome, and you think you want to hold onto it for a while and start doing actual analysis it is time to check it for contamination. In particular, before using and sharing your assembly it is best to make sure that you don't have:</p>
+<ul>
+<li>Contamination from other species</li>
+<li>Lots of contigs for Epstein Barr Virus (EBV) or mitochondrial sequence</li>
+<li>Adapters embedded in your contigs</li>
+</ul>
+<p>When you upload your assembly to Genbank, the sequence is automatically screen for contaminants and if anything is found you have to fix it and upload the fixed assembly. It's much better to take a look on your end. Luckily NCBI has released a toolkit that can be run locally. There are tools to look find/fix adapter sequences in your assembly (fcs-adapter) and for finding/fixing foreign genomic contamination (fcs-gx). We will be running fcs-gx, so let's look at the steps that fcs-gx runs.</p>
+<ul>
+<li>Repeat and low-complexity sequence masking</li>
+<li>Alignment to reference database using GX aligner</li>
+<li>Alignment refinement with high-scoring taxa matches</li>
+<li>Classifying sequences to assign taxonomic divisions</li>
+<li>Generating contaminant cleaning actions</li>
+</ul>
+<p>With that understanding, we are ready to test it out for ourselves...</p>
+<p><strong>Make a directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">cd</span><span class="w"> </span>~/lra
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>day3b_cleanup/fcs/
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nb">cd</span><span class="w"> </span>day3b_cleanup/fcs/
+</code></pre></div>
+</div>
+<p><strong>Download the Foreign Contamination Screen (FCS) tool from NCBI</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>curl<span class="w"> </span>-LO<span class="w"> </span>https://github.com/ncbi/fcs/raw/main/dist/fcs.py
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>curl<span class="w"> </span>-LO<span class="w"> </span>https://github.com/ncbi/fcs/raw/main/examples/fcsgx_test.fa.gz
+</code></pre></div>
+</div>
+<p>This tool is a python script that calls a Docker/Singularity container. This was done because contamination screens notoriously require a ton of dependencies. So having a Docker container makes things easier on the user. The docker container requires that a database of contaminants are downloaded. We have already downloaded the test database here: <code>/nesi/nobackup/nesi02659/LRA/resources/fcs/test-only</code>. The container has already been downloaded as well, we just need to load the singularity module and let FCS know where the container is:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>module<span class="w"> </span>purge<span class="w"> </span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>module<span class="w"> </span>load<span class="w"> </span>Python/3.8.2-gimkl-2020a
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>module<span class="w"> </span>load<span class="w"> </span>Singularity/3.11.3
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FCS_DEFAULT_IMAGE</span><span class="o">=</span>/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
+</code></pre></div>
+</div>
+<p><strong>Now we can run the test data</strong></p>
+<p>Note that the test data is not human (this matters for the <code>--tax-id</code> parameter).</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>python3<span class="w"> </span>./fcs.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span>screen<span class="w"> </span>genome<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span>--fasta<span class="w"> </span>./fcsgx_test.fa.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span>--out-dir<span class="w"> </span>./gx_out<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span>--gx-db<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/fcs/test-only<span class="w">  </span><span class="se">\</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span>--tax-id<span class="w"> </span><span class="m">6973</span><span class="w"> </span>
+</code></pre></div>
+</div>
+<details class="success">
+<summary>Here is what is printed to the screen</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>tax-id<span class="w">    </span>:<span class="w"> </span><span class="m">6973</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>fasta<span class="w">     </span>:<span class="w"> </span>/sample-volume/fcsgx_test.fa.gz
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>size<span class="w">      </span>:<span class="w"> </span><span class="m">8</span>.55<span class="w"> </span>MiB
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>split-fa<span class="w">  </span>:<span class="w"> </span>True
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>BLAST-div<span class="w"> </span>:<span class="w"> </span>roaches
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>gx-div<span class="w">    </span>:<span class="w"> </span>anml:insects
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>w/same-tax:<span class="w"> </span>True
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>bin-dir<span class="w">   </span>:<span class="w"> </span>/app/bin
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>gx-db<span class="w">     </span>:<span class="w"> </span>/app/db/gxdb/test-only/test-only.gxi
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>gx-ver<span class="w">    </span>:<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">2023</span><span class="w"> </span><span class="m">15</span>:34:33<span class="p">;</span><span class="w"> </span>git:v0.4.0-3-g8096f62
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>output<span class="w">    </span>:<span class="w"> </span>/output-volume//fcsgx_test.fa.6973.taxonomy.rpt
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>--------------------------------------------------------------------
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span>GX<span class="w"> </span>requires<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>entirely<span class="w"> </span><span class="k">in</span><span class="w"> </span>RAM<span class="w"> </span>to<span class="w"> </span>avoid<span class="w"> </span>thrashing.
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span>Consider<span class="w"> </span>placing<span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>files<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>non-swappable<span class="w"> </span>tmpfs<span class="w"> </span>or<span class="w"> </span>ramfs.
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span>See<span class="w"> </span>https://github.com/ncbi/fcs/wiki/FCS-GX<span class="w"> </span><span class="k">for</span><span class="w"> </span>details.
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span>Will<span class="w"> </span>prefetch<span class="w"> </span><span class="o">(</span>vmtouch<span class="o">)</span><span class="w"> </span>the<span class="w"> </span>database<span class="w"> </span>pages<span class="w"> </span>to<span class="w"> </span>have<span class="w"> </span>the<span class="w"> </span>OS<span class="w"> </span>cache<span class="w"> </span>them<span class="w"> </span><span class="k">in</span><span class="w"> </span>main<span class="w"> </span>memory.
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>Prefetching<span class="w"> </span>/app/db/gxdb/test-only/test-only.gxs<span class="w"> </span><span class="m">99</span>%...<span class="w">                                </span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>Prefetched<span class="w"> </span>/app/db/gxdb/test-only/test-only.gxs<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.243985s<span class="p">;</span><span class="w"> </span><span class="m">0</span>.290255<span class="w"> </span>GB/s.<span class="w"> </span>The<span class="w"> </span>file<span class="w"> </span>is<span class="w"> </span><span class="m">100</span>%<span class="w"> </span><span class="k">in</span><span class="w"> </span>RAM.
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>Prefetching<span class="w"> </span>/app/db/gxdb/test-only/test-only.gxi<span class="w"> </span><span class="m">99</span>%...<span class="w">                         </span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>Prefetched<span class="w"> </span>/app/db/gxdb/test-only/test-only.gxi<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">7</span>.24798s<span class="p">;</span><span class="w"> </span><span class="m">0</span>.62397<span class="w"> </span>GB/s.<span class="w"> </span>The<span class="w"> </span>file<span class="w"> </span>is<span class="w"> </span><span class="m">100</span>%<span class="w"> </span><span class="k">in</span><span class="w"> </span>RAM.
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>Collecting<span class="w"> </span>masking<span class="w"> </span>statistics...
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>Collected<span class="w"> </span>masking<span class="w"> </span>stats:<span class="w">  </span><span class="m">0</span>.0295689<span class="w"> </span>Gbp<span class="p">;</span><span class="w"> </span><span class="m">3</span>.21688s<span class="p">;</span><span class="w"> </span><span class="m">9</span>.19177<span class="w"> </span>Mbp/s.<span class="w"> </span>Baseline:<span class="w"> </span><span class="m">1</span>.0774
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="m">28</span>.2MiB<span class="w"> </span><span class="m">0</span>:00:20<span class="w"> </span><span class="o">[</span><span class="m">1</span>.34MiB/s<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">1</span>.34MiB/s<span class="o">]</span><span class="w"> </span><span class="o">[==========================================================================]</span><span class="w"> </span><span class="m">102</span>%<span class="w">            </span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>Processed<span class="w"> </span><span class="m">714</span><span class="w"> </span>queries,<span class="w"> </span><span class="m">29</span>.1754Mbp<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">14</span>.3783s.<span class="w"> </span><span class="o">(</span><span class="m">2</span>.02913Mbp/s<span class="o">)</span><span class="p">;</span><span class="w"> </span>num-jobs:294
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>Warning:<span class="w"> </span>asserted<span class="w"> </span>div<span class="w"> </span><span class="s1">&#39;anml:insects&#39;</span><span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>represented<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>output!
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>--------------------------------------------------------------------------------------------------
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>Warning:<span class="w"> </span>Asserted<span class="w"> </span>tax-div<span class="w"> </span><span class="s1">&#39;anml:insects&#39;</span><span class="w"> </span>is<span class="w"> </span>well-represented<span class="w"> </span><span class="k">in</span><span class="w"> </span>db,<span class="w"> </span>but<span class="w"> </span>absent<span class="w"> </span>from<span class="w"> </span>inferred-primary-divs.
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>This<span class="w"> </span>means<span class="w"> </span>that<span class="w"> </span>either<span class="w"> </span>asserted<span class="w"> </span>tax-div<span class="w"> </span>is<span class="w"> </span>incorrect,<span class="w"> </span>or<span class="w"> </span>the<span class="w"> </span>input<span class="w"> </span>is<span class="w"> </span>predominantly<span class="w"> </span>contamination.
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>Will<span class="w"> </span>trust<span class="w"> </span>the<span class="w"> </span>asserted<span class="w"> </span>div<span class="w"> </span>and<span class="w"> </span>treat<span class="w"> </span>inferred-primary-divs<span class="w"> </span>as<span class="w"> </span>contaminants.
+<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>--------------------------------------------------------------------------------------------------
+<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>
+<a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>Asserted<span class="w"> </span>div<span class="w">               </span>:<span class="w"> </span>anml:insects
+<a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>Inferred<span class="w"> </span>primary-divs<span class="w">      </span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;prok:CFB group bacteria&#39;</span><span class="o">]</span>
+<a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>Corrected<span class="w"> </span>primary-divs<span class="w">     </span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;anml:insects&#39;</span><span class="o">]</span>
+<a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a>Putative<span class="w"> </span>contaminant<span class="w"> </span>divs<span class="w">  </span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;prok:CFB group bacteria&#39;</span><span class="o">]</span>
+<a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>Aggregate<span class="w"> </span>coverage<span class="w">         </span>:<span class="w"> </span><span class="m">51</span>%
+<a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>Minimum<span class="w"> </span>contam.<span class="w"> </span>coverage<span class="w">   </span>:<span class="w"> </span><span class="m">30</span>%
+<a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>
+<a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>--------------------------------------------------------------------
+<a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a>
+<a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>fcs_gx_report.txt<span class="w"> </span>contamination<span class="w"> </span>summary:
+<a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a>----------------------------------------
+<a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a><span class="w">                                </span>seqs<span class="w">      </span>bases
+<a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="w">                               </span>-----<span class="w"> </span>----------
+<a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>TOTAL<span class="w">                            </span><span class="m">243</span><span class="w">   </span><span class="m">27170378</span>
+<a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a>-----<span class="w">                          </span>-----<span class="w"> </span>----------
+<a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a>prok:CFB<span class="w"> </span>group<span class="w"> </span>bacteria<span class="w">          </span><span class="m">243</span><span class="w">   </span><span class="m">27170378</span>
+<a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>
+<a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a>--------------------------------------------------------------------
+<a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>
+<a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a>fcs_gx_report.txt<span class="w"> </span>action<span class="w"> </span>summary:
+<a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a>---------------------------------
+<a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a><span class="w">                                </span>seqs<span class="w">      </span>bases
+<a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="w">                               </span>-----<span class="w"> </span>----------
+<a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a>TOTAL<span class="w">                            </span><span class="m">243</span><span class="w">   </span><span class="m">27170378</span>
+<a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a>-----<span class="w">                          </span>-----<span class="w"> </span>----------
+<a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a>EXCLUDE<span class="w">                          </span><span class="m">214</span><span class="w">   </span><span class="m">25795430</span>
+<a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a>REVIEW<span class="w">                            </span><span class="m">29</span><span class="w">    </span><span class="m">1374948</span>
+<a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a>
+<a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a>--------------------------------------------------------------------
+</code></pre></div>
+</details>
+<p>There is a file created called something like <code>*fcs_gx_report.txt</code>. Open it in your terminal, or if it's easier you can view it on the <a href="https://raw.githubusercontent.com/ncbi/fcs/main/examples/fcsgx_test.6973.fcs_gx_report.txt">FCS GitHub</a>.</p>
+<details class="success">
+<summary>Here's how you would run your actual data</summary>
+<p>We will copy over our prebaked Hifiasm trio assembly (maternal haplotype) and create a slurm script...
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>cp<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/trio/HG002.mat.fa.gz<span class="w"> </span>.
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>nano<span class="w"> </span>fcs_full.sl
+</code></pre></div>
+And paste in the following</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">#SBATCH --account       nesi02659</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1">#SBATCH --job-name      test_fcs</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1">#SBATCH --cpus-per-task 24</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1">#SBATCH --time          03:00:00</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1">#SBATCH --mem           460G</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1">#SBATCH --output        slurmlogs/test.slurmoutput.%x.%j.log</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="c1">#SBATCH --error         slurmlogs/test.slurmoutput.%x.%j.err</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="c1">## load modules</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>module<span class="w"> </span>purge
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>module<span class="w"> </span>load<span class="w"> </span>Python/3.7.3-gimkl-2018b
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>module<span class="w"> </span>load<span class="w"> </span>Singularity/3.11.3
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="nb">export</span><span class="w"> </span><span class="nv">FCS_DEFAULT_IMAGE</span><span class="o">=</span>/opt/nesi/containers/fcs/fcs-gx-0.4.0.sif
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>python3<span class="w"> </span>./fcs.py<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>screen<span class="w"> </span>genome<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>--fasta<span class="w"> </span>./HG002.mat.fa.gz<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>--out-dir<span class="w"> </span>./asm_fcs_output<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>--gx-db<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/fcs/gxdb<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>--tax-id<span class="w"> </span><span class="m">9606</span><span class="w"> </span>
+</code></pre></div>
+Then you would just run the slurm script. Don't do this now. The results are boring for this assembly and the run takes 500GB of memory! (This is required to load the contamination database into memory -- if you don't give fcs enough memory it will take much much longer.)</p>
+<p>We've run this for you, and you can find the results here:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/nesi/nobackup/nesi02659/LRA/resources/assemblies/hifiasm/full/trio/asm_fcs_output/
+</code></pre></div></p>
+</details>
+<h2 id="genome-annotation">Genome Annotation<a class="headerlink" href="#genome-annotation" title="Permanent link">&para;</a></h2>
+<p>A genome assembly&mdash;even a very good one&mdash;is of limited utility
+without annotation to provide context about the raw bases. Broadly speaking, an
+annotation is any information about some region of the genome, e.g., the GC% in
+a given window or whether and in which way a particular region is repetitive.
+Accordingly, annotation techniques, computational resources, input requirements,
+and output formats can vary widely.  However, the term "annotation" typically
+refers to the more specific case of locating the protein-coding genes, ideally
+specifying features such as exon-intron boundaries, untranslated regions (UTRs),
+splice variants, etc. Accordingly, we will focus on this type of annotation
+here.</p>
+<p>When annotating genes, many methods and tools are available, depending on your
+objective. When planning a project, you might ask yourself: Do I want
+<abbr title="Structural annotation describes the structure of the gene or
+transcript, e.g., exon-intron boundaries, UTRs, etc.">structural
+annotation</abbr>, <abbr title="Functional annotation describes the known or
+anticipated function, e.g., protein-coding, gene \<X> or part of \<X> gene family,
+similar to \<Y> organism's \<Z> gene, etc.">functional annotation</abbr>, or both?
+Do I want to locate genes using <em>de novo</em> prediction models, transcript- or
+RNA-seq-based evidence, or both? Do I have a reliable source of annotations from
+the assembly of a related genome? Do I have a collaborator willing and able to
+perform the annotation for me?</p>
+<p>A full discussion or tutorial covering the various scenarios is beyond the scope
+of this workshop, but pipelines like
+<a href="https://yandell-lab.org/software/maker.html">MAKER</a> (Holt and Yandell, 2011;
+doi: <a href="https://doi.org/10.1186/1471-2105-12-491">10.1186/1471-2105-12-491</a>) can
+be configured to do many of these things, though installing all necessary
+dependencies can be challenging in some circumstances. Many tools also assume
+short reads (e.g., when using RNA-seq evidence), and incorporating information
+from long-read sources may require adjustments.</p>
+<p>Here we will get a taste for annotation with one popular tool: Liftoff, which
+makes use of another genome assembly with annotations you wish to "copy" onto
+your assembly.</p>
+<details class="clipboard-question">
+<summary>What is the easiest way to annotate my genome of interest ?</summary>
+<p>The easiest way to get a genome annotated is to have someone else do it. If
+sharing data with NCBI is possible and your assembly is the best option to
+represent your species of interest, they may be willing to annotate your
+genome for you using
+<a href="https://www.ncbi.nlm.nih.gov/genome/annotation_euk/process/">their pipeline</a>.
+Otherwise, finding a collaborator with expertise is a good option.</p>
+</details>
+<details class="clipboard-question">
+<summary>What are the most common formats for sharing annotation data ?</summary>
+<p>The most common formats are
+<a href="https://genome.ucsc.edu/FAQ/FAQformat.html#format1">BED (Browser Extensible Data)</a>,
+<a href="https://gmod.org/wiki/GFF3">GFF (Generic Feature Format; v3)</a>,
+<a href="https://gmod.org/wiki/GFF2">GTF (General Transfer Format; a.k.a., deprecated GFF v2)</a>,
+and custom TSV (tab-separated value).
+<a href="http://genome.cse.ucsc.edu/goldenPath/help/wiggle.html">Wiggle</a>
+format and its variants are also common for displaying information in a genome
+browser.</p>
+</details>
+<details class="clipboard-question">
+<summary>Which tool(s) should I use for my project ?</summary>
+<p>Annotation is a complex problem, and no single tool exists that can be
+universally recommended. A high-quality annotation plan often requires the
+use of may tools and/or complex pipelines, and the installation of many of
+these tools can be complicated, even for expert command-line users.
+Generally speaking, following the best-practice of those in your field or
+who work on the same taxa is a reasonable option. In some cases, tools
+specific to some set of organisms have been developed (e.g., <a
+href="https://funannotate.readthedocs.io/">Funannotate</a> for fungi).
+Recently, the <a href="https://github.com/Gaius-Augustus/BRAKER">BRAKER</a>
+team released version 3 of their pipeline for gene structure prediction
+(wrapping GeneMark-ES/ET &amp; AUGUSTUS). If you have a trustworthy source of
+annotations from another assembly, you can consider <a
+href="https://github.com/agshumate/Liftoff">Liftoff</a> and <a
+href="https://github.com/ComparativeGenomicsToolkit/Comparative-Annotation-Toolkit">CAT</a>.
+<a
+href="https://www.ebi.ac.uk/interpro/about/interproscan/">InterProScan</a>
+can give you functional annotations relatively quickly. If you are able to
+share your data with NCBI and your assembly is the best assembly (or if the
+community agrees it is otherwise preferred), the NCBI annotation team will
+annotate it for you using their automated pipeline. <a
+href="https://gff3toolkit.readthedocs.io/">GFF3 Toolkit</a> can be useful
+when working with GFF3 files, and <a
+href="https://gfacs.readthedocs.io">gFACs</a> can help with filtering,
+analysis, and conversion tasks.</p>
+</details>
+<details class="clipboard-question">
+<summary>How can I learn more about annotation ?</summary>
+<p>Please consider the following sources:</p>
+<ul>
+<li>
+<p>Review of eukaryotic genome annotation written for beginners
+(Yandell and Ence, 2012; doi:
+<a href="https://doi.org/10.1038/nrg3174">10.1038/nrg3174</a>)</p>
+</li>
+<li>
+<p>Review of assembly and annotation written for conservation
+geneticists and assuming limited understanding of bioinformatics and
+high-throughput sequencing (Ekblom and Wolf, 2014; doi:
+<a href="https://doi.org/10.1111/eva.12178">10.1111/eva.12178</a>)</p>
+</li>
+<li>
+<p>Review of structural and functional annotation, providing
+definitions and the limitations of annotation (Mudge and Harrow,
+2016; doi: <a href="https://doi.org/10.1038/nrg.2016.119">10.1038/nrg.2016.119</a>)</p>
+</li>
+<li>
+<p>Protocol (from <a href="https://www.protocols.io">protocols.io</a>)
+for <em>de novo</em> annotation using the <a
+href="https://yandell-lab.org/software/maker.html">MAKER</a>
+pipeline. This is annotation "in the wild" describing actual steps
+taken if not the justification for them, but it is based on this <a
+href="https://weatherby.genetics.utah.edu/MAKER/wiki/index.php/MAKER_Tutorial_for_WGS_Assembly_and_Annotation_Winter_School_2018">2018
+tutorial</a> by the developers of MAKER. <a
+href="https://doi.org/10.17504/protocols.io.b3xvqpn6">The
+protocol</a> was used to annotate a non-model fish genome (Pickett
+and Talma <em>et al.</em>, 2022; doi: <a
+href="https://doi.org/10.46471/gigabyte.44">10.46471/gigabyte.44</a>).</p>
+</li>
+</ul>
+</details>
+<h3 id="annotation-with-liftoff">Annotation with Liftoff<a class="headerlink" href="#annotation-with-liftoff" title="Permanent link">&para;</a></h3>
+<div class="admonition quote">
+<p class="admonition-title">According to the <a href="https://github.com/agshumate/Liftoff">Liftoff GitHub Repository</a>:</p>
+<p>Liftoff is a tool that accurately maps annotations in GFF or GTF between
+assemblies of the same, or closely-related species. Unlike current coordinate
+lift-over tools which require a pre-generated "chain" file as input, Liftoff
+is a standalone tool that takes two genome assemblies and a reference
+annotation as input and outputs an annotation of the target genome. Liftoff
+uses Minimap2 (Li, 2018; doi:
+<a href="https://doi.org/10.1093/bioinformatics/bty191">10.1093/bioinformatics/bty191</a>)
+to align the gene sequences from a reference genome to the target genome.
+Rather than aligning whole genomes, aligning only the gene sequences allows
+genes to be lifted over even if there are many structural differences between
+the two genomes. For each gene, Liftoff finds the alignments of the exons
+that maximize sequence identity while preserving the transcript and gene
+structure. If two genes incorrectly map to overlapping loci, Liftoff
+determines which gene is most-likely mis-mapped, and attempts to re-map it.
+Liftoff can also find additional gene copies present in the target assembly
+that are not annotated in the reference.</p>
+</div>
+<p>We will use Liftoff (doi:
+<a href="https://doi.org/10.1093/bioinformatics/btaa1016">10.1093/bioinformatics/btaa1016</a>)
+to lift over the annotations from the T2T-CHM13 reference assembly to our assembly
+of HG002.</p>
+<p><strong>Create directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nb">cd</span><span class="w"> </span>~/lra
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>mkdir<span class="w"> </span>liftoff-annotation
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nb">cd</span><span class="w"> </span>liftoff-annotation
+</code></pre></div>
+</div>
+<p><strong>Gather the necessary files</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/chm13/CHM13-T2T.renamed.gff.gz<span class="w"> </span>chm13-annotations.gff.gz
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/chm13/CHM13-T2T.renamed.gff.liftoff.sqlite3<span class="w"> </span>chm13-annotations.gff.liftoff.sqlite3
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa<span class="w"> </span>chm13.fa
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa.fai<span class="w"> </span>chm13.fa.fai
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta<span class="w"> </span>asm.hap1.fa
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta.fai<span class="w"> </span>asm.hap1.fa.fai
+</code></pre></div>
+</div>
+<details class="info">
+<summary>What's with the <code>*.sqlite3</code> file?</summary>
+<p>Liftoff stores features from the GFF file in a SQLite database. The first
+part of any liftoff run processes the GFF file and creates the database,
+which by default is written to the same file location and name with a
+<code>.gz</code> appended to the end. If you experience an error at any
+point (e.g., failing to allocate enough memory to your job), liftoff will
+automatically re-create the database, even if that part of the process
+completed successfully previously. This SQLite database is from a previous
+run we did, and we&rsquo;ll use it in place of the GFF file to shave some
+time (~10 mins for a full human genome) during our run. If you run
+<code>liftoff -h</code>, you&rsquo;ll see that <code>-g</code> (to provide
+the input GFF file) and <code>-db</code> (to provide the input SQLite
+database) are interchangeable. We&rsquo;ll be using the database to save
+time, but we could instead use the other option and supply the GFF file.
+If you haven&rsquo;t yet viewed a GFF file, now would be a good time to
+check one out:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>less<span class="w"> </span>-S<span class="w"> </span>chm13-annotations.gff.gz
+</code></pre></div>
+</details>
+<p><strong>Run Liftoff</strong></p>
+<p>First create a shell script <code>liftoff.sh</code> with the following content:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>module<span class="w"> </span>purge
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>module<span class="w"> </span>load<span class="w"> </span>Liftoff/1.6.3.2-gimkl-2022a-Python-3.11.3
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>liftoff<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span>-p<span class="w"> </span><span class="m">8</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span>-db<span class="w"> </span>chm13-annotations.gff.liftoff.sqlite3<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span>-o<span class="w"> </span>asm.hap1.annotations.gff<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span>asm.hap1.fa<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span>chm13.fa
+</code></pre></div>
+</div>
+<details class="info">
+<summary>What do each of these options do?</summary>
+<p><code>-p</code> specifies the number of threads to use. </p>
+<p><code>-db</code> specifies the location of the SQLite database of features extracted by Liftoff from the GFF file with the input annotations for the reference. </p>
+<p><code>-o</code> specifies the location of the GFF file with the output annotations for the target.</p>
+<p>The two positional parameters at the end are respectively the target assembly (our HG002 assembly) and the reference assembly (T2T-CHM13). Run the following command to see all the options described in more detail:</p>
+<p><code>liftoff -h</code></p>
+</details>
+<!-- OTHER POSSIBLE OPTIONS
+    -g chm13-annotations.gff
+    -u unmapped_features.txt
+    -m /path/to/minimap2-installation/bin/minimap2
+    -infer_genes -OR- -infer_transcripts # depending on what the chm13-annotations.gff looks like
+    -chroms chromosomes.csv
+    -unplaced unplaced_seq_names.txt
+    -copies # possibly with -sc 2 # diploid vs haploid assembly liftover
+-->
+
+<!--
+    Expect this to take just over 1 hour w/ 8 cpus. MaxRSS was reported as
+    ~36 GB, but it failed when I gave it only 36 GB previously.
+-->
+
+<p>This will probably take ~1 hour with 8 CPUs and 48 GB of memory. You could
+submit it as a job; however, we will pull pre-baked results for the next step.</p>
+<details class="info">
+<summary>How to submit Liftoff with <code>sbatch</code></summary>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>sbatch<span class="w"> </span>-J<span class="w"> </span>liftoff<span class="w"> </span>-N1<span class="w"> </span>-n1<span class="w"> </span>-c8<span class="w"> </span>--mem<span class="o">=</span>48G<span class="w"> </span>-t<span class="w"> </span><span class="m">0</span>-02:00<span class="w"> </span>-A<span class="w"> </span>nesi02659<span class="w"> </span>-o<span class="w"> </span>%x.%j.log<span class="w"> </span>liftoff.sh
+</code></pre></div>
+</div>
+</details>
+<p>To skip the run-time, let&rsquo;s grab the pre-baked results:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/liftoff/asm.hap1.annotations.gff
+</code></pre></div>
+</div>
+<p><strong>Look at the output GFF3 file</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>less<span class="w"> </span>-S<span class="w"> </span>asm.hap1.annotations.gff
+</code></pre></div>
+</div>
+<p>You could also explore the files in Liftoff's intermediate directory
+(<code>/nesi/nobackup/nesi02659/LRA/resources/liftoff/intermediate_files</code>) or the
+unmapped features
+(<code>/nesi/nobackup/nesi02659/LRA/resources/liftoff/unmapped_features.txt</code>).</p>
+<p><strong>Visualize the annotations in a genome browser</strong></p>
+<p>Before we visualize the annotations in IGV, it is best if we sort and index the
+output GFF file:</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>module<span class="w"> </span>load<span class="w"> </span>IGV/2.16.1
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>igvtools<span class="w"> </span>sort<span class="w"> </span>asm.hap1.annotations.gff<span class="w"> </span>asm.hap1.annotations.sorted.gff
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>igvtools<span class="w"> </span>index<span class="w"> </span>asm.hap1.annotations.sorted.gff
+</code></pre></div>
+</div>
+<p>These operations are small enough that you should not need to submit a job for
+them.</p>
+<div class="admonition jupyter">
+<p class="admonition-title">To open IGV and view the annotations, do the following:</p>
+<ol>
+<li>Open IGV<ol>
+<li>Open a Virtual Desktop according to <a href="../../supplementary/supplementary_3/">these instructions</a></li>
+<li>Open the Terminal Emulator application</li>
+<li>Load the IGV module and launch IGV
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>module<span class="w"> </span>load<span class="w"> </span>IGV/2.16.1
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>igv.sh
+</code></pre></div>
+   <a class="glightbox" href="../../theme_figures/igv_launch.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="image" src="../../theme_figures/igv_launch.png" /></a></li>
+</ol>
+</li>
+<li>Load the HG002 hap1 genome (instead of the default hg19): Genome &gt; Load Genome from File... &gt; <code>asm.hap1.fa</code></li>
+<li>Load the GFF file: File &gt; Load from File... &gt; <code>asm.hap1.annotations.sorted.gff</code></li>
+<li>Explore</li>
+</ol>
+</div>
+<div class="admonition question">
+<p class="admonition-title">What do you observe? Do you have any questions?</p>
+</div>
+<!-- END OF ANNOTATION SECTION -->
+
+<h2 id="long-readcontig-mapping">Long Read/Contig Mapping<a class="headerlink" href="#long-readcontig-mapping" title="Permanent link">&para;</a></h2>
+<p>We are ready to map long reads and assembly contigs to genomes. For this we need a set of tools that are different from what you might be used to using for Illumina data. You might be asking "what's the matter with bwa-mem for long reads?" It is <a href="https://lh3.github.io/2018/04/02/minimap2-and-the-future-of-bwa#:~:text=For%20long%20reads%2C%20minimap2%20is,a%20typical%20long%2Dread%20mapper.">slow</a> and probably inaccurate for this application. So let's jump in to long read mappers and see what we can do with them.</p>
+<h3 id="mashmap-super-fast-approximate-mapping">Mashmap: Super Fast (Approximate) Mapping<a class="headerlink" href="#mashmap-super-fast-approximate-mapping" title="Permanent link">&para;</a></h3>
+<p>The first thing we would like to do is to find out how our assembled genome compares to the T2T genome CHM13. </p>
+<div class="admonition rectangle-list">
+<p class="admonition-title">If we can map our assembly quickly onto CHM13, we can answer questions like:</p>
+<ul>
+<li>Which contigs correspond to chr1?</li>
+<li>How many of my contigs are T2T assembled?</li>
+<li>Are we seeing any large duplications or missing regions?</li>
+</ul>
+</div>
+<div class="admonition quote">
+<p><a href="https://genomeinformatics.github.io/mashmap/">MashMap</a> is a super fast mapper that is commonly used for these kinds of questions. MashMap doesn't seed and extend, it takes sequences and plays tricks with kmers. Loosely speaking if you take a sequence and get all of its kmers of a certain size and then sort those kmers, you can do a lot with just the "smallest" kmer (this is called a minimizer). MashMap uses a set of those smallest kmers to say: this sequence here and my query sequence share a lot of smallest kmers. The output of MashMap is an approximation of read position and identity. Let's actually use it now to align our asembly to CHM13 and we will use the results to map our contigs onto chromosomes and to try and find some T2T chromosomes in our assemblies.</p>
+</div>
+<p><strong>Create A Directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nb">cd</span><span class="w"> </span>~/lra
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>day3b_annotation/mashmap
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="nb">cd</span><span class="w"> </span>day3b_annotation/mashmap
+</code></pre></div>
+</div>
+<p><strong>Link the files we need</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<p>We are going to use CHM13 v2.0 (which includes a Y chromosome)</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/chm13/chm13v2.0.fa
+</code></pre></div>
+as well as haplotype 1 from our Verkko trio assembly</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.haplotype1.fasta
+</code></pre></div>
+</div>
+<p><strong>Run MashMap</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>module<span class="w"> </span>purge
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>module<span class="w"> </span>load<span class="w"> </span>MashMap/3.0.4-Miniconda3
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>mashmap<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">  </span>-r<span class="w"> </span>chm13v2.0.fa<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">  </span>-q<span class="w"> </span>assembly.haplotype1.fasta<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">  </span>-f<span class="w"> </span>one-to-one<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">  </span>--pi<span class="w"> </span><span class="m">95</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">  </span>-s<span class="w"> </span><span class="m">100000</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="w">  </span>-t<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="w">  </span>-o<span class="w"> </span>asm-to-chm13.mashmap.out
+</code></pre></div>
+</div>
+<details class="filter">
+<summary>Take a look at the parameters for MashMap. What are <code>-f</code>, <code>--pi</code>, and <code>-s</code> ?</summary>
+<p><code>--pi</code> is the percent identity. The default value is 85 which means that mappings with 85% or more identity should be reported. </p>
+<p><code>-s</code> is the segment length. MasMap will not report segments under this value. </p>
+<p><code>-f</code> is the filter mode. After MashMap identifies mappings, it can go through and filter to ensure only the best mapping is reported (if we pass "map") or in our case that all good mappings are reported (if we pass "one-to-one").</p>
+</details>
+<details class="filter">
+<summary>Why did we use the values that we used for <code>--pi</code> and <code>-s</code> ?</summary>
+<p>Since we are mapping a human assembly against another human assembly we expect the sequences to be very similar. This is why we overwrote the default value of 85 for <code>--pi</code>. If we were to use the default value for <code>-s</code> (5000) then we would likely see a lot of hits from homologous regions. This may be interesting, but if we want to know how good our assembly is extra hits will just confuse things.</p>
+</details>
+<p><strong>Once the mapping is done, let's take a look at the output.</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>head<span class="w"> </span>asm-to-chm13.mashmap.out
+</code></pre></div>
+</div>
+<div class="admonition rectangle-list">
+<p class="admonition-title">Note that the output is similar to the Paired Alignment Format, or <a href="https://github.com/lh3/miniasm/blob/master/PAF.md">PAF</a>, and has the following columns:</p>
+<ul>
+<li>query name</li>
+<li>length</li>
+<li>0-based start</li>
+<li>end</li>
+<li>strand</li>
+<li>target name</li>
+<li>length</li>
+<li>start</li>
+<li>end </li>
+<li>mapping nucleotide identity (estimate)</li>
+</ul>
+</div>
+<p>The most recent versions of MashMap actually output PAF by defalt. But not the version we are using here. </p>
+<p><strong>Now generate a dot plot of the alignment</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>generateDotPlot<span class="w"> </span>png<span class="w"> </span>medium<span class="w"> </span>asm-to-chm13.mashmap.out
+</code></pre></div>
+</div>
+<p>And take a look at it (you can click on it in your file explorer).</p>
+<details class="clipboard-question">
+<summary>Does anything stick out to you ?</summary>
+<p>There is no sequence in the assembly mapping to chrY. This makes sense as this is the maternal haplotype's assembly. </p>
+</details>
+<div class="admonition question">
+<p class="admonition-title">Exercise: Can We Find Any Contigs/Scaffolds That Are T2T?</p>
+<p>Look through the dotplot to try and identify a contig or two that are assembled T2T. Once you've done that we will have to bring in another tool to make sure that there are actually telomeric repeats on the 5' and 3' ends. (Some people care about the presence of telomeric repeats when defining what T2T means.)</p>
+<p>Run the <code>telo</code> tool from seqtk to identify (human) telomeric ends:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>module load seqtk
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>seqtk telo assembly.haplotype1.fasta &gt; telos.bed
+</code></pre></div></p>
+<p>Now look through the bed file and find the contig you are interested in to see if there are telomeres on both ends. </p>
+</div>
+<details class="user-secret">
+<summary>Did you find any T2T contigs or Scaffolds ?</summary>
+<p>In this assembly chromosomes 3, 10, 11, and 16 are assembled T2T with contigs (no gaps) and chr5 is assembled T2T in a scaffold. As of the writing of this document (June 2023) for a diploid human assembly you can expect to get around 12 chromosomes assembled T2T in contigs and an additional 12 or so assembled T2T in scaffolds with Verkko. Hifiasm is very similar but without scaffolds. This means that for a diploid verkko assembly about half of the chromosomes are T2T out of the box for ~40X HiFi and &gt;15X (or so) UL ONT with either HiC or trio phasing. Pretty amazing. This sample (HG002) is not very heterozygous so it's actually a tough sample to assemble. That is why we aren't seeing very many T2T contigs/scaffolds. Sometimes you have to judge how good an assembly is on a per-sample basis.</p>
+</details>
+<p><strong>Closing notes</strong></p>
+<ol>
+<li>
+<p>This could all be automated, of course. The T2T and HPRC consortiums have workflows that go through assemblies to determine T2T status at the chromosomal level, but those workflows are pretty similar to what we did above, actually. </p>
+</li>
+<li>
+<p>Not having base-level information is actually ok for what we just did. If you would like base level information at only a few fold of the run cost of mashmap (so still very fast), then you probably want to check out <a href="https://github.com/waveygang/wfmash/blob/master/README.md">wfmash</a>. It can be used for alignments of long reads (100kb+) or assemblies at very large scales.</p>
+</li>
+</ol>
+<h2 id="minimap2">Minimap2:<a class="headerlink" href="#minimap2" title="Permanent link">&para;</a></h2>
+<p>If you are mapping long read data and you'd like to have base-level alignment, minimap2 is probably your first stop. </p>
+<p>Today we are going to use minimap2 to align ONT reads that have 5mC information stored in Mm/Ml tags to our diploid assembly.</p>
+<p><strong>Create A Directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nb">cd</span><span class="w"> </span>~/lra
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>mkdir<span class="w"> </span>-p<span class="w"> </span>day3b_annotation/minimap2
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="nb">cd</span><span class="w"> </span>day3b_annotation/minimap2
+</code></pre></div>
+</div>
+<p><strong>Copy over our Verkko trio assembly</strong></p>
+<p>We are going to use the diploid version of our Verkko trio assembly. (This just means that the maternal and paternal haplotypes are both included in the fasta.)</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>cp<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="w">    </span>/nesi/nobackup/nesi02659/LRA/resources/assemblies/verkko/full/trio/assembly/assembly.fasta<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="w">    </span>verkko_trio_diploid.fa
+</code></pre></div>
+</div>
+<p><strong>Create a minimap2 slurm script</strong></p>
+<p>Open your favourite text editor</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>nano<span class="w"> </span>ont_mm2.sl
+</code></pre></div>
+</div>
+<p>And paste in the following</p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="ch">#!/bin/bash -e</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="c1">#SBATCH --account       nesi02659</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1">#SBATCH --job-name      minimap2-ont</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="c1">#SBATCH --cpus-per-task 48</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a><span class="c1">#SBATCH --time          05:00:00</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1">#SBATCH --mem           128G</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a><span class="c1">#SBATCH --partition     milan</span>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a><span class="c1">#SBATCH --output        slurmlogs/%x.%j.log</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="c1">#SBATCH --error         slurmlogs/%x.%j.err</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a><span class="c1">## load modules</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>module<span class="w"> </span>purge
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>module<span class="w"> </span>load<span class="w"> </span>minimap2/2.24-GCC-11.3.0
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>module<span class="w"> </span>load<span class="w"> </span>SAMtools/1.16.1-GCC-11.3.0
+<a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a>
+<a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a><span class="c1">## Create minimap2 index of our diploid assembly</span>
+<a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a>minimap2<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a><span class="w">    </span>-k<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a><span class="w">    </span>-I<span class="w"> </span>8G<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a><span class="w">    </span>-d<span class="w"> </span>verkko_trio_diploid.fa.mmi<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a><span class="w">    </span>verkko_trio_diploid.fa
+<a id="__codelineno-27-23" name="__codelineno-27-23" href="#__codelineno-27-23"></a>
+<a id="__codelineno-27-24" name="__codelineno-27-24" href="#__codelineno-27-24"></a><span class="c1">## minimap parameters appropriate for nanopore</span>
+<a id="__codelineno-27-25" name="__codelineno-27-25" href="#__codelineno-27-25"></a><span class="nv">in_args</span><span class="o">=</span><span class="s2">&quot;-y -x map-ont --MD --eqx --cs -Y -L -p0.1 -a -k 17 -K 10g&quot;</span>
+<a id="__codelineno-27-26" name="__codelineno-27-26" href="#__codelineno-27-26"></a>
+<a id="__codelineno-27-27" name="__codelineno-27-27" href="#__codelineno-27-27"></a><span class="c1">#do the mapping with methylation tags by dumping the Mm/Ml tags to the fastq headers</span>
+<a id="__codelineno-27-28" name="__codelineno-27-28" href="#__codelineno-27-28"></a>samtools<span class="w"> </span>fastq<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-29" name="__codelineno-27-29" href="#__codelineno-27-29"></a><span class="w">    </span>-TMm,Ml<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/ont_ul/03_08_22_R941_HG002_2_Guppy_6.1.2_5mc_cg_prom_sup.bam<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-30" name="__codelineno-27-30" href="#__codelineno-27-30"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>minimap2<span class="w"> </span>-t<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="si">${</span><span class="nv">in_args</span><span class="si">}</span><span class="w"> </span>verkko_trio_diploid.fa.mmi<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-31" name="__codelineno-27-31" href="#__codelineno-27-31"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>samtools<span class="w"> </span>view<span class="w"> </span>-@<span class="w"> </span><span class="m">24</span><span class="w"> </span>-bh<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-32" name="__codelineno-27-32" href="#__codelineno-27-32"></a><span class="w">    </span><span class="p">|</span><span class="w"> </span>samtools<span class="w"> </span>sort<span class="w"> </span>-@<span class="w"> </span><span class="m">24</span><span class="w"> </span>-<span class="w"> </span>&gt;<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-27-33" name="__codelineno-27-33" href="#__codelineno-27-33"></a><span class="w">    </span>verkko_trio_diploid.mm2.5mC.bam
+<a id="__codelineno-27-34" name="__codelineno-27-34" href="#__codelineno-27-34"></a>
+<a id="__codelineno-27-35" name="__codelineno-27-35" href="#__codelineno-27-35"></a>samtools<span class="w"> </span>index<span class="w"> </span>verkko_trio_diploid.mm2.5mC.bam
+</code></pre></div>
+<strong>And run the script</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">Terminal</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>sbatch<span class="w"> </span>ont_mm2.sl
+</code></pre></div>
+</div>
+<p>This should take only 3 hours or so, but we have some pre-baked results for you already. We will use these results in the next section.</p>
+<details class="clipboard-question">
+<summary>Why did we align to the diploid version of our assembly ?</summary>
+<p>The traditional thing to do is to align your data to a haploid or pseudo-haploid assembly like CHM13 or GRCh38. We are diploid individuals, though. And for some use cases we want to align long reads to a diploid assembly in order to have the reads segregate by haplotype. When we are aligning a samples reads to its own assembly this is especially important.</p>
+</details>
+<h3 id="visualize-the-alignments-in-igv">Visualize The Alignments In IGV<a class="headerlink" href="#visualize-the-alignments-in-igv" title="Permanent link">&para;</a></h3>
+<p><strong>Before switching over to your virtual desktop, link the prerun alignments to your working directory</strong></p>
+<div class="admonition terminal">
+<p class="admonition-title">code</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/ont_ul/aligned/verkko_trio_diploid.mm2.5mC.bam
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>ln<span class="w"> </span>-s<span class="w"> </span>/nesi/nobackup/nesi02659/LRA/resources/ont_ul/aligned/verkko_trio_diploid.mm2.5mC.bam.bai
+</code></pre></div>
+</div>
+<div class="admonition jupyter">
+<p class="admonition-title">Now view the alignments in IGV</p>
+<ol>
+<li>Open an IGV window as you did above. Don't forget to <code>module load IGV/2.16.1</code> (we need v 2.14 or greater)</li>
+<li>We need to use our assembly as the genome file. Do that by clicking the <strong>Genomes</strong> dropdown at the top and then select <strong>Load Genome From File</strong>. Navigate to your folder and select the Verkko trio genome that we copied in.</li>
+<li>Load the 5mC bam by clicking on the <strong>File</strong> dropdown then selecting <strong>Load From File</strong></li>
+<li>Show the methylation predictions by right clicking on the alignment track and selecting <strong>Color alignments by</strong>, then click <strong>base modifications (5mc)</strong></li>
+</ol>
+</div>
+<p><strong>Explore the data a bit</strong></p>
+<p>Zoom in on a random region that is a few hundred basepairs in size. You can see the methylation levels in the track histogram and in the reads themselves. Red is methylated and blue is unmethylated.</p>
+<p>If you are familiar with ONT data already you know that ONT and PacBio have the ability to detect base modifications without any additional steps like bisulfite conversion. What we are adding here is the ability to look at methylation in the context of a sample's own assembly. Maybe that wouldn't matter if you are looking at regions of the genome which are structurally consistent across samples&mdash;like promoters for well known genes. </p>
+<p>Take a look around <code>mat-0000038</code> (this is the biggest contig that maps to chrX). </p>
+<details class="clipboard-question">
+<summary>Why did we choose to show you an example in chrX ?</summary>
+<p>In male samples chrX is haploid, so outside of the psuedoautosomal, or PAR, regions we don't have to worry about whether or not our reads map to the correct haplotype.</p>
+</details>
+<details class="clipboard-question">
+<summary>What would have happened if we had just aligned this data to CHM13 ?</summary>
+<p>Centromeres are highly repetitive and alpha satellite arrays can vary from individual to individual in size by more than a factor of two. So aligning centromeric reads from one individual to another individual's assembly is an inherently dodgy proposition.</p>
+</details>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../day3a_assembly_qc/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 5. Assembly QC" rel="prev">
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                5. Assembly QC
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../day3c_phased_assemblies_in_action/" class="md-footer__link md-footer__link--next" aria-label="Next: 7. Phased Assemblies in Action" rel="next">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                7. Phased Assemblies in Action
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Long-read Assembly workshop material is licensed under a <a rel="noopener" target="_blank" href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License v3.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+        
+          <script src="../../javascripts/mathjax.js"></script>
+        
+      
+        
+          <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        
+      
+        
+          <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
