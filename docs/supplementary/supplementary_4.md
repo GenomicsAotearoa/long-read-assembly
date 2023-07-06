@@ -1,6 +1,6 @@
 # Additional materials
 
-Please find below additional information about phasing and ONT methods.
+Please find below additional information about [approaches to phasing](https://genomicsaotearoa.github.io/long-read-assembly/supplementary/suppl_4_assembly_QC.pdf) and [ONT methods](https://genomicsaotearoa.github.io/long-read-assembly/supplementary/suppl_4_Nanopore_protocol.pdf).
 
 ## Phasing and Approaches to Phasing
 
