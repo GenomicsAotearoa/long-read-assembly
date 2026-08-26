@@ -820,3 +820,14 @@
             mask-image: var(--md-admonition-icon--user-secret);
   }
 
+/* Center images */
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Center headings / text blocks */
+.center {
+  text-align: center;
+}
